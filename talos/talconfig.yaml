@@ -1,0 +1,129 @@
+clusterName: ${clusterName}
+talosVersion: v1.4.1
+kubernetesVersion: v1.27.1
+endpoint: https://${clusterEndpointIP}:6443
+allowSchedulingOnControlPlanes: true
+additionalMachineCertSans:
+  - ${clusterEndpointIP}
+  - ${clusterName}.local
+# additionalApiServerCertSans:
+#   - ${clusterEndpointIP}
+clusterPodNets:
+  - ${clusterCidr}
+clusterSvcNets:
+  - ${serviceCidr}
+cniConfig:
+  name: none
+nodes:
+  - hostname: talos-node-1
+    ipAddress: 192.168.10.71
+    controlPlane: true
+    installDisk: /dev/vda
+    disableSearchDomain: true
+    kernelModules:
+      - name: br_netfilter
+        parameters:
+          - nf_conntrack_max=131072
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.10.1
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: talos-node-2
+    ipAddress: 192.168.10.72
+    controlPlane: true
+    installDisk: /dev/vda
+    disableSearchDomain: true
+    kernelModules:
+      - name: br_netfilter
+        parameters:
+          - nf_conntrack_max=131072
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.10.1
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: talos-node-3
+    ipAddress: 192.168.10.73
+    controlPlane: true
+    installDisk: /dev/vda
+    disableSearchDomain: true
+    kernelModules:
+      - name: br_netfilter
+        parameters:
+          - nf_conntrack_max=131072
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.10.1
+        vip:
+          ip: ${clusterEndpointIP}
+controlPlane:
+  inlinePatch:
+    cluster:       
+      apiServer:
+        admissionControl: []  
+      extraManifests:
+        # Tigera Operator
+        - https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml          
+        # Prometheus Operator
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml         
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml         
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml        
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml          
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml          
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml        
+        - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.61.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+      inlineManifests:
+        - name: calico
+          contents: |
+            ---
+            apiVersion: operator.tigera.io/v1
+            kind: Installation
+            metadata:
+              name: default
+            spec:
+              registry: quay.io
+              imagePath: calico
+              calicoNetwork:
+                # https://projectcalico.docs.tigera.io/networking/ip-autodetection
+                nodeAddressAutodetectionV4:
+                  cidrs:
+                    - "192.168.10.0/24"
+                # Note: The ipPools section cannot be modified post-install.
+                ipPools:
+                  - blockSize: 26
+                    cidr: "${clusterCidr}"
+                    encapsulation: "VXLANCrossSubnet"
+                    natOutgoing: Enabled
+                    nodeSelector: all()
+              nodeMetricsPort: 9091
+              typhaMetricsPort: 9093
+          
+  patches:
+    - |-
+      - op: add
+        path: /machine/kubelet/extraArgs
+        value:
+          feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+          rotate-server-certificates: "true"
+
+    
