@@ -46,6 +46,7 @@ spec:
           - database
           - home-automation
           - security
+          - rook-ceph
     ingress:
       main:
         enabled: true
