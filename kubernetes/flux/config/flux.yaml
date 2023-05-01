@@ -96,3 +96,12 @@ spec:
       target:
         kind: Deployment
         name: helm-controller
+    # https://github.com/fluxcd/flux2/issues/3829
+    # https://github.com/samip5/k8s-cluster/blob/c942c40c4e23f0e4d1fd8885849664e96594e2d2/cluster/flux/config/flux.yaml#L54#L60
+    - patch: |
+        - op: replace
+          path: /spec/template/spec/containers/0/image
+          value: ghcr.io/fluxcd/helm-controller:v0.32.2
+      target:
+        kind: Deployment
+        name: helm-controller
