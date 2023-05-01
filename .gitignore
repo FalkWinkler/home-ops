@@ -15,3 +15,7 @@ xanmanning.k3s*
 .terraform
 .terraform.tfstate*
 terraform.tfstate*
+.terraform
+*.tfstate
+*.tfstate.backup
+*.tfvars
