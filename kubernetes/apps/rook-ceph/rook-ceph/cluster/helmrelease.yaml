@@ -105,7 +105,7 @@ spec:
           nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         host:
-          name: &host rook-cluster-0.bjw-s.dev
+          name: &host "rook-cluster.${SECRET_DOMAIN}"
           path: "/"
         tls:
           - hosts:
