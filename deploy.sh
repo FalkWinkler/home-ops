@@ -3,11 +3,11 @@
 talhelper genconfig -c talos/talconfig.yaml -e talos/talenv.sops.yaml -o talos/clusterconfig
 
 # Configure the control-plane nodes
-talosctl apply-config --insecure -n 192.168.10.71  -f talos/clusterconfig/home-cluster-talos-node-1.home.lan.yaml
-talosctl apply-config --insecure -n 192.168.10.72  -f talos/clusterconfig/home-cluster-talos-node-2.home.lan.yaml
-talosctl apply-config --insecure -n 192.168.10.73  -f talos/clusterconfig/home-cluster-talos-node-3.home.lan.yaml
+talosctl apply-config --insecure -n 192.168.10.71  -f talos/clusterconfig/home-cluster-talos-node-1.yaml
+talosctl apply-config --insecure -n 192.168.10.72  -f talos/clusterconfig/home-cluster-talos-node-2.yaml
+talosctl apply-config --insecure -n 192.168.10.73  -f talos/clusterconfig/home-cluster-talos-node-3.yaml
 
-
+# cp ./talos/clusterconfig/talosconfig  '$HOME/.talos/config' 
 
 # talosctl --talosconfig=./talos/clusterconfig/talosconfig config endpoint 192.168.10.71 #192.168.10.72 192.168.10.73
 # talosctl config merge ./talosconfig
