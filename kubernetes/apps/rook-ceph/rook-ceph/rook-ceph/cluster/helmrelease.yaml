@@ -8,48 +8,24 @@ spec:
   interval: 30m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.rook.io/release
       chart: rook-ceph-cluster
       version: v1.11.4
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
         namespace: flux-system
-  dependsOn:
-    - name: rook-ceph
-
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-
-  upgrade:
-    remediation:
-      retries: 5
-
   values:
-    monitoring:
-      enabled: true
-
     toolbox:
       enabled: true
 
-    ingress:
-      dashboard:
-        ingressClassName: "nginx"
-        annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-production"
-          external-dns/is-public: "false"
-          hajimari.io/enable: "true"
-          hajimari.io/icon: content-save
-          hajimari.io/appName: "rook-ceph"
+    monitoring:
+      enabled: true
+      createPrometheusRules: true
 
-        host:
-          name: &host "rook.${SECRET_DOMAIN}"
-          path: "/"
-        tls:
-          - hosts:
-              - *host
+    configOverride: |
+      [global]
+      bdev_enable_discard = true
+      bdev_async_discard = true
 
     cephClusterSpec:
       crashCollector:
@@ -140,18 +116,33 @@ spec:
             - effect: NoExecute
               operator: Exists
 
+
+
+
+    ingress:
+      ingressClassName: "nginx"
+      dashboard:
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: content-save
+          hajimari.io/appName: "rook-ceph"
+        host:
+          name: &host "rook.${SECRET_DOMAIN}"
+          path: "/"
+        tls:
+          - hosts:
+              - *host
+
     cephBlockPoolsVolumeSnapshotClass:
       enabled: false
-      name: csi-rbdplugin-snapclass
-      annotations:
-        k10.kasten.io/is-snapshot-class: "true"
 
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
-            requireSafeReplicaSize: false
             size: 3
         storageClass:
           enabled: true
@@ -169,5 +160,70 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
-    cephFileSystems: []
-    cephObjectStores: []
+
+    cephFileSystems:
+      - name: ceph-filesystem
+        spec:
+          metadataPool:
+            replicated:
+              size: 3
+          dataPools:
+            - failureDomain: host
+              replicated:
+                size: 3
+          metadataServer:
+            activeCount: 1
+            activeStandby: true
+            resources:
+              requests:
+                cpu: "35m"
+                memory: "64M"
+              limits:
+                memory: "144M"
+        storageClass:
+          enabled: true
+          isDefault: false
+          name: ceph-filesystem
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          mountOptions: []
+          parameters:
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4
+
+    cephObjectStores:
+      - name: ceph-objectstore
+        spec:
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 3
+          dataPool:
+            failureDomain: host
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+          preservePoolsOnDelete: true
+          gateway:
+            port: 80
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128M
+              limits:
+                memory: 2Gi
+            instances: 1
+          healthCheck:
+            bucket:
+              interval: 60s
+        storageClass:
+          enabled: true
+          name: ceph-bucket
+          reclaimPolicy: Delete
+          parameters:
+            region: us-east-1
