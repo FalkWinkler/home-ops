@@ -18,3 +18,4 @@ resources:
   - ./emxq.yaml
   - ./cloudnative-pg.yaml
   - ./rook-ceph.yaml
+  - ./postfinance.yaml
