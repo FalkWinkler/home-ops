@@ -33,7 +33,7 @@ spec:
 
   values:
     crds:
-      enabled: false
+      enabled: true
 
     monitoring:
       enabled: true
