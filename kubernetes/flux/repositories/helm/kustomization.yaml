@@ -19,3 +19,4 @@ resources:
   - ./cloudnative-pg.yaml
   - ./rook-ceph.yaml
   - ./postfinance.yaml
+  - ./cilium.yaml
