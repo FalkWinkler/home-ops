@@ -6,6 +6,7 @@ COPY library-scripts/*.sh /tmp/library-scripts/
 ARG KUBECTX_VERSION=0.9.4
 ARG K9S_VERSION=0.26.7
 ARG GITOPS_VERSION=0.19.0
+ARG CLUSTERCTL_VERSION=1.4.2
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="false"
@@ -18,6 +19,17 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 # Enable Backports for age
 RUN echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME -s /bin/bash -d /home/$USERNAME \
+    #
+    # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+RUN chown -R ${USERNAME}:${USERNAME} /app
+
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
@@ -38,6 +50,16 @@ RUN curl -fsSL "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION
     # gitops
     && curl -fsSL "https://github.com/weaveworks/weave-gitops/releases/download/v${GITOPS_VERSION}/gitops-linux-x86_64.tar.gz" | tar xz -C /usr/local/bin gitops
 
+# krew plugin
+RUN curl -fsSL -o /tmp/krew.tar.gz "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" \
+    && tar zxvf /tmp/krew.tar.gz -C /tmp \
+    && mv /tmp/krew-linux_amd64 /usr/local/bin/krew
+
+# clusterctl
+RUN curl -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-linux-amd64" -o clusterctl \
+    && chmod +x ./clusterctl \
+    && mv ./clusterctl /usr/local/bin/clusterctl
+
 # talos
 RUN curl -sL https://talos.dev/install | sh
 
@@ -50,6 +72,20 @@ RUN apt-get update && apt-get install -y apt-transport-https ca-certificates cur
     echo "deb https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list && \
     apt-get update && \
     apt-get -y install doppler
+
+# Download and Install the latest packer (AMD64)
+RUN PACKER_VERSION=$(curl -sSL https://checkpoint-api.hashicorp.com/v1/check/packer | jq -r -M ".current_version") \
+    && wget -nv -O packer.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip \
+    && wget -nv -O packer.sha256 https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS \
+    && wget -nv -O packer.sha256.sig https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS.sig \
+    && curl -s https://keybase.io/hashicorp/pgp_keys.asc | gpg --import \
+    && gpg --verify packer.sha256.sig packer.sha256 \
+    && echo $(grep -Po "[[:xdigit:]]{64}(?=\s+packer_${PACKER_VERSION}_linux_amd64.zip)" packer.sha256) packer.zip | sha256sum -c \
+    && unzip packer.zip \
+    && mv packer /usr/local/bin \
+    && chmod a+x /usr/local/bin/packer \
+    && rm -f packer packer.zip packer.sha256 packer.sha256.sig \
+    && unset PACKER_VERSION
 
 # Install Ansible
 RUN pip3 install ansible[azure]
