@@ -150,7 +150,7 @@ data:
   #   - disabled
   #   - vxlan (default)
   #   - geneve
-  tunnel: "vxlan"
+  #tunnel: "vxlan"
 
 
   # Enables L7 proxy for L7 policy enforcement and visibility
@@ -182,6 +182,7 @@ data:
   enable-remote-node-identity: "true"
   synchronize-k8s-nodes: "true"
   operator-api-serve-addr: "127.0.0.1:9234"
+  ipv4-native-routing-cidr: 10.244.0.0/16
   # Enable Hubble gRPC service.
   enable-hubble: "true"
   # UNIX domain socket for Hubble server to listen to.
