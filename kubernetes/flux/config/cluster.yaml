@@ -7,8 +7,8 @@ metadata:
 spec:
   interval: 30m
   ref:
-    branch: develop
-  url: "https://github.com/FalkWinkler/home-ops"
+    branch: main
+  url: "https://github.com/FalkWinkler/k3s-gitops"
   ignore: |
     # exclude all
     /*
