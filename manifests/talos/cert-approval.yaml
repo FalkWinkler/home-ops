@@ -88,7 +88,7 @@ spec:
 
           env:
             - name: PROVIDER_REGEX
-              value: worker-.|master-.|talos-.
+              value: worker-.|master-.|talos-.|node-.
             - name: PROVIDER_IP_PREFIXES
               value: "0.0.0.0/0"
             - name: MAX_EXPIRATION_SECONDS
