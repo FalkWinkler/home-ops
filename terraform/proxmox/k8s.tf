@@ -8,6 +8,9 @@ resource "null_resource" "kubeconfig" {
   provisioner "local-exec" {
     command = "talosctl kubeconfig --force -n ${cidrhost(var.vpc_main_cidr, var.first_ip)} -e ${cidrhost(var.vpc_main_cidr, var.first_ip)} --talosconfig ${path.module}/talosconfig"
   }
+  provisioner "local-exec" {
+    command = "talosctl kubeconfig --force -n ${cidrhost(var.vpc_main_cidr, var.first_ip)} -e ${cidrhost(var.vpc_main_cidr, var.first_ip)} --talosconfig ${path.module}/talosconfig ../../"
+  }
   depends_on = [local_sensitive_file.talosconfig]
 }
 

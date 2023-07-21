@@ -1,6 +1,6 @@
-resource "proxmox_vm_qemu" "controlplanes" {
+resource "proxmox_vm_qemu" "workers" {
   count       = 3
-  name        = "master-${count.index}"
+  name        = "worker-${count.index}"
   target_node = var.target_node_name
   clone       = var.proxmox_image
 
@@ -8,16 +8,14 @@ resource "proxmox_vm_qemu" "controlplanes" {
   define_connection_info  = false
   os_type                 = "cloud-init"
   qemu_os                 = "l26"
-  ipconfig0               = "ip=${cidrhost(var.vpc_main_cidr, var.first_ip + "${count.index}")}/24,gw=${var.gateway}"
+  ipconfig0               = "ip=${cidrhost(var.vpc_main_cidr, var.worker_first_ip + "${count.index}")}/24,gw=${var.gateway}"
   cloudinit_cdrom_storage = var.proxmox_storage1
-  searchdomain = var.search_domain
-  nameserver   = var.nameserver
 
   onboot  = false
   cpu     = "kvm64"
   sockets = 1
-  cores   = 2
-  memory  = 4096
+  cores   = 4
+  memory  = 20048
   scsihw  = "virtio-scsi-pci"
 
   vga {
@@ -44,14 +42,15 @@ resource "proxmox_vm_qemu" "controlplanes" {
     ssd     = 1
     backup  = false
   }
-  #   disk {
-  #   type    = "scsi"
-  #   storage = var.proxmox_storage2
-  #   size    = "120G"
-  #   cache   = "writethrough"
-  #   ssd     = 1
-  #   backup  = false
-  # }
+
+  disk {
+    type    = "scsi"
+    storage = var.proxmox_storage2
+    size    = "120G"
+    cache   = "writethrough"
+    ssd     = 1
+    backup  = false
+  }
 
   lifecycle {
     ignore_changes = [

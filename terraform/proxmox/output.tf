@@ -7,4 +7,3 @@ output "cp" {
   value     = data.talos_machine_configuration.mc_1.machine_configuration
   sensitive = true
 }
-

@@ -50,19 +50,19 @@ variable "cluster_endpoint" {
 variable "talos_version" {
   description = "A name to provide for the Talos cluster"
   type        = string
-  default     = "v1.4.0"
+  default     = "v1.4.6"
 }
 
 variable "k8s_version" {
   description = "A name to provide for the Talos cluster"
   type        = string
-  default     = "v1.27.1"
+  default     = "v1.27.3"
 }
 
 variable "proxmox_host" {
   description = "Proxmox host"
   type        = string
-  default     = "192.168.1.1"
+  default     = "192.168.10.254"
 }
 
 variable "proxmox_image" {
@@ -77,11 +77,6 @@ variable "proxmox_storage1" {
 }
 
 variable "proxmox_storage2" {
-  description = "Proxmox storage name"
-  type        = string
-}
-
-variable "proxmox_storage3" {
   description = "Proxmox storage name"
   type        = string
 }
@@ -106,13 +101,27 @@ variable "worker_first_ip" {
 variable "vpc_main_cidr" {
   description = "Local proxmox subnet"
   type        = string
-  default     = "10.1.1.0/24"
+  default     = "192.168.10.0/24"
 }
 
 variable "gateway" {
   type    = string
-  default = "10.1.1.1"
+  default = "192.168.10.1"
 }
+
+variable "nameserver" {
+  type        = string
+  description = "die Ip Adresse des Nameserver"
+  default     = "192.168.10.1"
+}
+
+
+variable "search_domain" {
+  type        = string
+  description = "die Such Domain"
+  default     = "home.lan"
+}
+
 
 variable "target_node_name" {
   description = "Proxmox node name"
@@ -129,9 +138,4 @@ variable "public_key_file_path" {
 
 variable "known_hosts" {
   type = string
-}
-
-variable "ceph_disksize" {
-  type = string
-  default = "50G"
 }
