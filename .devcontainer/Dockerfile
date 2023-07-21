@@ -7,6 +7,7 @@ ARG KUBECTX_VERSION=0.9.4
 ARG K9S_VERSION=0.26.7
 ARG GITOPS_VERSION=0.19.0
 ARG CILIUM_CLI_VERSION=v0.14.5
+ARG CLUSTERCTL_VERSION=1.4.2
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="false"
@@ -55,6 +56,37 @@ RUN curl -fsSL https://github.com/rook/kubectl-rook-ceph/releases/download/v0.5.
 # install cloudflared
 RUN curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64  -o /usr/local/bin/cloudflared
 
+# clusterctl
+RUN curl -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-linux-amd64" -o clusterctl \
+    && chmod +x ./clusterctl \
+    && mv ./clusterctl /usr/local/bin/clusterctl
+
+# talos
+RUN curl -sL https://talos.dev/install | sh
+
+# taloshelper
+RUN curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
+
+# Install Doppler CLI
+RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg && \
+    curl -sLf --retry 3 --tlsv1.2 --proto "=https" 'https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key' | apt-key add - && \
+    echo "deb https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list && \
+    apt-get update && \
+    apt-get -y install doppler
+
+# Download and Install the latest packer (AMD64)
+RUN PACKER_VERSION=$(curl -sSL https://checkpoint-api.hashicorp.com/v1/check/packer | jq -r -M ".current_version") \
+    && wget -nv -O packer.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip \
+    && wget -nv -O packer.sha256 https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS \
+    && wget -nv -O packer.sha256.sig https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS.sig \
+    && curl -s https://keybase.io/hashicorp/pgp_keys.asc | gpg --import \
+    && gpg --verify packer.sha256.sig packer.sha256 \
+    && echo $(grep -Po "[[:xdigit:]]{64}(?=\s+packer_${PACKER_VERSION}_linux_amd64.zip)" packer.sha256) packer.zip | sha256sum -c \
+    && unzip packer.zip \
+    && mv packer /usr/local/bin \
+    && chmod a+x /usr/local/bin/packer \
+    && rm -f packer packer.zip packer.sha256 packer.sha256.sig \
+    && unset PACKER_VERSION
 
 # Install Ansible
 RUN pip3 install ansible[azure]
