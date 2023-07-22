@@ -26,3 +26,4 @@ resources:
   - ./cloudnative-pg.yaml
   - ./democratic-csi.yaml
   - ./csi-driver-nfs.yaml
+  - ./coredns.yaml
