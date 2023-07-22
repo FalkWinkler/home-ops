@@ -5,7 +5,7 @@ metadata:
   name: weave-gitops
   namespace: flux-system
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: weave-gitops
@@ -29,6 +29,7 @@ spec:
     adminUser:
       create: true
       createSecret: false
+      username: admin
     ingress:
       enabled: true
       className: nginx

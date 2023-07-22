@@ -9,6 +9,7 @@ resources:
   - ./reloader/ks.yaml
   - ./snapshot-controller/ks.yaml
   - ./csi-driver-nfs/ks.yaml
+  - ./coredns/ks.yaml
   # - ./kubelet-csr-approver/ks.yaml
   # - ./democratic-csi/ks.yaml
 

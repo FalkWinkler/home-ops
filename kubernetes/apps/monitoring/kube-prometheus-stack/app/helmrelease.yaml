@@ -31,6 +31,8 @@ spec:
   dependsOn:
     - name: local-path-provisioner
       namespace: kube-system
+    - name: ingress-nginx
+      namespace: networking
   values:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
@@ -86,7 +88,7 @@ spec:
     kubeControllerManager:
       enabled: true
       endpoints: &cp
-        - 192.168.10.81
+        - 192.168.10.31
       serviceMonitor:
         metricRelabelings:
           # Remove duplicate metrics

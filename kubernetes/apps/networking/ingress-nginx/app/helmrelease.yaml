@@ -5,7 +5,7 @@ metadata:
   name: ingress-nginx
   namespace: networking
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: ingress-nginx
@@ -25,6 +25,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: cloudflared
+      namespace: networking
   values:
     controller:
       extraEnvs:
@@ -33,8 +36,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "ingress.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "${METALLB_INGRESS_ADDR}"
-          #io.cilium/lb-ipam-ips: "10.45.0.1"
+          io.cilium/lb-ipam-ips: "192.168.10.200"
         externalTrafficPolicy: Cluster
       publishService:
         enabled: true
@@ -58,7 +60,6 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        # default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-staging-tls"
       resources:
         requests:
