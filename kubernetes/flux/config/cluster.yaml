@@ -8,7 +8,7 @@ spec:
   interval: 30m
   ref:
     branch: develop
-  url: "https://github.com/FalkWinkler/home-ops"
+  url: "https://github.com/FalkWinkler/home-ops.git"
   ignore: |
     # exclude all
     /*
@@ -32,9 +32,9 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  dependsOn:
-    - name: flux
   postBuild:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
