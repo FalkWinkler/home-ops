@@ -78,7 +78,14 @@ spec:
           failureThreshold: 3
       readiness: *probes
       startup:
-        enabled: false
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ready
+            port: http
+          failureThreshold: 30
+          periodSeconds: 10
     persistence:
       config:
         enabled: true
@@ -96,7 +103,7 @@ spec:
         readOnly: true
     resources:
       requests:
-        cpu: 5m
-        memory: 10Mi
+        cpu: 6m
+        memory: 105Mi
       limits:
-        memory: 256Mi
+        memory: 105Mi
