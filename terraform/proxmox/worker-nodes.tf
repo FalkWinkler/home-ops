@@ -11,7 +11,7 @@ resource "proxmox_vm_qemu" "workers" {
   ipconfig0               = "ip=${cidrhost(var.vpc_main_cidr, var.worker_first_ip + "${count.index}")}/24,gw=${var.gateway}"
   cloudinit_cdrom_storage = var.proxmox_storage1
 
-  onboot  = false
+  onboot  = true
   cpu     = "kvm64"
   sockets = 1
   cores   = 4
@@ -43,14 +43,14 @@ resource "proxmox_vm_qemu" "workers" {
     backup  = false
   }
 
-  disk {
-    type    = "scsi"
-    storage = var.proxmox_storage2
-    size    = "120G"
-    cache   = "writethrough"
-    ssd     = 1
-    backup  = false
-  }
+  # disk {
+  #   type    = "scsi"
+  #   storage = var.proxmox_storage2
+  #   size    = "120G"
+  #   cache   = "writethrough"
+  #   ssd     = 1
+  #   backup  = false
+  # }
 
   lifecycle {
     ignore_changes = [

@@ -13,7 +13,7 @@ resource "proxmox_vm_qemu" "controlplanes" {
   searchdomain = var.search_domain
   nameserver   = var.nameserver
 
-  onboot  = false
+  onboot  = true
   cpu     = "kvm64"
   sockets = 1
   cores   = 2
