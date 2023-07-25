@@ -44,6 +44,12 @@ spec:
         matchNames:
           - default
           - monitoring
+          - flux
+          - database
+          - kube-system
+          - networking
+          - document
+          - security
     ingress:
       main:
         enabled: true
