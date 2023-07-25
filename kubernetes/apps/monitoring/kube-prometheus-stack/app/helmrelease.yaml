@@ -90,9 +90,9 @@ spec:
     kubeControllerManager:
       enabled: true
       endpoints: &cp
-      {% for item in bootstrap_nodes.master %}
-        - {{ item.address }}
-      {% endfor %}
+        - 192.168.10.31
+        - 192.168.10.32
+        - 192.168.10.33
       serviceMonitor:
         metricRelabelings:
           # Remove duplicate labels provided by k3s
