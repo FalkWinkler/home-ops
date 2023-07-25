@@ -8,7 +8,7 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: ./contrib/charts/dragonfly
+      chart: dragonfly
       version: 1.6.2
       sourceRef:
         kind: HelmRepository
