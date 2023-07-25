@@ -11,7 +11,7 @@ spec:
       chart: ./contrib/charts/dragonfly
       version: 1.6.2
       sourceRef:
-        kind: GitRepository
+        kind: HelmRepository
         name: dragonfly
         namespace: flux-system
   maxHistory: 3
@@ -29,5 +29,3 @@ spec:
     interval: 2m
     serviceMonitor:
       enabled: true
-    podAnnotations:
-      secret.reloader.stakater.com/reload: dragonfly-secret
