@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: v1.12.2
+      version: v1.12.3
       sourceRef:
         kind: HelmRepository
         name: jetstack
@@ -17,16 +17,20 @@ spec:
   maxHistory: 2
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
   uninstall:
     keepHistory: false
   values:
     installCRDs: true
+    webhook:
+      enabled: true
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
       - --dns01-recursive-nameservers-only
@@ -36,7 +40,7 @@ spec:
         - "1.1.1.1"
         - "9.9.9.9"
     prometheus:
-      enabled: true
+      enabled: false
       servicemonitor:
         enabled: true
         prometheusInstance: monitoring
