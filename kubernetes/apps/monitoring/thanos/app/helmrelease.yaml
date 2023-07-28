@@ -21,9 +21,9 @@ spec:
       config:
         insecure: true
         bucket: "thanos"
-        endpoint: "${LOCAL_LAN_TRUENAS}:9000"
+        endpoint: "192.168.10.10:9000"
         access_key: "thanos"
-        secret_key: "Sgo2ozmR39XpSCBg44iosI90sc7LoIqF"
+        secret_key: "ZyyOaNFi1KEeMqm4grNrLeztG5RBjJIUxcB2pBnM"
 
     query:
       enabled: true
