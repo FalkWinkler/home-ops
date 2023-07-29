@@ -18,7 +18,6 @@ resources:
   - ./weave-gitops.yaml
   - ./kyverno.yaml
   - ./piraeus.yaml
-  - ./rook-ceph.yaml
   - ./apache-tika.yaml
   - ./node-feature-discovery.yaml
   - ./emxq.yaml

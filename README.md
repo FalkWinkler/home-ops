@@ -1,3 +1,70 @@
+
+# talos
+
+```
+SHELL=/bin/bash
+COLORTERM=truecolor
+NVM_INC=/usr/local/share/nvm/versions/node/v18.16.1/include/node
+TERM_PROGRAM_VERSION=1.78.2
+CLUSTER_NAME=home-cluster
+HOSTNAME=333ba95166dc
+SSH_AUTH_SOCK=/tmp/vscode-ssh-auth-b738691f-9b7a-4b82-91d9-ec513bd6b48e.sock
+KUBERNETES_API_SERVER_ADDRESS=192.168.10.30
+REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-b738691f-9b7a-4b82-91d9-ec513bd6b48e.sock
+PWD=/workspaces/home-ops/terraform/proxmox
+PROXMOX_TOKEN_ID=terraform-prov@pve!mytoken
+VSCODE_GIT_ASKPASS_NODE=/vscode/vscode-server/bin/linux-x64/b3e4e68a0bc097f0ae7907b217c1119af9e03435/node
+PROXMOX_NODE_NAME=pve
+HOME=/root
+PROXMOX_TOKEN_SECRET=0bab4ffc-d570-4d0d-83e9-75f5b480e5d2
+LANG=en_US.UTF-8
+NVM_SYMLINK_CURRENT=true
+REMOTE_CONTAINERS=true
+WAYLAND_DISPLAY=vscode-wayland-2faa0940-8444-49f8-9cd0-e0e752fb86e4.sock
+GIT_ASKPASS=/vscode/vscode-server/bin/linux-x64/b3e4e68a0bc097f0ae7907b217c1119af9e03435/extensions/git/dist/askpass.sh
+NVM_DIR=/usr/local/share/nvm
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+TF_VERSION=1.4.6
+TERM=xterm-256color
+ASDF_DIR=/home/vscode/.asdf
+REMOTE_CONTAINERS_SOCKETS=["/tmp/vscode-ssh-auth-b738691f-9b7a-4b82-91d9-ec513bd6b48e.sock","/tmp/.X11-unix/X0","/root/.gnupg/S.gpg-agent"]
+USER=root
+VSCODE_GIT_IPC_HANDLE=/tmp/user/0/vscode-git-be95e18580.sock
+DISPLAY=:0
+SHLVL=2
+NVM_CD_FLAGS=
+GIT_EDITOR=code --wait
+PROXMOX_HOST=https://192.168.10.254:8006/api2/json
+PROMPT_DIRTRIM=4
+XDG_RUNTIME_DIR=/tmp/user/0
+KUBERNETES_API_SERVER_PORT=6443
+VSCODE_GIT_ASKPASS_MAIN=/vscode/vscode-server/bin/linux-x64/b3e4e68a0bc097f0ae7907b217c1119af9e03435/extensions/git/dist/askpass-main.js
+BROWSER=/vscode/vscode-server/bin/linux-x64/b3e4e68a0bc097f0ae7907b217c1119af9e03435/bin/helpers/browser.sh
+PATH=/root/.asdf/shims:/home/vscode/.asdf/bin:/vscode/vscode-server/bin/linux-x64/b3e4e68a0bc097f0ae7907b217c1119af9e03435/bin/remote-cli:/usr/local/share/nvm/versions/node/v18.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin
+NVM_BIN=/usr/local/share/nvm/versions/node/v18.16.1/bin
+PACKER_VERSION=1.8.0
+REMOTE_CONTAINERS_DISPLAY_SOCK=/tmp/.X11-unix/X0
+OLDPWD=/workspaces/home-ops/terraform
+TERM_PROGRAM=vscode
+VSCODE_IPC_HOOK_CLI=/tmp/vscode-ipc-debdc8aa-9393-40d9-a579-a1c0fbac304c.sock
+_=/usr/bin/printenv
+```
+
+```
+export PROXMOX_HOST="https://192.168.10.254:8006/api2/json"
+export PROXMOX_TOKEN_ID='terraform-prov@pve!mytoken'
+export PROXMOX_TOKEN_SECRET="0bab4ffc-d570-4d0d-83e9-75f5b480e5d2"
+export PROXMOX_NODE_NAME="pve"
+export CLUSTER_NAME="home-cluster"
+```
+
+```
+terraform destroy -auto-approve -var-file="terraform.tfvars" -var proxmox_token_id="${PROXMOX_TOKEN_ID}"  -var proxmox_token_secret="${PROXMOX_TOKEN_SECRET}" -var target_node_name="${PROXMOX_NODE_NAME}"  -var proxmox_host="${PROXMOX_HOST}" -var cluster_name="${CLUSTER_NAME}"
+```
+
+```
+terraform apply -auto-approve -var-file="terraform.tfvars" -var proxmox_token_id="${PROXMOX_TOKEN_ID}"  -var proxmox_token_secret="${PROXMOX_TOKEN_SECRET}" -var target_node_name="${PROXMOX_NODE_NAME}"  -var proxmox_host="${PROXMOX_HOST}" -var cluster_name="${CLUSTER_NAME}"
+```
 # Template for deploying k3s backed by Flux
 
 Highly opinionated template for deploying a single [k3s](https://k3s.io) cluster with [Ansible](https://www.ansible.com) and [Terraform](https://www.terraform.io) backed by [Flux](https://toolkit.fluxcd.io/) and [SOPS](https://toolkit.fluxcd.io/guides/mozilla-sops/).
