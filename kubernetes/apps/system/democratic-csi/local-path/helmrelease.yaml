@@ -44,7 +44,7 @@ spec:
       externalProvisioner:
         enabled: true
         extraArgs:
-          - --leader-election=false
+          - --leader-election=true
           - --node-deployment=true
           - --node-deployment-immediate-binding=false
           - --feature-gates=Topology=true
