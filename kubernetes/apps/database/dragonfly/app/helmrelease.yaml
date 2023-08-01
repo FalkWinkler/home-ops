@@ -31,31 +31,31 @@ spec:
       enabled: true
       requests: 128Mi # Set as desired
 
-    # extraArgs:
-    #   - --dbfilename=dump.rdb
-    #   - --save_schedule=*:* # HH:MM glob format
+    extraArgs:
+      - --dbfilename=dump.rdb
+      - --save_schedule=*:* # HH:MM glob format
 
-    # podSecurityContext:
-    #   fsGroup: 2000
+    podSecurityContext:
+      fsGroup: 2000
 
-    # securityContext:
-    #   capabilities:
-    #     drop:
-    #       - ALL
-    #   readOnlyRootFilesystem: true
-    #   runAsNonRoot: true
-    #   runAsUser: 1000
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
 
-    # serviceMonitor:
-    #   enabled: true
-    # prometheusRule:
-    #   enabled: true
-    #   spec:
-    #     - alert: DragonflyMissing
-    #       expr: absent(dragonfly_uptime_in_seconds) == 1
-    #       for: 0m
-    #       labels:
-    #         severity: critical
-    #       annotations:
-    #         summary: Dragonfly is missing
-    #         description: "Dragonfly is missing"
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      spec:
+        - alert: DragonflyMissing
+          expr: absent(dragonfly_uptime_in_seconds) == 1
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Dragonfly is missing
+            description: "Dragonfly is missing"
