@@ -8,7 +8,7 @@ resources:
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
   - ./snapshot-controller/ks.yaml
-  - ./csi-driver-nfs/ks.yaml
-  # - ./kubelet-csr-approver/ks.yaml
-  # - ./democratic-csi/ks.yaml
+  - ./kubelet-csr-approver/ks.yaml
+  - ./democratic-csi/ks.yaml
+  #- ./csi-driver-nfs/ks.yaml
 
