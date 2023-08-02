@@ -19,10 +19,13 @@ resources:
   - ./kyverno.yaml
   - ./piraeus.yaml
   - ./apache-tika.yaml
-  - ./node-feature-discovery.yaml
   - ./emxq.yaml
   - ./cloudnative-pg.yaml
   - ./democratic-csi.yaml
   - ./csi-driver-nfs.yaml
   - ./coredns.yaml
   - ./dragonfly.yaml
+  - kubernetes-sigs-descheduler.yaml
+  - kubernetes-sigs-external-dns.yaml
+  - kubernetes-sigs-metrics-server.yaml
+  - kubernetes-sigs-nfd.yaml
