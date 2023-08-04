@@ -13,17 +13,15 @@ spec:
   superuserSecret:
     name: postgres-superuser
   bootstrap:
-    recovery:
-      source: postgres-backup
+    initdb
+    # recovery:
+    #   source: postgres-backup
   postgresql:
     parameters:
       max_connections: "600"
       shared_buffers: "512MB"
   monitoring:
     enablePodMonitor: true
-  # bootstrap:
-  #   recovery:
-  #     source: postgres-backup
   backup:
     retentionPolicy: 30d
     barmanObjectStore:
