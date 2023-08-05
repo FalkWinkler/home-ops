@@ -9,9 +9,9 @@
         "version": "10",
         "aliases": {
             "minio": {
-                "url": "https://s3.<domain>",
-                "accessKey": "<access-key>",
-                "secretKey": "<secret-key>",
+                "url": "https://192.168.10.10",
+                "accessKey": "mc-client",
+                "secretKey": "0v2jM46iqclmTepTFPNTGgbzQo9sgBHLthYsxHAV",
                 "api": "S3v4",
                 "path": "auto"
             }
@@ -22,7 +22,7 @@
 2. Create the outline user and password
 
     ```sh
-    mc admin user add minio postgresql <super-secret-password>
+    mc admin user add minio postgresql <super-secret-password> 
     ```
 
 3. Create the outline bucket
@@ -55,11 +55,11 @@
 5. Apply the bucket policies
 
     ```sh
-    mc admin policy add minio postgresql-private postgresql-user-policy.json
+    mc admin policy create minio postgresql-private postgresql-user-policy.json
     ```
 
 6. Associate private policy with the user
 
     ```sh
-    mc admin policy set minio postgresql-private user=postgresql
+    mc admin policy attach minio postgresql-private user=postgresql
     ```
