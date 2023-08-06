@@ -48,8 +48,9 @@ spec:
           protocol: http
           host: ${LOCAL_LAN_TRUENAS}
           port: 80
-          apiKey:
-            existingSecret: truenas-csi-secret
+          # apiKey:
+          #   existingSecret: truenas-csi-secret
+          existingSecret: truenas-csi-secret
           allowInsecure: true
         zfs:
           datasetParentName: Volume1/k8s/nfs/v
