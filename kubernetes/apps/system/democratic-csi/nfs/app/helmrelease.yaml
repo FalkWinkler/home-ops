@@ -45,7 +45,7 @@ spec:
         driver: freenas-api-nfs
         instance_id:
         httpConnection:
-          protocol: http
+          protocol: https
           host: 192.168.10.10
           port: 443
           apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
