@@ -48,7 +48,7 @@ spec:
           protocol: http
           host: ${LOCAL_LAN_TRUENAS}
           port: 80
-          # apiKey:
+          apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
           #   existingSecret: truenas-csi-secret
           existingSecret: truenas-csi-secret
           allowInsecure: true
