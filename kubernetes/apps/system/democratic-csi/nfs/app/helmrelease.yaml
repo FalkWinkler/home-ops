@@ -47,11 +47,12 @@ spec:
         httpConnection:
           protocol: http
           host: 192.168.10.10
-          port: 80
+          port: 443
           apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
           #   existingSecret: truenas-csi-secret
           existingSecret: truenas-csi-secret
           allowInsecure: true
+          apiVersion: 2
         zfs:
           datasetParentName: Volume1/k8s/nfs/v
           detachedSnapshotsDatasetParentName: Volume1/k8s/nfs/s
