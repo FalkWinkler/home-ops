@@ -76,7 +76,7 @@ spec:
         #   memory: 270M
       persistence:
         enabled: true
-        storageClass: "local-path"
+        storageClass: "local-hostpath"
         size: 15Gi
 
     storegateway:

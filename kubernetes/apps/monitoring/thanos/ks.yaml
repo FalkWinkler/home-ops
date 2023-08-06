@@ -13,4 +13,5 @@ spec:
     name: home-kubernetes
   wait: true
   dependsOn:
-    - name: cluster-apps-local-path-provisioner
+    - name: local-path-provisioner
+      namespace: system

@@ -30,7 +30,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: local-path-provisioner
-      namespace: kube-system
+      namespace: system
     - name: ingress-nginx
       namespace: networking
   values:
