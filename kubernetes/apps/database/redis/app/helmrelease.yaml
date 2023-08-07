@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: redis
-  namespace: default
+  namespace: database
 spec:
   interval: 30m
   chart:
@@ -17,12 +17,20 @@ spec:
         namespace: flux-system
 
   values:
+    global:
+      nameOverride: *app
+    controller:
+      strategy: RollingUpdate
     image:
       repository: public.ecr.aws/docker/library/redis
       tag: 7.0.12
 
     env:
       REDIS_REPLICATION_MODE: master
+    envFrom:
+      - secretRef:
+          name: *app
+    command: ["redis-server", "--requirepass", "$(REDIS_PASSWORD)"]
 
     service:
       main:
