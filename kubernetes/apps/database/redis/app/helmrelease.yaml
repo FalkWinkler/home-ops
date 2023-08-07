@@ -27,10 +27,6 @@ spec:
 
     env:
       REDIS_REPLICATION_MODE: master
-    envFrom:
-      - secretRef:
-          name: *app
-    command: ["redis-server", "--requirepass", "$(REDIS_PASSWORD)"]
 
     service:
       main:
