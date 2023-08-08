@@ -29,7 +29,7 @@ spec:
         detachedVolumesFromSnapshots: "false"
       mountOptions:
       - noatime
-      - nfsvers=3
+      - nfsvers=4
       secrets:
         provisioner-secret:
         controller-publish-secret:
@@ -47,7 +47,7 @@ spec:
         httpConnection:
           protocol: http
           host: 192.168.10.10
-          port: 80
+          port: 443
           apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
           #   existingSecret: truenas-csi-secret
           existingSecret: truenas-csi-secret
@@ -67,6 +67,6 @@ spec:
           shareAllowedHosts: []
           shareAllowedNetworks: []
           shareMaprootUser: root
-          shareMaprootGroup: root
+          shareMaprootGroup: wheel
           shareMapallUser: ""
           shareMapallGroup: ""
