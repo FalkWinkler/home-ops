@@ -13,7 +13,6 @@ spec:
   superuserSecret:
     name: postgres-superuser
   bootstrap:
-    # initdb
     recovery:
       source: postgres-backup
   postgresql:
