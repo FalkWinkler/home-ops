@@ -107,7 +107,7 @@ spec:
         enabled: true
       persistence:
         enabled: true
-        storageClass: "local-path"
+        storageClass: "local-hostpath"
         size: 512Mi
       resources:
         requests:
