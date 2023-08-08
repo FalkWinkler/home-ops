@@ -45,9 +45,9 @@ spec:
         driver: freenas-api-nfs
         instance_id:
         httpConnection:
-          protocol: https
+          protocol: http
           host: truenas.f-wi.com
-          port: 443
+          port: 80
           apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
           #   existingSecret: truenas-csi-secret
           existingSecret: truenas-csi-secret
