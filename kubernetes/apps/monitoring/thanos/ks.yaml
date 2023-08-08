@@ -13,5 +13,5 @@ spec:
     name: home-kubernetes
   wait: true
   dependsOn:
-    - name: local-path-provisioner
+    - name: cluster-apps-democratic-csi-local-path
       namespace: system

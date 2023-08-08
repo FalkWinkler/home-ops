@@ -46,7 +46,7 @@ spec:
         instance_id:
         httpConnection:
           protocol: http
-          host: 192.168.10.10
+          host: ${LOCAL_LAN_TRUENAS}
           port: 80
           apiKey: 2-CgYsQ1QcqN4D7D76jkvi1rQRU1GXsnh62xkhnCscnXzka8xcD4jDCXy8TWgJFljS
           #   existingSecret: truenas-csi-secret
@@ -62,7 +62,7 @@ spec:
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
-          shareHost: 192.168.10.10
+          shareHost: ${LOCAL_LAN_TRUENAS}
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
