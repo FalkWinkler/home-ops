@@ -24,3 +24,6 @@ spec:
       required: true
       connectionAttempts: 10
       connectionCooldown: 3s
+    prometheus:
+      enable: true
+      path: /metrics
