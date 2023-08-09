@@ -19,6 +19,8 @@ spec:
     redis:
       enabled: false
       address: redis.database.svc.cluster.local:6379
+      creds:
+        redisPassword: redis
       password: redis
       database: 0
       required: true
