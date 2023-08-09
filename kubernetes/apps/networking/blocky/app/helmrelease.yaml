@@ -16,6 +16,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    redis:
+      address: redis.database.svc.cluster.local:6379
+      password: redis
+      database: 0
+      required: true
+      connectionAttempts: 10
+      connectionCooldown: 3s
     # -- Blocky Config File content
     blockyConfig: {}
     # upstream:
@@ -223,7 +230,7 @@ spec:
 
     portal:
       open:
-        enabled: false
+        enabled: true
 
     serviceAccount:
       main:
@@ -319,9 +326,6 @@ spec:
             #   for: 5m
             #   labels:
             #     severity: critical
-
-    redis:
-      enabled: true
 
     # CANNOT be defined in above yaml section
     queryLog:
