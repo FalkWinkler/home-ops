@@ -17,6 +17,7 @@ spec:
       interval: 5m
   values:
     redis:
+      enabled: false
       address: redis.database.svc.cluster.local:6379
       password: redis
       database: 0
