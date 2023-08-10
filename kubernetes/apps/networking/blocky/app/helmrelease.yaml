@@ -34,23 +34,55 @@ spec:
     service:
       main:
         enabled: true
+        ports:
+        main:
+          enabled: true
+          port: 4000
+          protocol: http
+          targetPort: 4000
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.10.221"
-        # ports:
-        #   dnstcp:
-        #     enabled: true
-        #     port: 53
-        #     targetPort: 53
-        #   dnsudp:
-        #     enabled: true
-        #     ports:
-        #       dnsudp:
-        #         enabled: true
-        #         port: 53
-        #         protocol: udp
-        #         targetPort: 53
+      dnstcp:
+        enabled: true
+        ports:
+          dnstcp:
+            enabled: true
+            port: 53
+            targetPort: 53
+      dnsudp:
+        enabled: true
+        ports:
+          dnsudp:
+            enabled: true
+            port: 53
+            protocol: udp
+            targetPort: 53
+      dot:
+        enabled: true
+        ports:
+          dot:
+            enabled: true
+            port: 853
+            protocol: tcp
+            targetPort: 853
+      https:
+        enabled: true
+        ports:
+          https:
+            enabled: true
+            port: 4443
+            protocol: https
+            targetPort: 4443
+      k8sgateway:
+        enabled: true
+        ports:
+          k8sgateway:
+            enabled: true
+            port: 5353
+            protocol: udp
+            targetPort: 5353
     upstream:
       default:
         - 10.45.0.1
