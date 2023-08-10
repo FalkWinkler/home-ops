@@ -30,5 +30,5 @@ resources:
   - kubernetes-sigs-metrics-server.yaml
   - kubernetes-sigs-nfd.yaml
   - ./truecharts.yaml
-  - ./postfinace.yaml
+  - ./postfinance.yaml
   - ./node-feature-discovery.yaml
