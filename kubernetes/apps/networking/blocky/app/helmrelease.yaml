@@ -41,12 +41,12 @@ spec:
         ports:
           dns-tcp:
             enabled: true
-            protocol: TCP
+            protocol: tcp
             port: 53
             targetPort: 53
           dns-udp:
             enabled: true
-            protocol: UDP
+            protocol: udp
             port: 53
             targetPort: 53
     upstream:
