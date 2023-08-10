@@ -5,6 +5,11 @@ kind: ServiceAccount
 metadata:
   name: "cilium"
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: cilium/templates/cilium-operator/serviceaccount.yaml
 apiVersion: v1
@@ -12,6 +17,11 @@ kind: ServiceAccount
 metadata:
   name: "cilium-operator"
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: cilium/templates/cilium-ca-secret.yaml
 apiVersion: v1
@@ -19,6 +29,11 @@ kind: Secret
 metadata:
   name: cilium-ca
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 data:
   ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURGRENDQWZ5Z0F3SUJBZ0lSQU1sdUhiNUcyWFkxUnBDV0YyMlV5aFF3RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEl6TURjeE5qQTNNVFEwTVZvWERUSTJNRGN4TlRBMwpNVFEwTVZvd0ZERVNNQkFHQTFVRUF4TUpRMmxzYVhWdElFTkJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DCkFROEFNSUlCQ2dLQ0FRRUF1cTdIRzRnMFU4NjE1MkJHanphaXpVZEZCUE9nM1hDaTBtOVFCb0JkYzhaNVpwblMKakprVlNRSjdldzVlSGM1a0JzNVRVTGJsb2dQbW9lU281WUY4SnBibFd1Sm5iOWtxMGVuNThIajQ2YXdTVTRaZgpTUmpqc01xTWhXR2laUExWVmhsdzFoMnFtZENSVW9zOEpRZkMrWXcrUGkyRkxBdWVuSm9PdGJ2NjVESVFGdVl5CkpZTnpzY0ZkOVJvQ1llUWwwY0xMcVhuMWlIV0Vlc25tSzRkS1c3RG5hNzhOdCtTdzRzZFdVNVl3L1R2UUtGa3UKay9pTWJIZEZOWklGMFJocmxZcTN3cy9SelJPWnFoajVZUkpxS0x3VStSeCtLK0R5c0RJeFp0VGpCWkE3VUFNQgpoKzhuMWdiRHVuUlVwNCsvY0RtdTE4L3FuUFlzSDkwQlI0cUppd0lEQVFBQm8yRXdYekFPQmdOVkhROEJBZjhFCkJBTUNBcVF3SFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUYKTUFNQkFmOHdIUVlEVlIwT0JCWUVGUFk0Qmx2b3pIaGljWE93TFFGMDgwMWt3S3pXTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ256ZGNFOXB4VVNXaVdpUVZ3Y3RXNk9wWFk0TVFKdDZlTlYyWU9FdktPNnpXbGtHemd5dnNvCnN1cXNqUEZlbFpxampFUVZqVkU4RnVHNEpDb3I1UW82VW96SzBxdmpzSXAwNGdKTGNDZC9iSFRnY283NjZVTkYKQmRrTkloekFoUWJKUitxYWI5c3RSOWl3ZnlNRFRBc3NXb0tNZHVzYnlJWjJkL3Jnd2JhcUVKK1BCN0hYMzR3bwpWQlZqb240eVJnSjgyWWdPbmlQR0ZlbktBNU9HNVQ1QWk1ZUdkNmorRDRLdTBBY2JDR0UzZDJkY1VZZ1pNeE5nCkluUXBJZzVOYTZ0WDBpdWMrazgxTXJQU1FiYlluaE05R0llTmRwRFVaa1FpNHVOVnIwWldtalV2VmJtZ3phQnIKVzJwMDF0YUVMb29iSkUzZzQwMTczeDBpdFZDUVF0aUUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
   ca.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBdXE3SEc0ZzBVODYxNTJCR2p6YWl6VWRGQlBPZzNYQ2kwbTlRQm9CZGM4WjVacG5TCmpKa1ZTUUo3ZXc1ZUhjNWtCczVUVUxibG9nUG1vZVNvNVlGOEpwYmxXdUpuYjlrcTBlbjU4SGo0NmF3U1U0WmYKU1JqanNNcU1oV0dpWlBMVlZobHcxaDJxbWRDUlVvczhKUWZDK1l3K1BpMkZMQXVlbkpvT3RidjY1RElRRnVZeQpKWU56c2NGZDlSb0NZZVFsMGNMTHFYbjFpSFdFZXNubUs0ZEtXN0RuYTc4TnQrU3c0c2RXVTVZdy9UdlFLRmt1CmsvaU1iSGRGTlpJRjBSaHJsWXEzd3MvUnpST1pxaGo1WVJKcUtMd1UrUngrSytEeXNESXhadFRqQlpBN1VBTUIKaCs4bjFnYkR1blJVcDQrL2NEbXUxOC9xblBZc0g5MEJSNHFKaXdJREFRQUJBb0lCQUNVU3hwblNIOG93OS9EKwpMcVVNVGFLRXI5RSs3TWh0TVBpbmdIWDZFaFVHNmw4VTF6cHl3RVppaHRFMlZqeUhHMWc2cTFNUkwyTlFjUUhmCm5pY040dkRxOEp0dThPbkdiL21HQk12YnlscmxnREkwTWtJYS9rVEN4TXRNUzJyT3lzMHhlalliYUNEcHlhSmgKNGt6Y1VMMHNPOFF2V0E0YU5LS1crYXJmclFDYUZRciswL3NMMGdGUEFpZDZTTlZhMGwzdFlTQmlTM2YySDVSQQo0NllBZjI3TzlJS0VvbTBFQmNRMEYrY0ljMkVwTUR0VG5sQUFxb1ZnNmZQVTRzM0JBckxCZ2JWdTJwSkJDV29tCmkxV29GckpOcUxSMDEvQnVjZVpZdUtmeVdrZ2ZXN041ckhZY3dsN2R2MWxCTklqVkk4OVJ5UTg1SGFvWEwrbDQKOW5DM2x1RUNnWUVBd0ZQc2RLRUFPRTBpVkZ3UU01YzRpUVdjQlducDB3SXFPcm80U3R5alJ6VU85QVpJclJUcwp6TE5LVEFKVmdtOTlkaEt5a29pejJUTDVkWktsbkZIOWhSV3BPQ0gwck5GVk1YekFGRWVOekI3WUplMWx4blhsCjQranJ6VURSdmZKVGNPZGNxbW55MlYwejVXTG5UbnNBTUlCMXBuY0hOeDN1SmtVdXNhamp6bEVDZ1lFQStIeHMKVmYrNkcvVmVvVXpLVHVNbGFZWVMyUml3QmE4VHhSTENSVzdLdW5JdERFbnNEOWM0dnhDQzlYSUk4eUV0QVdKWQplQ0ovbzc1ajlXMC9rQTVYeE5senhiWmREK3BENURYRVF3U2o1NTFzMVlneElpMVVEbU9kMHBTSklUWG5BOVBoCmtSWnlvU0dNSE5vYlc0b1luNHhpRnh4RmNyTlE2eHc0OXIweWx4c0NnWUE4eTBwM0kxMWFicWRuV3lLVDdEMG0Kc3VzNm10d2FveGlPTDhjVGd1THA0MCt5dXpuRjNGTnQ4VTZPOEQzdldTYWphQTJpWEN2ZGdFdHlhc1NHd1RRTwpHV2JBSTV1ZjlSdWs1UFlpY3V2VGxmeGxJTUdIRmtWdzRYT0lFZkU2eFpxeW1hK2svcENSUFBEbWxYamdTZWtwCmE3SEV5T015L1BjR2lkL1VzTG94d1FLQmdEb0tkaE93WS94YjEvcTlRUlFrSW56L2dDK05nTEFUTVA3N1hyMXgKSDVGbFVmaG8yK2JuVXEzdVlXaUxkbU8wQUJzdXFaT0dHMkpYK21rOVYzZUNvaVdzMVVuOVNzZUk1TXJOZEVaagpNeFhLdzcwc3pxMDVBVVZMSjNZa2s5TmFEOWZwQ2VzbDN5aWIrV3BUMThnTi9hcG0xQktwMjk3cTI1L1BPODhHCmFtYTVBb0dCQUt6Z3FPcmh1QXBORlZZWmc1UGtjeWdDd3VyVG5lZVNtNDJ6QzA2NVJaNmZYQWRaOGJFZ2FwUmkKWmNRSE84cldpRjB1eWxzQU91KzlUeVkrVGVZK1Z3YTE5VDNVZUs5ZzVINW5GNjVlQkFlZUhMTmtwQnovQ055dApYRlgwWGlnMG94cU5td2l5dGk4NlRBVmlmTEprN1gzTmRDMCtyckZCVXJqWDhFT3pDb2tWCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
@@ -29,6 +44,11 @@ kind: Secret
 metadata:
   name: hubble-server-certs
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 type: kubernetes.io/tls
 data:
   ca.crt:  LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURGRENDQWZ5Z0F3SUJBZ0lSQU1sdUhiNUcyWFkxUnBDV0YyMlV5aFF3RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEl6TURjeE5qQTNNVFEwTVZvWERUSTJNRGN4TlRBMwpNVFEwTVZvd0ZERVNNQkFHQTFVRUF4TUpRMmxzYVhWdElFTkJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DCkFROEFNSUlCQ2dLQ0FRRUF1cTdIRzRnMFU4NjE1MkJHanphaXpVZEZCUE9nM1hDaTBtOVFCb0JkYzhaNVpwblMKakprVlNRSjdldzVlSGM1a0JzNVRVTGJsb2dQbW9lU281WUY4SnBibFd1Sm5iOWtxMGVuNThIajQ2YXdTVTRaZgpTUmpqc01xTWhXR2laUExWVmhsdzFoMnFtZENSVW9zOEpRZkMrWXcrUGkyRkxBdWVuSm9PdGJ2NjVESVFGdVl5CkpZTnpzY0ZkOVJvQ1llUWwwY0xMcVhuMWlIV0Vlc25tSzRkS1c3RG5hNzhOdCtTdzRzZFdVNVl3L1R2UUtGa3UKay9pTWJIZEZOWklGMFJocmxZcTN3cy9SelJPWnFoajVZUkpxS0x3VStSeCtLK0R5c0RJeFp0VGpCWkE3VUFNQgpoKzhuMWdiRHVuUlVwNCsvY0RtdTE4L3FuUFlzSDkwQlI0cUppd0lEQVFBQm8yRXdYekFPQmdOVkhROEJBZjhFCkJBTUNBcVF3SFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUYKTUFNQkFmOHdIUVlEVlIwT0JCWUVGUFk0Qmx2b3pIaGljWE93TFFGMDgwMWt3S3pXTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ256ZGNFOXB4VVNXaVdpUVZ3Y3RXNk9wWFk0TVFKdDZlTlYyWU9FdktPNnpXbGtHemd5dnNvCnN1cXNqUEZlbFpxampFUVZqVkU4RnVHNEpDb3I1UW82VW96SzBxdmpzSXAwNGdKTGNDZC9iSFRnY283NjZVTkYKQmRrTkloekFoUWJKUitxYWI5c3RSOWl3ZnlNRFRBc3NXb0tNZHVzYnlJWjJkL3Jnd2JhcUVKK1BCN0hYMzR3bwpWQlZqb240eVJnSjgyWWdPbmlQR0ZlbktBNU9HNVQ1QWk1ZUdkNmorRDRLdTBBY2JDR0UzZDJkY1VZZ1pNeE5nCkluUXBJZzVOYTZ0WDBpdWMrazgxTXJQU1FiYlluaE05R0llTmRwRFVaa1FpNHVOVnIwWldtalV2VmJtZ3phQnIKVzJwMDF0YUVMb29iSkUzZzQwMTczeDBpdFZDUVF0aUUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
@@ -41,6 +61,11 @@ kind: ConfigMap
 metadata:
   name: cilium-config
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 data:
 
   # Identity allocation mode selects how identities are shared between cilium
@@ -230,7 +255,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: cilium
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 rules:
 - apiGroups:
@@ -340,7 +369,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: cilium-operator
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 rules:
 - apiGroups:
@@ -551,7 +584,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: cilium
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -567,7 +604,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: cilium-operator
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -584,7 +625,11 @@ kind: Role
 metadata:
   name: cilium-config-agent
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 rules:
 - apiGroups:
@@ -602,7 +647,11 @@ kind: RoleBinding
 metadata:
   name: cilium-config-agent
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
+    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: cilium
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -619,13 +668,18 @@ kind: Service
 metadata:
   name: hubble-peer
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
     k8s-app: cilium
     app.kubernetes.io/part-of: cilium
     app.kubernetes.io/name: hubble-peer
+    app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     k8s-app: cilium
+    app.kubernetes.io/managed-by: Helm
   ports:
   - name: peer-service
     port: 443
@@ -639,14 +693,19 @@ kind: DaemonSet
 metadata:
   name: cilium
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
   labels:
     k8s-app: cilium
     app.kubernetes.io/part-of: cilium
     app.kubernetes.io/name: cilium-agent
+    app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     matchLabels:
       k8s-app: cilium
+      app.kubernetes.io/managed-by: Helm
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 2
@@ -659,10 +718,13 @@ spec:
         # in AppArmor.
         container.apparmor.security.beta.kubernetes.io/cilium-agent: "unconfined"
         container.apparmor.security.beta.kubernetes.io/clean-cilium-state: "unconfined"
+        meta.helm.sh/release-name: cilium
+        meta.helm.sh/release-namespace: kube-system
       labels:
         k8s-app: cilium
         app.kubernetes.io/name: cilium-agent
         app.kubernetes.io/part-of: cilium
+        app.kubernetes.io/managed-by: Helm
     spec:
       containers:
       - name: cilium-agent
@@ -1036,11 +1098,14 @@ spec:
   template:
     metadata:
       annotations:
+        meta.helm.sh/release-name: cilium
+        meta.helm.sh/release-namespace: kube-system
       labels:
         io.cilium/app: operator
         name: cilium-operator
         app.kubernetes.io/part-of: cilium
         app.kubernetes.io/name: cilium-operator
+        app.kubernetes.io/managed-by: Helm
     spec:
       containers:
       - name: cilium-operator
