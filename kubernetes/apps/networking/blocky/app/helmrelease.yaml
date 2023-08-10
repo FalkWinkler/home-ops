@@ -32,7 +32,7 @@ spec:
     domain: "${SECRET_DOMAIN}"
     ttl: 1
     service:
-      dns:
+      main:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Cluster
