@@ -29,7 +29,6 @@ spec:
     prometheus:
       enable: true
       path: /metrics
-       fullnameOverride: k8s-gateway
     domain: "${SECRET_DOMAIN}"
     ttl: 1
     service:
