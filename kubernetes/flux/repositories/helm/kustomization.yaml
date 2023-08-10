@@ -32,3 +32,4 @@ resources:
   - ./truecharts.yaml
   - ./postfinance.yaml
   - ./node-feature-discovery.yaml
+  - ./rook-ceph.yaml
