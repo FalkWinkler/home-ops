@@ -29,3 +29,41 @@ spec:
     prometheus:
       enable: true
       path: /metrics
+       fullnameOverride: k8s-gateway
+    domain: "${SECRET_DOMAIN}"
+    ttl: 1
+    service:
+      dns:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.10.221"
+        ports:
+          dns-tcp:
+            enabled: true
+            protocol: TCP
+            port: 53
+            targetPort: 53
+          dns-udp:
+            enabled: true
+            protocol: UDP
+            port: 53
+            targetPort: 53
+    upstream:
+      default:
+        - 10.45.0.1
+        - 8.8.8.8
+    upstreamTimeout: 1s
+    blocking:
+    blackLists:
+      ads:
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+        - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+        - https://mirror1.malwaredomains.com/files/justdomains
+        - http://sysctl.org/cameleon/hosts
+        - https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+    ingress:
+      main:
+        enabled: true
