@@ -55,6 +55,7 @@ spec:
         - 8.8.8.8
     upstreamTimeout: 1s
     blocking:
+      blockType: nxDomain
       blackLists:
         ads:
           - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
