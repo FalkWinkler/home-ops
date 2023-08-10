@@ -31,12 +31,12 @@ spec:
       path: /metrics
     domain: "${SECRET_DOMAIN}"
     ttl: 1
-    service:
-      main:
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          io.cilium/lb-ipam-ips: "192.168.10.221"
+    # service:
+    #   main:
+    #     type: LoadBalancer
+    #     externalTrafficPolicy: Cluster
+    #     annotations:
+    #       io.cilium/lb-ipam-ips: "192.168.10.221"
     upstream:
       default:
         - 10.45.0.1
