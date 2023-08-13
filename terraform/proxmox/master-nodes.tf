@@ -1,7 +1,8 @@
 resource "proxmox_vm_qemu" "controlplanes" {
   count       = 3
   name        = "master-${count.index}"
-  target_node = var.target_node_name
+  #target_node = var.target_node_name
+  target_node     = element(var.nodes, count.index)
   clone       = var.proxmox_image
 
   agent                   = 0
@@ -17,8 +18,9 @@ resource "proxmox_vm_qemu" "controlplanes" {
   cpu     = "kvm64"
   sockets = 1
   cores   = 2
-  memory  = 4096
+  memory  = 2048
   scsihw  = "virtio-scsi-pci"
+  tags    = "talos,k8s,master"
 
   vga {
     memory = 0

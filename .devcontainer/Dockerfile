@@ -61,6 +61,9 @@ RUN curl -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v$
     && chmod +x ./clusterctl \
     && mv ./clusterctl /usr/local/bin/clusterctl
 
+# Cloud Native PostgreSQL plugin for kubectl
+RUN curl -sSfL https://github.com/EnterpriseDB/kubectl-cnp/raw/main/install.sh | sudo sh -s -- -b /usr/local/bin
+
 # talos
 RUN curl -sL https://talos.dev/install | sh
 

@@ -139,3 +139,13 @@ variable "public_key_file_path" {
 variable "known_hosts" {
   type = string
 }
+
+variable "nodes" {
+  type = list(string)
+  default = [ "pve","pve2","pve3" ]
+}
+
+variable "node_ssds" {
+  type = list(string)
+  default = [ "/dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F94","/dev/disk/by-id/ata-CT500MX500SSD1_2314E6C44636","/dev/disk/by-id/ata-CT500MX500SSD1_2314E6C44636" ]
+}

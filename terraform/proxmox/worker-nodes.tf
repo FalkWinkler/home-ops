@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "workers" {
   count       = 3
   name        = "worker-${count.index}"
-  target_node = var.target_node_name
+  target_node = element(var.nodes, count.index) #var.target_node_name
   clone       = var.proxmox_image
 
   agent                   = 0
@@ -15,8 +15,9 @@ resource "proxmox_vm_qemu" "workers" {
   cpu     = "kvm64"
   sockets = 1
   cores   = 4
-  memory  = 20048
+  memory  = 12288
   scsihw  = "virtio-scsi-pci"
+  tags    = "talos,k8s,worker"
 
   vga {
     memory = 0
@@ -42,6 +43,13 @@ resource "proxmox_vm_qemu" "workers" {
     ssd     = 1
     backup  = false
   }
+
+  #   disk {
+  #   type    = "scsi"
+  #   storage =  ""
+  #   size    = "500G"
+  #   volume  = element(var.node_ssds, count.index)
+  # }
 
   # disk {
   #   type    = "scsi"

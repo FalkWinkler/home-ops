@@ -62,6 +62,10 @@
 			"jqVersion": "none",
 			"yqVersion": "4",
 			"gojqVersion": "none"
-		}
+		},
+		"ghcr.io/ChristopherMacGown/devcontainer-features/mcfly:1": {},
+		"ghcr.io/ChristopherMacGown/devcontainer-features/direnv:1": {},
+		"ghcr.io/ChristopherMacGown/devcontainer-features/minio-client:1": {}
+
 	}
 }
