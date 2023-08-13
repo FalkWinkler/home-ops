@@ -4,11 +4,6 @@ kind: HelmRelease
 metadata:
   name: kubelet-csr-approver
   namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: kubelet-csr-approver
-    meta.helm.sh/release-namespace: kube-system
 spec:
   interval: 30m
   chart:
