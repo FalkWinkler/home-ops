@@ -3,6 +3,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: kubelet-csr-approver
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
+
 rules:
 - apiGroups:
   - certificates.k8s.io
@@ -32,6 +38,11 @@ kind: ClusterRoleBinding
 metadata:
   name: kubelet-csr-approver
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -46,12 +57,22 @@ kind: ServiceAccount
 metadata:
   name: kubelet-csr-approver
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubelet-csr-approver
   namespace: kube-system
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     matchLabels:
@@ -62,8 +83,11 @@ spec:
       annotations:
         prometheus.io/port: '8080'
         prometheus.io/scrape: 'true'
+        meta.helm.sh/release-name: kubelet-csr-approver
+        meta.helm.sh/release-namespace: kube-system
       labels:
         app: kubelet-csr-approver
+        app.kubernetes.io/managed-by: Helm
 
     spec:
       serviceAccountName: kubelet-csr-approver
