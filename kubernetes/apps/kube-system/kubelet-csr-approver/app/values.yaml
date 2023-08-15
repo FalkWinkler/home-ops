@@ -1,5 +1,5 @@
 ---
 providerRegex: |
-    ^(master-.|worker-.)$
+    master-.|worker-.
 
 bypassDnsResolution: true
