@@ -147,13 +147,17 @@ spec:
             - -leader-election
           env:
             - name: PROVIDER_REGEX
-              value: ^(master-.|worker-.)$
+              value: master-.|worker-.
             - name: PROVIDER_IP_PREFIXES
-              value: "192.168.10.0/24"
+              value: "0.0.0.0/0"
             - name: MAX_EXPIRATION_SECONDS
               value: "86400"
             - name: ALLOWED_DNS_NAMES
               value: "1"
+            - name: BYPASS_DNS_RESOLUTION
+              value: "true"
+            - name: BYPASS_HOSTNAME_CHECK
+              value: "true"
           ports:
             - name: metrics
               containerPort: 8080
@@ -170,6 +174,9 @@ spec:
               cpu: 100m
               memory: 64Mi
       tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Equal
         - effect: NoSchedule
           key: node-role.kubernetes.io/control-plane
           operator: Equal
