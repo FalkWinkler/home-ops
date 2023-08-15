@@ -1073,11 +1073,16 @@ kind: Deployment
 metadata:
   name: cilium-operator
   namespace: kube-system
+  annotations:
+        meta.helm.sh/release-name: cilium
+        meta.helm.sh/release-namespace: kube-system
   labels:
-    io.cilium/app: operator
-    name: cilium-operator
-    app.kubernetes.io/part-of: cilium
-    app.kubernetes.io/name: cilium-operator
+        io.cilium/app: operator
+        name: cilium-operator
+        app.kubernetes.io/part-of: cilium
+        app.kubernetes.io/name: cilium-operator
+        app.kubernetes.io/managed-by: Helm
+
 spec:
   # See docs on ServerCapabilities.LeasesResourceLock in file pkg/k8s/version/version.go
   # for more details.
