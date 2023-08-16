@@ -12,7 +12,7 @@ data "talos_machine_configuration" "mc_1" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "master-0"
+        hostname         = "master-0.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"
@@ -20,7 +20,6 @@ data "talos_machine_configuration" "mc_1" {
         px_region        = var.region
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
-        vpc_main_cidr    = var.vpc_main_cidr
         # storageclass-xfs = var.proxmox_storage1
         clusters = yamlencode({
           clusters = [
@@ -59,7 +58,7 @@ data "talos_machine_configuration" "mc_2" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "master-1"
+        hostname         = "master-1.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip + 1)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"
@@ -68,7 +67,6 @@ data "talos_machine_configuration" "mc_2" {
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
         # storageclass-xfs = var.proxmox_storage1
-        vpc_main_cidr    = var.vpc_main_cidr
         clusters = yamlencode({
           clusters = [
             {
@@ -106,7 +104,7 @@ data "talos_machine_configuration" "mc_3" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "master-2"
+        hostname         = "master-2.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip + 2)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"
@@ -115,7 +113,6 @@ data "talos_machine_configuration" "mc_3" {
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
         # storageclass-xfs = var.proxmox_storage1
-        vpc_main_cidr    = var.vpc_main_cidr
         clusters = yamlencode({
           clusters = [
             {
@@ -197,7 +194,7 @@ data "talos_machine_configuration" "worker_1" {
   config_patches = [
     templatefile("${path.module}/templates/worker.yaml.tpl",
       merge(var.kubernetes, {
-        hostname   = "worker-0"
+        hostname   = "worker-0.home.lan"
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip)}"
         px_region  = var.region
         px_node    = var.target_node_name
@@ -219,7 +216,7 @@ data "talos_machine_configuration" "worker_2" {
   config_patches = [
     templatefile("${path.module}/templates/worker.yaml.tpl",
       merge(var.kubernetes, {
-        hostname   = "worker-1"
+        hostname   = "worker-1.home.lan"
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip + 1)}"
         px_region  = var.region
         px_node    = var.target_node_name
@@ -241,7 +238,7 @@ data "talos_machine_configuration" "worker_3" {
   config_patches = [
     templatefile("${path.module}/templates/worker.yaml.tpl",
       merge(var.kubernetes, {
-        hostname   = "worker-2"
+        hostname   = "worker-2.home.lan"
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip + 2)}"
         px_region  = var.region
         px_node    = var.target_node_name

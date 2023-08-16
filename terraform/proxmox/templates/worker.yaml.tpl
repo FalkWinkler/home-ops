@@ -6,26 +6,23 @@ machine:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
+      cloud-provider: external
       rotate-server-certificates: true
       node-labels: "project.io/node-pool=worker"
     nodeIP:
       validSubnets: ${format("%#v",split(",",nodeSubnets))}
-    clusterDNS:
-      - 169.254.2.53
-      - ${cidrhost(split(",",serviceSubnets)[0], 10)}
   network:
     hostname: "${hostname}"
     interfaces:
       - interface: eth0
         addresses:
           - ${ipv4_local}/24
-      - interface: dummy0
-        addresses:
-          - 169.254.2.53/32
-    extraHostEntries:
-      - ip: ${ipv4_vip}
-        aliases:
-          - ${apiDomain}
+        routes:
+          - network: 0.0.0.0/0
+            gateway: ${gateway}
+    nameservers:
+        - 1.1.1.1
+        - 1.0.0.1
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}

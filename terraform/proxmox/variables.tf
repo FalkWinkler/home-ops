@@ -21,7 +21,7 @@ variable "kubernetes" {
     storageclass            = ""
     storageclass-xfs        = ""
     cluster-0-vip           = ""
-    vpc_main_cidr           = ""
+    gateway                 = "192.168.1.1"
   }
 }
 

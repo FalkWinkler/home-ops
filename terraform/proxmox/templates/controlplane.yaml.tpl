@@ -14,24 +14,22 @@ machine:
       rotate-server-certificates: true
     nodeIP:
       validSubnets: ${format("%#v",split(",",nodeSubnets))}
-    clusterDNS:
-      - 169.254.2.53
-      - ${cidrhost(split(",",serviceSubnets)[0], 10)}
   network:
     hostname: "${hostname}"
     interfaces:
       - interface: eth0
         addresses:
           - ${ipv4_local}/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: ${gateway}
         vip:
           ip: ${ipv4_vip}
-      - interface: dummy0
-        addresses:
-          - 169.254.2.53/32
-    extraHostEntries:
-      - ip: 127.0.0.1
-        aliases:
-          - ${apiDomain}
+    nameservers:
+        - 1.1.1.1
+        - 1.0.0.1
+    kubespan:
+      enabled: false
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
@@ -147,7 +145,7 @@ cluster:
     enabled: true
     manifests:
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cert-approval.yaml
-    - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/coredns-local.yaml
+    - https://raw.githubusercontent.com/siderolabs/talos-cloud-controller-manager/main/docs/deploy/cloud-controller-manager.yml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
