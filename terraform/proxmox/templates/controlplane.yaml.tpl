@@ -1,5 +1,6 @@
 machine:
   nodeLabels:
+    node.cloudprovider.kubernetes.io/platform: proxmox
     topology.kubernetes.io/region: ${px_region}
     topology.kubernetes.io/zone: ${px_node}
   certSANs:
@@ -11,6 +12,8 @@ machine:
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
       rotate-server-certificates: true
+    nodeIP:
+      validSubnets: ${format("%#v",split(",",nodeSubnets))}
     clusterDNS:
       - 169.254.2.53
       - ${cidrhost(split(",",serviceSubnets)[0], 10)}
@@ -29,16 +32,18 @@ machine:
       - ip: 127.0.0.1
         aliases:
           - ${apiDomain}
-    nameservers:
-      - 1.1.1.1
-      - 8.8.8.8
-    kubespan:
-      enabled: false
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
     bootloader: true
     wipe: false
+  files:
+    - content: |
+        [plugins."io.containerd.grpc.v1.cri"]
+          enable_unprivileged_ports = true
+          enable_unprivileged_icmp = true
+      path: /etc/cri/conf.d/20-customization.part
+      op: create
   sysctls:
     net.core.somaxconn: 65535
     net.core.netdev_max_backlog: 4096
@@ -111,7 +116,9 @@ cluster:
     podSubnets: ${format("%#v",split(",",podSubnets))}
     serviceSubnets: ${format("%#v",split(",",serviceSubnets))}
     cni:
-      name: none
+      name: custom
+      urls:
+        - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cilium.yaml
   proxy:
     disabled: true
   discovery:
@@ -124,8 +131,21 @@ cluster:
   etcd:
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
-  extraManifests:
-    - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cilium.yaml
+  inlineManifests:
+    - name: fluxcd
+      contents: |-
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+            name: flux-system
+            labels:
+              app.kubernetes.io/instance: flux-system
+              app.kubernetes.io/part-of: flux
+              pod-security.kubernetes.io/warn: restricted
+              pod-security.kubernetes.io/warn-version: latest
+  externalCloudProvider:
+    enabled: true
+    manifests:
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cert-approval.yaml
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/coredns-local.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml

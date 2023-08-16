@@ -8,6 +8,8 @@ machine:
     extraArgs:
       rotate-server-certificates: true
       node-labels: "project.io/node-pool=worker"
+    nodeIP:
+      validSubnets: ${format("%#v",split(",",nodeSubnets))}
     clusterDNS:
       - 169.254.2.53
       - ${cidrhost(split(",",serviceSubnets)[0], 10)}
@@ -24,16 +26,18 @@ machine:
       - ip: ${ipv4_vip}
         aliases:
           - ${apiDomain}
-    nameservers:
-      - 1.1.1.1
-      - 8.8.8.8
-    kubespan:
-      enabled: false
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
     bootloader: true
     wipe: false
+  files:
+    - content: |
+        [plugins."io.containerd.grpc.v1.cri"]
+          enable_unprivileged_ports = true
+          enable_unprivileged_icmp = true
+      path: /var/cri/conf.d/allow-unpriv-ports.toml
+      op: create
   sysctls:
     net.core.somaxconn: 65535
     net.core.netdev_max_backlog: 4096

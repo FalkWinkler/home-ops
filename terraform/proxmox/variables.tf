@@ -4,6 +4,7 @@ variable "kubernetes" {
     hostname                = ""
     podSubnets              = "10.244.0.0/16"
     serviceSubnets          = "10.96.0.0/12"
+    nodeSubnets             = "192.168.10.0/24"
     domain                  = "cluster.local"
     apiDomain               = ""
     ipv4_local              = ""
@@ -20,6 +21,7 @@ variable "kubernetes" {
     storageclass            = ""
     storageclass-xfs        = ""
     cluster-0-vip           = ""
+    vpc_main_cidr           = ""
   }
 }
 

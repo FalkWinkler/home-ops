@@ -20,6 +20,7 @@ data "talos_machine_configuration" "mc_1" {
         px_region        = var.region
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
+        vpc_main_cidr    = var.vpc_main_cidr
         # storageclass-xfs = var.proxmox_storage1
         clusters = yamlencode({
           clusters = [
@@ -67,6 +68,7 @@ data "talos_machine_configuration" "mc_2" {
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
         # storageclass-xfs = var.proxmox_storage1
+        vpc_main_cidr    = var.vpc_main_cidr
         clusters = yamlencode({
           clusters = [
             {
@@ -111,8 +113,9 @@ data "talos_machine_configuration" "mc_3" {
         knownhosts       = var.known_hosts
         px_region        = var.region
         px_node          = var.target_node_name
-       # storageclass     = var.proxmox_storage2
+        storageclass     = var.proxmox_storage2
         # storageclass-xfs = var.proxmox_storage1
+        vpc_main_cidr    = var.vpc_main_cidr
         clusters = yamlencode({
           clusters = [
             {
@@ -198,6 +201,7 @@ data "talos_machine_configuration" "worker_1" {
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip)}"
         px_region  = var.region
         px_node    = var.target_node_name
+        vpc_main_cidr    = var.vpc_main_cidr
       })
     )
   ]
@@ -219,6 +223,7 @@ data "talos_machine_configuration" "worker_2" {
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip + 1)}"
         px_region  = var.region
         px_node    = var.target_node_name
+        vpc_main_cidr    = var.vpc_main_cidr
       })
     )
   ]
@@ -240,6 +245,7 @@ data "talos_machine_configuration" "worker_3" {
         ipv4_local = "${cidrhost(var.vpc_main_cidr, var.worker_first_ip + 2)}"
         px_region  = var.region
         px_node    = var.target_node_name
+        vpc_main_cidr    = var.vpc_main_cidr
       })
     )
   ]

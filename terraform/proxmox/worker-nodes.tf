@@ -1,7 +1,8 @@
 resource "proxmox_vm_qemu" "workers" {
   count       = 3
   name        = "worker-${count.index}"
-  target_node = element(var.nodes, count.index) #var.target_node_name
+  #target_node = var.target_node_name
+  target_node = element(var.nodes, count.index)
   clone       = var.proxmox_image
 
   agent                   = 0
