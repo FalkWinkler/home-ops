@@ -1,0 +1,10 @@
+---
+providerRegex: |
+    master-.|worker-.
+
+bypassDnsResolution: true
+
+tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+    operator: Equal
