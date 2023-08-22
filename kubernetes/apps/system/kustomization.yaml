@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
-  - ./reloader/ks.yaml
+  - ./reloader/ks.yml
+  - ./democratic-csi/ks.yaml
+  - ./node-feature-discovery/ks.yaml
