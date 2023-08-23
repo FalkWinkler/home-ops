@@ -106,7 +106,7 @@ data:
   # Users who wish to specify their own custom CNI configuration file must set
   # custom-cni-conf to "true", otherwise Cilium may overwrite the configuration.
   custom-cni-conf: "false"
-  enable-bpf-clock-probe: "true"
+  enable-bpf-clock-probe: "false"
   # If you want cilium monitor to aggregate tracing for packets, set this level
   # to "low", "medium", or "maximum". The higher the level, the less packets
   # that will be seen in monitor output.
@@ -166,7 +166,9 @@ data:
   #   - disabled
   #   - vxlan (default)
   #   - geneve
-
+    # Default case
+  routing-mode: "tunnel"
+  tunnel-protocol: "vxlan"
 
   # Enables L7 proxy for L7 policy enforcement and visibility
   enable-l7-proxy: "true"
@@ -215,7 +217,8 @@ data:
   ipam: "kubernetes"
   ipam-cilium-node-update-rate: "15s"
   disable-cnp-status-updates: "true"
-  cnp-node-status-gc-interval: "0s"
+  cnp-node-status-gc-interval: "0s"^
+  egress-gateway-reconciliation-trigger-interval: "1s"
   enable-vtep: "false"
   vtep-endpoint: ""
   vtep-cidr: ""
@@ -227,6 +230,8 @@ data:
   cgroup-root: "/sys/fs/cgroup"
   enable-k8s-terminating-endpoint: "true"
   enable-sctp: "false"
+  k8s-client-qps: "5"
+  k8s-client-burst: "10"
   remove-cilium-node-taints: "true"
   set-cilium-node-taints: "true"
   set-cilium-is-up-condition: "true"
@@ -242,7 +247,7 @@ data:
   mesh-auth-enabled: "true"
   mesh-auth-queue-size: "1024"
   mesh-auth-rotated-identities-queue-size: "1024"
-  mesh-auth-expired-gc-interval: "15m0s"
+  mesh-auth-gc-interval: "15m0s"
 
   proxy-connect-timeout: "2"
   proxy-max-requests-per-connection: "0"
@@ -786,9 +791,9 @@ spec:
         - name: CILIUM_CLUSTERMESH_CONFIG
           value: /var/lib/cilium/clustermesh/
         - name: KUBERNETES_SERVICE_HOST
-          value: "192.168.10.30"
+          value: "localhost"
         - name: KUBERNETES_SERVICE_PORT
-          value: "6443"
+          value: "7445"
         lifecycle:
           preStop:
             exec:
@@ -870,9 +875,9 @@ spec:
               apiVersion: v1
               fieldPath: metadata.namespace
         - name: KUBERNETES_SERVICE_HOST
-          value: "192.168.10.30"
+          value: "localhost"
         - name: KUBERNETES_SERVICE_PORT
-          value: "6443"
+          value: "7445"
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -915,9 +920,9 @@ spec:
               key: clean-cilium-bpf-state
               optional: true
         - name: KUBERNETES_SERVICE_HOST
-          value: "192.168.10.30"
+          value: "localhost"
         - name: KUBERNETES_SERVICE_PORT
-          value: "6443"
+          value: "7445"
         terminationMessagePolicy: FallbackToLogsOnError
         securityContext:
           seLinuxOptions:
@@ -1139,9 +1144,9 @@ spec:
               name: cilium-config
               optional: true
         - name: KUBERNETES_SERVICE_HOST
-          value: "192.168.10.30"
+          value: "localhost"
         - name: KUBERNETES_SERVICE_PORT
-          value: "6443"
+          value: "7445"
         livenessProbe:
           httpGet:
             host: "127.0.0.1"
