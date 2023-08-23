@@ -217,7 +217,7 @@ data:
   ipam: "kubernetes"
   ipam-cilium-node-update-rate: "15s"
   disable-cnp-status-updates: "true"
-  cnp-node-status-gc-interval: "0s"^
+  cnp-node-status-gc-interval: "0s"
   egress-gateway-reconciliation-trigger-interval: "1s"
   enable-vtep: "false"
   vtep-endpoint: ""
