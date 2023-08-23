@@ -47,8 +47,8 @@ spec:
     bgpControlPlane:
       enabled: true
 
-    k8sServiceHost: ${CUSTER_API_DOMAIN}
-    k8sServicePort: 6443
+    k8sServiceHost: "localhost"
+    k8sServicePort: 7445
 
     rollOutCiliumPods: true
     localRedirectPolicy: true
