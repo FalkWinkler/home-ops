@@ -35,38 +35,38 @@ spec:
     - kind: ConfigMap
       name: cilium-values
 
-    values:
+  values:
     hubble:
       serviceMonitor:
         enabled: true
 
-      dashboards:
-        enabled: true
-        label: grafana_dashboard
-        namespace: monitoring
-        labelValue: "1"
-        annotations: {}
-
-      relay:
-        prometheus:
-          serviceMonitor:
-            enabled: true
-
-      ui:
-        ingress:
+        dashboards:
           enabled: true
-          className: "internal-nginx"
-          hosts:
-            - &host hubble-home-cluster.${SECRET_DOMAIN}
-          tls:
-            - hosts:
-                - *host
+          label: grafana_dashboard
+          namespace: monitoring
+          labelValue: "1"
+          annotations: {}
 
-    prometheus:
-      serviceMonitor:
-        enabled: true
+        relay:
+          prometheus:
+            serviceMonitor:
+              enabled: true
 
-    operator:
+        ui:
+          ingress:
+            enabled: true
+            className: "nginx"
+            hosts:
+              - &host "hubble-home-cluster.${SECRET_DOMAIN}"
+            tls:
+              - hosts:
+                  - *host
+
       prometheus:
         serviceMonitor:
           enabled: true
+
+      operator:
+        prometheus:
+          serviceMonitor:
+            enabled: true
