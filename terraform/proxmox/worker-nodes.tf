@@ -5,13 +5,12 @@ resource "proxmox_vm_qemu" "workers" {
   target_node = element(var.nodes, count.index)
   clone       = var.proxmox_image
 
-  agent                   = 0
+  agent                   = 1
   define_connection_info  = false
   os_type                 = "cloud-init"
   qemu_os                 = "l26"
   ipconfig0               = "ip=${cidrhost(var.vpc_main_cidr, var.worker_first_ip + "${count.index}")}/24,gw=${var.gateway}"
   cloudinit_cdrom_storage = var.proxmox_storage1
-
   onboot  = true
   cpu     = "kvm64"
   sockets = 1

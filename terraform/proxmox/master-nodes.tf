@@ -5,7 +5,7 @@ resource "proxmox_vm_qemu" "controlplanes" {
   target_node     = element(var.nodes, count.index)
   clone       = var.proxmox_image
 
-  agent                   = 0
+  agent                   = 1
   define_connection_info  = false
   os_type                 = "cloud-init"
   qemu_os                 = "l26"

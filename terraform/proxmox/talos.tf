@@ -21,16 +21,16 @@ data "talos_machine_configuration" "mc_1" {
         px_node          = var.target_node_name
         storageclass     = var.proxmox_storage2
         # storageclass-xfs = var.proxmox_storage1
-        clusters = yamlencode({
-          clusters = [
-            {
-              token_id     = var.proxmox_token_id
-              token_secret = var.proxmox_token_secret
-              url          = var.proxmox_host
-              region       = var.region
-            },
-          ]
-        })
+        # clusters = yamlencode({
+        #   clusters = [
+        #     {
+        #       token_id     = var.proxmox_token_id
+        #       token_secret = var.proxmox_token_secret
+        #       url          = var.proxmox_host
+        #       region       = var.region
+        #     },
+        #   ]
+        # })
         pxcreds = yamlencode({
           clusters = {
             cluster-1 = {

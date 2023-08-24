@@ -1,12 +1,9 @@
 machine:
-  nodeLabels:
-    topology.kubernetes.io/region: ${px_region}
-    topology.kubernetes.io/zone: ${px_node}
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
-      cloud-provider: external
+      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
       rotate-server-certificates: true
       node-labels: "project.io/node-pool=worker"
     nodeIP:
@@ -17,17 +14,16 @@ machine:
       - interface: eth0
         addresses:
           - ${ipv4_local}/24
-        routes:
-          - network: 0.0.0.0/0
-            gateway: ${gateway}
     nameservers:
+        - 192.168.10.1
         - 1.1.1.1
-        - 1.0.0.1
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
     bootloader: true
     wipe: false
+    extensions:
+      - image: ghcr.io/siderolabs/qemu-guest-agent:8.0.2
   files:
     - content: |
         [plugins."io.containerd.grpc.v1.cri"]
@@ -62,7 +58,9 @@ machine:
   features:
     rbac: true # Enable role-based access control (RBAC).
     stableHostname: true # Enable stable default hostname.
-    apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
+    kubePrism:
+      enabled: true
+      port: 7445
   kernel:
     modules:
       - name: br_netfilter
@@ -92,8 +90,10 @@ machine:
         overridePath: true
 cluster:
   controlPlane:
-    endpoint: https://${apiDomain}:6443
+    endpoint: https://${ipv4_vip}:6443
   network:
+    cni:
+      name: none
     dnsDomain: ${domain}
     podSubnets: ${format("%#v",split(",",podSubnets))}
     serviceSubnets: ${format("%#v",split(",",serviceSubnets))}
@@ -105,6 +105,6 @@ cluster:
     enabled: true
     registries:
       kubernetes:
-        disabled: true
+        disabled: false
       service:
-        disabled: true
+        disabled: false

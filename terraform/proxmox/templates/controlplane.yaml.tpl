@@ -1,16 +1,12 @@
 machine:
-  nodeLabels:
-    node.cloudprovider.kubernetes.io/platform: proxmox
-    topology.kubernetes.io/region: ${px_region}
-    topology.kubernetes.io/zone: ${px_node}
   certSANs:
     - ${apiDomain}
     - ${ipv4_vip}
     - ${ipv4_local}
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
-    disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
+      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
       rotate-server-certificates: true
     nodeIP:
       validSubnets: ${format("%#v",split(",",nodeSubnets))}
@@ -20,14 +16,11 @@ machine:
       - interface: eth0
         addresses:
           - ${ipv4_local}/24
-        routes:
-          - network: 0.0.0.0/0
-            gateway: ${gateway}
         vip:
           ip: ${ipv4_vip}
     nameservers:
+        - 192.168.10.1
         - 1.1.1.1
-        - 1.0.0.1
     kubespan:
       enabled: false
   install:
@@ -35,6 +28,10 @@ machine:
     image: ghcr.io/siderolabs/installer:${talos-version}
     bootloader: true
     wipe: false
+    extensions:
+      - image: ghcr.io/siderolabs/qemu-guest-agent:8.0.2
+      - image: ghcr.io/siderolabs/i915-ucode:20230310
+      - image: ghcr.io/siderolabs/intel-ucode:20230512
   files:
     - content: |
         [plugins."io.containerd.grpc.v1.cri"]
@@ -69,13 +66,9 @@ machine:
   features:
     rbac: true # Enable role-based access control (RBAC).
     stableHostname: true # Enable stable default hostname.
-    apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
-    kubernetesTalosAPIAccess:
+    kubePrism:
       enabled: true
-      allowedRoles:
-        - os:reader
-      allowedKubernetesNamespaces:
-        - kube-system
+      port: 7445
   kernel:
     modules:
       - name: br_netfilter
@@ -105,10 +98,12 @@ machine:
         overridePath: true
 cluster:
   controlPlane:
-    endpoint: https://${apiDomain}:6443
+    endpoint: https://${ipv4_vip}:6443
   apiServer:
     disablePodSecurityPolicy: true
-    admissionControl: []
+    certSANs:
+      - ${apiDomain}
+      - ${ipv4_vip}
   network:
     dnsDomain: ${domain}
     podSubnets: ${format("%#v",split(",",podSubnets))}
@@ -123,29 +118,14 @@ cluster:
     enabled: true
     registries:
       kubernetes:
-        disabled: true
+        disabled: false
       service:
-        disabled: true
+        disabled: false
   etcd:
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
-  inlineManifests:
-    - name: fluxcd
-      contents: |-
-        apiVersion: v1
-        kind: Namespace
-        metadata:
-            name: flux-system
-            labels:
-              app.kubernetes.io/instance: flux-system
-              app.kubernetes.io/part-of: flux
-              pod-security.kubernetes.io/warn: restricted
-              pod-security.kubernetes.io/warn-version: latest
-  externalCloudProvider:
-    enabled: true
-    manifests:
+  extraManifests:
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cert-approval.yaml
-    - https://raw.githubusercontent.com/siderolabs/talos-cloud-controller-manager/main/docs/deploy/cloud-controller-manager.yml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
