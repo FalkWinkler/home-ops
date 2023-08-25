@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: democratic-csi
-      version: 0.14.0
+      version: 0.14.1
       sourceRef:
         name: democratic-csi
         kind: HelmRepository
@@ -44,7 +44,7 @@ spec:
       externalProvisioner:
         enabled: true
         extraArgs:
-          - --leader-election=true
+          - --leader-election=false
           - --node-deployment=true
           - --node-deployment-immediate-binding=false
           - --feature-gates=Topology=true
