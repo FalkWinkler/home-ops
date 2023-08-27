@@ -13,7 +13,7 @@ spec:
     name: home-kubernetes
   wait: true
   dependsOn:
-    - name: cluster-apps-ingress-nginx
+    - name: cluster-apps-ingress-nginx-certificates
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
