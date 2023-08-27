@@ -12,6 +12,9 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   wait: true
+  dependsOn:
+    - cluster-apps-ingress-nginx
+
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
