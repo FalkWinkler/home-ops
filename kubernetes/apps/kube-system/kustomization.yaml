@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./cilium/ks.yaml
- # - ./kubelet-csr-approver/ks.yaml
+  - ./coredns/ks.yaml
+  - ./kubelet-csr-approver/ks.yaml
   - ./snapshot-controller/ks.yaml
 
