@@ -55,7 +55,7 @@ spec:
         ui:
           ingress:
             enabled: true
-            className: "nginx"
+            className: "internal"
             hosts:
               - &host "hubble-home-cluster.${SECRET_DOMAIN}"
             tls:
