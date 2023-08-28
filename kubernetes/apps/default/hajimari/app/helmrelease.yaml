@@ -47,6 +47,8 @@ spec:
           - networking
           - document
           - security
+          - rook-ceph
+          - system
     ingress:
       main:
         enabled: true
