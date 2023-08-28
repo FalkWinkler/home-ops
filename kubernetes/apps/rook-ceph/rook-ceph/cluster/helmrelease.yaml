@@ -20,7 +20,7 @@ spec:
 
     ingress:
       dashboard:
-        ingressClassName: "nginx"
+        ingressClassName: "internal"
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: content-save
