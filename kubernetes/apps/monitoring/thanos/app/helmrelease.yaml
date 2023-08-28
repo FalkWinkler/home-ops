@@ -44,7 +44,7 @@ spec:
       ingress:
         enabled: true
         hostname:  &host "thanos.${SECRET_DOMAIN}"
-        ingressClassName: "nginx"
+        ingressClassName: "internal"
         annotations:
           hajimari.io/icon: "table-search"
         tls: true
