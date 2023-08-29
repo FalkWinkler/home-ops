@@ -61,13 +61,13 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          - name: "worker-0"
+          - name: "master-0"
             devices:
               - name: "/dev/sdb"
-          - name: "worker-1"
+          - name: "master-1"
             devices:
               - name: "/dev/sdb"
-          - name: "worker-2"
+          - name: "master-2"
             devices:
               - name: "/dev/sdb"
 
