@@ -8,3 +8,4 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./thanos/ks.yaml
   - ./node-exporter/ks.yaml
+  - ./omada-exporter/ks.yaml
