@@ -22,8 +22,9 @@ spec:
       tag: 0.10.0
 
     env:
-      OMADA_HOST: "${LOCAL_LAN_OMADA}"
+      OMADA_HOST: "https://${LOCAL_LAN_OMADA}:8043"
       OMADA_USER: exporter
+      OMADA_INSECURE: "true"
       OMADA_PASS:
         valueFrom:
           secretKeyRef:
