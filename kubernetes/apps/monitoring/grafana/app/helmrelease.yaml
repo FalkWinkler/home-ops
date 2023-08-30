@@ -5,42 +5,20 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
-  interval: 30m
   chart:
     spec:
       chart: grafana
-      version: 6.58.6
+      version: 6.59.0
       sourceRef:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-  maxHistory: 2
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: local-path-provisioner
-      namespace: system
+  interval: 30m
+  timeout: 20m
+
   values:
-    deploymentStrategy:
-      type: Recreate
-    admin:
-      existingSecret: grafana-admin-secret
-    env:
-      GF_EXPLORE_ENABLED: true
-      GF_SERVER_ROOT_URL: "https://grafana.${SECRET_DOMAIN}"
-    grafana.ini:
-      analytics:
-        check_for_updates: false
-        check_for_plugin_updates: false
-        reporting_enabled: false
+    replicas: 1
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -53,31 +31,15 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
-          - name: flux
-            orgId: 1
-            folder: Flux
-            type: file
+          - name: node-exporter
             disableDeletion: false
             editable: true
+            folder: "node-exporter"
             options:
-              path: /var/lib/grafana/dashboards/flux
-          - name: kubernetes
+              path: /var/lib/grafana/dashboards/node-exporter
             orgId: 1
-            folder: Kubernetes
             type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/kubernetes
-          - name: nginx
-            orgId: 1
-            folder: Nginx
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/nginx
-    datasources:
+
       datasources.yaml:
         apiVersion: 1
         deleteDatasources:
@@ -93,71 +55,85 @@ spec:
             isDefault: true
     dashboards:
       default:
-        cloudflared:
-          gnetId: 17457 # https://grafana.com/grafana/dashboards/17457?tab=revisions
-          revision: 6
+        speedtest-exporter-hub:
+          gnetId: 13665
+          revision: 4
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-        external-dns:
-          gnetId: 15038 # https://grafana.com/grafana/dashboards/15038?tab=revisions
-          revision: 1
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
+
+      node-exporter:
+        # Ref: https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+        node-exporter:
+          gnetId: 1860
+          revision: 29
           datasource: Prometheus
-        cert-manager:
-          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          datasource: Prometheus
-        node-exporter-full:
-          gnetId: 1860 # https://grafana.com/grafana/dashboards/1860?tab=revisions
-          revision: 31
-          datasource: Prometheus
-      flux:
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
-          datasource: Prometheus
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
-          datasource: Prometheus
-      kubernetes:
-        kubernetes-api-server:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
-          datasource: Prometheus
-        kubernetes-coredns:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
-          datasource: Prometheus
-        kubernetes-global:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
-          datasource: Prometheus
-        kubernetes-namespaces:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
-          datasource: Prometheus
-        kubernetes-nodes:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
-          datasource: Prometheus
-        kubernetes-pods:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
-          datasource: Prometheus
-      nginx:
-        nginx:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
-          datasource: Prometheus
-        nginx-request-handling-performance:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
-          datasource: Prometheus
-    sidecar:
+
+      omada-exporter:
+        # Ref: https://grafana.com/grafana/dashboards/16343
+        omada-exporter:
+          gnetId: 16343
+          revision: 10
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
+
+    deploymentStrategy:
+      type: Recreate
+
+      admin:
+      existingSecret: grafana-admin-secret
+
+
+    grafana.ini:
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
+
       dashboards:
+        default_home_dashboard_path: /tmp/dashboards/home.json
+      date_formats:
+        use_browser_locale: true
+      explore:
         enabled: true
-        searchNamespace: ALL
-        labelValue: ""
-        label: grafana_dashboard
-        folderAnnotation: grafana_folder
-        provider:
-          disableDelete: true
-          foldersFromFilesStructure: true
-      datasources:
-        enabled: true
-        searchNamespace: ALL
-        labelValue: ""
+      grafana_net:
+        url: https://grafana.net
+      log:
+        mode: console
+      news:
+        news_feed_enabled: false
+      panels:
+        disable_sanitize_html: true
+      paths:
+        data: /var/lib/grafana/data
+        logs: /var/log/grafana
+        plugins: /var/lib/grafana/plugins
+        provisioning: /etc/grafana/provisioning
+      security:
+        allow_embedding: true
+        cookie_samesite: grafana
+      server:
+        root_url: "https://grafana.${SECRET_DOMAIN}"
+
+    imageRenderer:
+      enabled: true
+
+    persistence:
+      enabled: false
+
+    plugins:
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - grafana-piechart-panel
+      - vonage-status-panel
+      - grafana-worldmap-panel
+      - grafana-clock-panel
+
+
     serviceMonitor:
       enabled: true
+
     ingress:
       enabled: true
       ingressClassName: internal
@@ -168,8 +144,19 @@ spec:
       tls:
         - hosts:
             - *host
-    persistence:
-      enabled: true
-      storageClassName: local-hostpath
-    testFramework:
-      enabled: false
+
+    sidecar:
+      dashboards:
+        enabled: true
+        labelValue: ""
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
+        searchNamespace: ALL
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
+      datasources:
+        enabled: true
+        labelValue: ""
+        searchNamespace: ALL
+      logLevel: INFO
