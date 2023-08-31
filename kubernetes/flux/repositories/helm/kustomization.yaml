@@ -25,11 +25,12 @@ resources:
   - ./csi-driver-nfs.yaml
   - ./coredns.yaml
   - ./dragonfly.yaml
-  - kubernetes-sigs-descheduler.yaml
-  - kubernetes-sigs-external-dns.yaml
-  - kubernetes-sigs-metrics-server.yaml
-  - kubernetes-sigs-nfd.yaml
+  - ./kubernetes-sigs-descheduler.yaml
+  - ./kubernetes-sigs-external-dns.yaml
+  - ./kubernetes-sigs-metrics-server.yaml
+  - ./kubernetes-sigs-nfd.yaml
   - ./truecharts.yaml
   - ./postfinance.yaml
   - ./node-feature-discovery.yaml
   - ./rook-ceph.yaml
+  - ./intel.yaml
