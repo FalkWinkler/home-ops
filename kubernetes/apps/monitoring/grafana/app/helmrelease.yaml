@@ -39,6 +39,14 @@ spec:
               path: /var/lib/grafana/dashboards/node-exporter
             orgId: 1
             type: file
+          - name: node-exporter
+            disableDeletion: false
+            editable: true
+            folder: "omada-exporter"
+            options:
+              path: /var/lib/grafana/dashboards/omada-exporter
+            orgId: 1
+            type: file
 
     dashboards:
       default:
