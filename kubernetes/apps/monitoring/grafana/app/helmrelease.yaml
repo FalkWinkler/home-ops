@@ -69,14 +69,14 @@ spec:
           revision: 29
           datasource: Prometheus
 
-      # omada-exporter:
-      #   # Ref: https://grafana.com/grafana/dashboards/16343
-      #   omada-exporter:
-      #     gnetId: 16343
-      #     revision: 2
-      #     datasource:
-      #       - name: "DS_PROMETHEUS"
-      #         value: Prometheus
+      omada-exporter:
+        # Ref: https://grafana.com/grafana/dashboards/16343
+        omada-exporter:
+          gnetId: 16343
+          revision: 2
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
 
     deploymentStrategy:
       type: Recreate
