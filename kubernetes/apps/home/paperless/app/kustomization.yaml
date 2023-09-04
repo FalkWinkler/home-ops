@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: home
 resources:
   - ./configmap.yaml
-  - ./sercet.sops.yaml
+  - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./volsync.yaml
 labels:
