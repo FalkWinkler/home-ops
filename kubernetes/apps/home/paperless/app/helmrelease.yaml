@@ -69,6 +69,7 @@ spec:
           nfs:
             server: "${LOCAL_LAN_TRUENAS}"
             path: /mnt/Volume1/document/export
+        accessMode: ReadWriteOnce
     resources:
       requests:
         cpu: 11m
