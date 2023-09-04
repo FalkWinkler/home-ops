@@ -23,8 +23,8 @@ spec:
         reloader.stakater.com/auto: "true"
 
     image:
-      repository: ghcr.io/bjw-s/paperless-ngx
-      tag: 1.17.3@sha256:32464fa243930504426c081d158e2d874dce544e47013a0898dbb41a16516757
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      tag: 0.7.5
 
     envFrom:
       - secretRef:
@@ -57,14 +57,12 @@ spec:
       nas-consume:
         enabled: true
         mountPath: /data/nas/consume
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
+        storageClassName: nfs
         path: /mnt/Volume1/document/scan
       nas-export:
         enabled: true
         mountPath: /data/nas/export
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
+        storageClassName: nfs
         path: /mnt/Volume1/document/export
 
     resources:
