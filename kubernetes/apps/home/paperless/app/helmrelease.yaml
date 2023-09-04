@@ -59,12 +59,14 @@ spec:
         mountPath: /data/nas/consume
         storageClassName: nfs
         path: /mnt/Volume1/document/scan
-        accessModes: ReadWriteOnce
+        accessModes:
+          - ReadWriteOnce
       nas-export:
         enabled: true
         mountPath: /data/nas/export
         storageClassName: nfs
-        accessModes: ReadWriteOnce
+        accessModes:
+          - ReadWriteOnce
         path: /mnt/Volume1/document/export
 
     resources:
