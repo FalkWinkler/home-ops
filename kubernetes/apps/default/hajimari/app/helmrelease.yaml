@@ -49,6 +49,9 @@ spec:
           - security
           - rook-ceph
           - system
+          - security
+          - home
+          - homeautomation
     ingress:
       main:
         enabled: true
