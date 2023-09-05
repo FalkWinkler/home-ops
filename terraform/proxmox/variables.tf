@@ -147,7 +147,17 @@ variable "nodes" {
   default = [ "pve","pve2","pve3" ]
 }
 
+variable "node_ram" {
+  type = list(string)
+  default = [ "32768","15360","15360" ]
+}
+
 variable "node_ssds" {
   type = list(string)
   default = [ "/dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F94","/dev/disk/by-id/ata-CT500MX500SSD1_2314E6C44636","/dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F90" ]
+}
+
+variable "node_cpu" {
+  type = list(string)
+  default = [ "4","8","4" ]
 }

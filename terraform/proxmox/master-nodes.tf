@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "controlplanes" {
   count       = 3
-  name        = "master-${count.index}"
+  name        = "node-${count.index}"
   #target_node = var.target_node_name
   target_node     = element(var.nodes, count.index)
   clone       = var.proxmox_image
@@ -17,10 +17,10 @@ resource "proxmox_vm_qemu" "controlplanes" {
   onboot  = true
   cpu     = "kvm64"
   sockets = 1
-  cores   = 2
-  memory  = 2048
+  cores   = element(var.node_cpu, count.index)
+  memory  = element(var.node_ram, count.index)#4096
   scsihw  = "virtio-scsi-pci"
-  tags    = "talos,k8s,master"
+  tags    = "talos,k8s"
 
   vga {
     memory = 0
@@ -41,7 +41,7 @@ resource "proxmox_vm_qemu" "controlplanes" {
   disk {
     type    = "scsi"
     storage = var.proxmox_storage1
-    size    = "32G"
+    size    = "100G"
     cache   = "writethrough"
     ssd     = 1
     backup  = false

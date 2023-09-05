@@ -6,7 +6,7 @@ machine:
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     extraArgs:
-      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
+      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true
       rotate-server-certificates: true
     nodeIP:
       validSubnets: ${format("%#v",split(",",nodeSubnets))}
@@ -97,6 +97,7 @@ machine:
           - https://${registry-endpoint}/v2/proxy-quay.io
         overridePath: true
 cluster:
+  allowSchedulingOnControlPlanes: true
   controlPlane:
     endpoint: https://${ipv4_vip}:6443
   apiServer:

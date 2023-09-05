@@ -3,7 +3,7 @@ machine:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
-      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
+      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true
       rotate-server-certificates: true
       node-labels: "project.io/node-pool=worker"
     nodeIP:
@@ -24,6 +24,8 @@ machine:
     wipe: false
     extensions:
       - image: ghcr.io/siderolabs/qemu-guest-agent:8.0.2
+      - image: ghcr.io/siderolabs/i915-ucode:20230808
+      - image: ghcr.io/siderolabs/intel-ucode:20230804
   files:
     - content: |
         [plugins."io.containerd.grpc.v1.cri"]

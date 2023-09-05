@@ -16,7 +16,10 @@ resource "null_resource" "kubeconfig" {
 
 resource "null_resource" "kubeconfigapi" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ~/.kube/config config set clusters.${var.cluster_name}.server https://${var.kubernetes["ipv4_vip"]}:6443"
+    command = "kubectl --kubeconfig ~/.kube/config config set clusters.${var.cluster_name}.server https://${var.kubernetes["apiDomain"]}:6443"
+  }
+    provisioner "local-exec" {
+    command = "kubectl --kubeconfig ../../kubeconfig config set clusters.${var.cluster_name}.server https://${var.kubernetes["apiDomain"]}:6443"
   }
   depends_on = [null_resource.kubeconfig]
 }
