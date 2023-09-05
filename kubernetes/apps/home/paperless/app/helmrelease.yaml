@@ -82,3 +82,14 @@ spec:
         accessMode: ReadWriteOnce
         size: 15Gi
         storageClass: ceph-block
+    volumes:
+    - name: backup-media
+      nfs:
+        mountPath: /data/nas/media
+        server: ${LOCAL_LAN_TRUENAS}
+        path: /mnt/Volume1/document/media
+    - name: backup-data
+      nfs:
+        mountPath: /data/nas/data
+        server: ${LOCAL_LAN_TRUENAS}
+        path: /mnt/Volume1/document/data
