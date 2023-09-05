@@ -68,20 +68,20 @@ spec:
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
         path: /mnt/Volume1/document/export
-      # nas-media-backup:
-      #   enabled: true
-      #   mountPath: /data/nas/backup/media
-      #   readonly: false
-      #   type: nfs
-      #   server: "${LOCAL_LAN_TRUENAS}"
-      #   path: /mnt/Volume1/document/media
-      # nas-data-backup:
-      #   enabled: true
-      #   mountPath: /data/nas/backup/data
-      #   readonly: false
-      #   type: nfs
-      #   server: "${LOCAL_LAN_TRUENAS}"
-      #   path: /mnt/Volume1/document/data
+      nas-media-backup:
+        enabled: true
+        mountPath: /data/nas/backup/media
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/media
+      nas-data-backup:
+        enabled: true
+        mountPath: /data/nas/backup/data
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/data
 
     resources:
       requests:
