@@ -34,16 +34,21 @@ spec:
       WEBSOCKET_ENABLED: true
       WEBSOCKET_ADDRESS: 0.0.0.0
       WEBSOCKET_PORT: 3012
-      DOMAIN: https://bitwarden.${SECRET_DOMAIN}
+      DOMAIN: https://warden.${SECRET_DOMAIN}
       ADMIN_TOKEN: ${SECRET_VAULTWARDEN_ADMIN_TOKEN}
       ENABLE_DB_WAL: false
       SMTP_HOST: "smtp.sendgrid.net"
-      SMTP_FROM: "bitwarden@${SECRET_DOMAIN}"
+      SMTP_FROM: "warden@${SECRET_DOMAIN}"
       SMTP_SECURITY: force_tls
       SMTP_PORT: 465
       SMTP_USERNAME: "apikey"
       SMTP_PASSWORD: "${SECRET_SENDGRID_API_KEY}"
       SMTP_AUTH_MECHANISM: "Login"
+      DATABASE_URL:
+        valueFrom:
+          secretKeyRef:
+            name: vaultwarden-postgres
+            key: POSTGRES_URL
     service:
       main:
         ports:
@@ -55,13 +60,12 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: "external"
         annotations:
-          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           hajimari.io/icon: "form-textbox-password"
-          external-dns.home.arpa/enabled: "true"
         hosts:
-          - host: &host "bitwarden.${SECRET_DOMAIN}"
+          - host: &host "warden.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -82,10 +86,4 @@ spec:
     persistence:
       config:
         enabled: true
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/k3s
-        subPath: vaultwarden
-        accessMode: ReadWriteMany
-        size: 1Gi
-        retain: true
+        existingClaim: vaultwarden-config-v1
