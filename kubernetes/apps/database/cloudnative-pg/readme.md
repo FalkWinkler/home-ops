@@ -22,7 +22,7 @@
 2. Create the outline user and password
 
     ```sh
-    mc admin user add minio postgresql <super-secret-password> 
+    mc admin user add minio postgresql <super-secret-password>
     ```
 
 3. Create the outline bucket
