@@ -9,7 +9,7 @@
         "version": "10",
         "aliases": {
             "minio": {
-                "url": "https://192.168.10.10",
+                "url": "http://192.168.10.10",
                 "accessKey": "mc-client",
                 "secretKey": "0v2jM46iqclmTepTFPNTGgbzQo9sgBHLthYsxHAV",
                 "api": "S3v4",
