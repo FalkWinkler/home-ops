@@ -33,30 +33,10 @@ spec:
     ttl: 1
     service:
       main:
-        enabled: false
-      dns:
-        enabled: true
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.10.221"
-        ports:
-          dns-tcp:
-            enabled: true
-            protocol: TCP
-            port: 53
-            targetPort: 53
-          dns-udp:
-            enabled: true
-            protocol: UDP
-            port: 53
-            targetPort: 53
-    # service:
-    #   main:
-    #     type: LoadBalancer
-    #     externalTrafficPolicy: Cluster
-    #     annotations:
-    #       io.cilium/lb-ipam-ips: "192.168.10.221"
     upstream:
       default:
         - 10.45.0.1
