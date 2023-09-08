@@ -15,23 +15,48 @@ spec:
         name: kubernetes-sigs-nfd
         namespace: flux-system
       interval: 30m
-  install:
-    crds: CreateReplace
+    install:
+    createNamespace: true
+    remediation:
+      retries: 5
   upgrade:
-    crds: CreateReplace
+    remediation:
+      retries: 5
   values:
-    master:
-      resources:
-        requests:
-          cpu: 21m
-          memory: 51Mi
-        limits:
-          memory: 51Mi
-
+    nodeFeatureRule:
+      createCRD: true
     worker:
-      resources:
-        requests:
-          cpu: 5m
-          memory: 48Mi
-        limits:
-          memory: 48Mi
+      annotations:
+        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
+      config:
+        core:
+          sources:
+            - custom
+            - pci
+            - usb
+        sources:
+          usb:
+            deviceClassWhitelist:
+              - "02"
+              - "03"
+              - "0e"
+              - "ef"
+              - "fe"
+              - "ff"
+            deviceLabelFields:
+              - class
+              - vendor
+              - device
+          custom:
+            - name: "zigbee"
+              matchOn:
+                - usbId:
+                    class: ["ff"]
+                    vendor: ["10c4"]
+                    device: ["ea60"]
+            - name: intel-gpu
+              matchOn:
+                - pciId:
+                    class: ["0300"]
+                    vendor: ["8086"]
+
