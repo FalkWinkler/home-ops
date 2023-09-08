@@ -48,15 +48,23 @@ spec:
               - vendor
               - device
           custom:
-            - name: "zigbee"
-              matchOn:
-                - usbId:
-                    class: ["ff"]
-                    vendor: ["10c4"]
-                    device: ["ea60"]
-            - name: intel-gpu
-              matchOn:
-                - pciId:
-                    class: ["0300"]
-                    vendor: ["8086"]
+            matchFeatures:
+              - feature: usb.device
+                matchExpressions:
+                  vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee
+            #   - feature: pci.device
+            #     matchExpressions:
+            #       vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee
+
+            # - name: "zigbee"
+            #   matchOn:
+            #     - usbId:
+            #         class: ["ff"]
+            #         vendor: ["10c4"]
+            #         device: ["ea60"]
+            # - name: intel-gpu
+            #   matchOn:
+            #     - pciId:
+            #         class: ["0300"]
+            #         vendor: ["8086"]
 
