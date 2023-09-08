@@ -9,13 +9,13 @@ spec:
   chart:
     spec:
       chart: node-feature-discovery
-      version: 0.13.3
+      version: 0.14.0
       sourceRef:
         kind: HelmRepository
         name: kubernetes-sigs-nfd
         namespace: flux-system
       interval: 30m
-    install:
+  install:
     createNamespace: true
     remediation:
       retries: 5
