@@ -1,0 +1,15 @@
+---
+apiVersion: nfd.k8s-sigs.io/v1alpha1
+kind: NodeFeatureRule
+metadata:
+  name: zigbee-device
+spec:
+  rules:
+    - # zigbee USB device
+      name: zigbee
+      labels:
+        google.feature.node.kubernetes.io/zigbee-usb: "true"
+      matchFeatures:
+        - feature: usb.device
+          matchExpressions:
+            vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee

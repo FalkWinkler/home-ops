@@ -16,57 +16,24 @@ spec:
         namespace: flux-system
       interval: 30m
   install:
-    createNamespace: true
-    remediation:
-      retries: 5
+    crds: CreateReplace
   upgrade:
-    remediation:
-      retries: 5
+    crds: CreateReplace
   values:
-    nodeFeatureRule:
-      createCRD: true
-    worker:
-      annotations:
-        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
-      config:
-        core:
-          sources:
-            - custom
-            - pci
-            - usb
-        sources:
-          usb:
-            deviceClassWhitelist:
-              - "02"
-              - "03"
-              - "0e"
-              - "ef"
-              - "fe"
-              - "ff"
-            deviceLabelFields:
-              - class
-              - vendor
-              - device
-          custom:
-            matchFeatures:
-              - feature: usb.device
-                matchExpressions:
-                  class: { op: In, value: ["ff"] } #zigbee
-                  vendor: { op: In, value: ["10c4"] } #zigbee
-                  device: { op: In, value: ["ea60"] } #zigbee
-            #   - feature: pci.device
-            #     matchExpressions:
-            #       vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee
+    master:
+      resources:
+        requests:
+          cpu: 21m
+          memory: 51Mi
+        limits:
+          memory: 51Mi
 
-            # - name: "zigbee"
-            #   matchOn:
-            #     - usbId:
-            #         class: ["ff"]
-            #         vendor: ["10c4"]
-            #         device: ["ea60"]
-            # - name: intel-gpu
-            #   matchOn:
-            #     - pciId:
-            #         class: ["0300"]
-            #         vendor: ["8086"]
+    worker:
+      resources:
+        requests:
+          cpu: 5m
+          memory: 48Mi
+        limits:
+          memory: 48Mi
+
 
