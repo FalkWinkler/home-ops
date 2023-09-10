@@ -29,6 +29,7 @@ spec:
       BAUD_RATE: 115200
     service:
       main:
+        enabled: false
         ports:
           http:
             enabled: false
