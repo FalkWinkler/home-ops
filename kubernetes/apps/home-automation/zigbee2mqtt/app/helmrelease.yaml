@@ -92,6 +92,9 @@ spec:
           - hosts:
               - *host
 
+    securityContext:
+      privileged: true
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
