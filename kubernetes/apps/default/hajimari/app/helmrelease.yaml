@@ -51,7 +51,7 @@ spec:
           - system
           - security
           - home
-          - homeautomation
+          - home-automation
     ingress:
       main:
         enabled: true
