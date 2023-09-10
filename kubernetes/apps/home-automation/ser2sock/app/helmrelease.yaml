@@ -31,7 +31,7 @@ spec:
       main:
         ports:
           http:
-            enabled: true
+            enabled: false
           server:
             enabled: true
             protocol: TCP
