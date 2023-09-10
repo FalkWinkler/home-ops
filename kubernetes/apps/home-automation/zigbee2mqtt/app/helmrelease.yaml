@@ -98,7 +98,15 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
 
-    # persistence:
+    persistence:
+      ttyacm:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyACM0
+      ttyusb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyUSB0
     #   usb:
     #     enabled: true
     #     type: hostPath
