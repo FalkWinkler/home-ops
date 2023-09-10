@@ -20,6 +20,13 @@ spec:
     image:
       repository: tenstartups/ser2sock
       tag: latest
+    env:
+      # -- Port where ser2sock listens
+      LISTENER_PORT: 10000
+      # -- Path to the serial device
+      SERIAL_DEVICE: /dev/ttyUSB0
+      # -- Serial device baud rate
+      BAUD_RATE: 115200
     service:
       main:
         ports:
