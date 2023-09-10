@@ -30,12 +30,12 @@ spec:
       POSTGRES_HOST:
         valueFrom:
           secretKeyRef:
-            name: home_assitant-postgres
+            name: home-assitant-postgres
             key: POSTGRES_HOST
       POSTGRES_DB:
         valueFrom:
           secretKeyRef:
-            name: home_assitant-postgres
+            name: home-assitant-postgres
             key: POSTGRES_DB
 
     #   SECRET_RECORDER_DB_URL:

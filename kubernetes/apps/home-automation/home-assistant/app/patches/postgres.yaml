@@ -17,4 +17,4 @@ spec:
                 key: password
         envFrom:
           - secretRef:
-              name: home_assitant-postgres
+              name: home-assitant-postgres
