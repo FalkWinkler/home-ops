@@ -22,7 +22,13 @@ spec:
       tag: latest
     service:
       main:
-        enabled: false
+        ports:
+          http:
+            enabled: false
+          server:
+            enabled: true
+            protocol: TCP
+            port: 10000
 
     ingress:
       main:
