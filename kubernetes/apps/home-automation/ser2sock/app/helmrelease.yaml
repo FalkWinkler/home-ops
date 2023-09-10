@@ -48,3 +48,28 @@ spec:
         enabled: false
       startup:
         enabled: false
+    # -- Configure persistence settings for the chart under this key.
+    # @default -- See values.yaml
+    persistence:
+      # -- Configure a hostPathMount to mount a USB device in the container.
+      # @default -- See values.yaml
+      usb:
+        enabled: false
+        type: hostPath
+        mountPath: /dev/ttyUSB0
+
+    securityContext:
+      # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+      privileged:  # true
+
+    # -- Affinity constraint rules to place the Pod on a specific node.
+    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
+              operator: In
+              values:
+              - "true"
