@@ -20,7 +20,43 @@ spec:
     image:
       repository: tenstartups/ser2sock
       tag: latest
-    device: /dev/zigbee1
+    env:
+      # -- Port where ser2sock listens
+      LISTENER_PORT: 10000
+      # -- Path to the serial device
+      SERIAL_DEVICE: /dev/ttyUSB0
+      # -- Serial device baud rate
+      BAUD_RATE: 115200
+    service:
+      main:
+        ports:
+          http:
+            enabled: false
+          server:
+            enabled: true
+            protocol: TCP
+            port: 10000
+
+    ingress:
+      # -- Enable and configure ingress settings for the chart under this key.
+      # @default -- See values.yaml
+      main:
+        enabled: false
+
+        # -- Configure persistence settings for the chart under this key.
+    # @default -- See values.yaml
+    persistence:
+      # -- Configure a hostPathMount to mount a USB device in the container.
+      # @default -- See values.yaml
+      usb:
+        enabled: false
+        type: hostPath
+        mountPath: /dev/ttyUSB0
+
+securityContext:
+  # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+  privileged:  # true
+
     tolerations:
       - effect: NoSchedule
         operator: Exists
