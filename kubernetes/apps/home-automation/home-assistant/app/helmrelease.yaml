@@ -49,6 +49,8 @@ spec:
             port: 8123
         annotations:
           io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
 
     ingress:
       main:
