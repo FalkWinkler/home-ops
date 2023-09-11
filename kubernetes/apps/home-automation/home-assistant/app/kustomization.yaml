@@ -11,4 +11,5 @@ commonLabels:
   app.kubernetes.io/name: home-assistant
   app.kubernetes.io/instance: home-assistant
 patchesStrategicMerge:
+  - patches/addons.yaml
   - patches/postgres.yaml
