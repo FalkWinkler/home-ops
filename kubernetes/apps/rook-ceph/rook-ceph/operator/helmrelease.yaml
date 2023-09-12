@@ -24,12 +24,12 @@ spec:
         enabled: true
 
       kubeletDirPath: /var/lib/kubelet
-      enableCSIHostNetwork: true
-      pluginTolerations:
-        - effect: "NoExecute"
-          operator: "Exists"
-        - effect: "NoSchedule"
-          operator: "Exists"
+      # enableCSIHostNetwork: true
+      # pluginTolerations:
+      #   - effect: "NoExecute"
+      #     operator: "Exists"
+      #   - effect: "NoSchedule"
+      #     operator: "Exists"
 
       csiRBDProvisionerResource: |
         - name : csi-provisioner
