@@ -96,12 +96,12 @@ spec:
             # @default cpu 3000m
             cpu: 100m
 
-      placement:
-        all:
-          tolerations:
-            - effect: NoSchedule
-              operator: Exists
-            - effect: NoExecute
+      # placement:
+      #   all:
+      #     tolerations:
+      #       - effect: NoSchedule
+      #         operator: Exists
+      #       - effect: NoExecute
       # resources:
       #   mgr:
       #     requests:
