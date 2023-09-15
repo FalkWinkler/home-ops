@@ -12,9 +12,9 @@ spec:
     storageClass: ceph-block
   superuserSecret:
     name: postgres-superuser
-  # bootstrap:
-  #   recovery:
-  #     source: postgres-backup
+  bootstrap:
+    recovery:
+      source: postgres-backup
   postgresql:
     parameters:
       max_connections: "600"
