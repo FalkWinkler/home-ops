@@ -13,5 +13,5 @@ spec:
     name: home-kubernetes
   wait: false # no flux ks dependents
   dependsOn:
-    - name: cluster-apps-rook-ceph-cluster
+    - name: cluster-apps-longhorn
 
