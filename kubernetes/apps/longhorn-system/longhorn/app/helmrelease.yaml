@@ -22,7 +22,7 @@ spec:
       defaultFsType: xfs
       defaultClassReplicaCount: 2
       reclaimPolicy: Retain
-      diskSelector: sda
+      diskSelector: sdb
 
     defaultSettings:
       defaultReplicaCount: 2
