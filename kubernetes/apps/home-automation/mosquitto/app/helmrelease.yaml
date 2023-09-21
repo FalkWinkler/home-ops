@@ -82,4 +82,4 @@ spec:
         mountPath: /data
         accessMode: ReadWriteOnce
         size: 512Mi
-        storageClass: longhorn
+        storageClass: ceph-block

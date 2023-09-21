@@ -73,4 +73,4 @@ spec:
         mountPath: /alertmanager
         accessMode: ReadWriteOnce
         size: 50Mi
-        storageClass: longhorn
+        storageClass: ceph-block

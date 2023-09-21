@@ -95,4 +95,4 @@ spec:
         mountPath: /data/local
         accessMode: ReadWriteOnce
         size: 15Gi
-        storageClass: longhorn
+        storageClass: ceph-block
