@@ -74,7 +74,7 @@ spec:
         mgr:
           requests:
             # @default cpu 600m
-            cpu: 200m
+            cpu: 125m
             memory: 100Mi
         mgr-sidecar:
           # @default cpu 600m
@@ -84,7 +84,7 @@ spec:
         mon:
           requests:
             # @default cpu 1000m
-            cpu: 100m
+            cpu: 49m
             memory: 256Mi
         osd:
           requests:
