@@ -155,7 +155,7 @@ spec:
             - -leader-election
           env:
             - name: PROVIDER_REGEX
-              value: master-.|worker-.
+              value: master-.|worker-.|node.
             - name: PROVIDER_IP_PREFIXES
               value: "0.0.0.0/0"
             - name: MAX_EXPIRATION_SECONDS

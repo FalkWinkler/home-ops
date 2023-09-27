@@ -1,6 +1,6 @@
 ---
 providerRegex: |
-    master-.|worker-.
+    master-.|worker-.|node.
 
 bypassDnsResolution: true
 
