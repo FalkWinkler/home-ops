@@ -27,7 +27,7 @@ spec:
       nameOverride: *app
     image:
       repository: quay.io/minio/minio
-      tag: RELEASE.2022-07-17T15-43-14Z
+      tag: RELEASE.2023-09-23T03-47-50Z
     env:
       MINIO_UPDATE: "off"
       MINIO_PROMETHEUS_URL: http://kube-prometheus-stack-prometheus.monitoring:9090
