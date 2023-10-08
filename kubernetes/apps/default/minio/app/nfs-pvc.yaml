@@ -14,7 +14,7 @@ spec:
     server: "${LOCAL_LAN_TRUENAS}"
     path: /mnt/Volume1/apps/minio
   mountOptions:
-    - nfsvers=4.1
+    # - nfsvers=4.1
     - nconnect=8
     - hard
     - noatime
