@@ -35,4 +35,3 @@ resources:
   - ./rook-ceph.yaml
   - ./intel.yaml
   - ./backube.yaml
-  - ./longhorn.yaml

@@ -15,5 +15,5 @@ spec:
     retain:
       daily: 14
     volumeSnapshotClassName: csi-ceph-blockpool
-    storageClassName: longhorn
+    storageClassName: ceph-block
     cacheStorageClassName: local-hostpath
