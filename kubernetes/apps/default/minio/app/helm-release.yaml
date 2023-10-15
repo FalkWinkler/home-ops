@@ -57,6 +57,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        options:
+          use-forwarded-headers: true
         annotations:
           hajimari.io/icon: "progress-upload"
           nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
@@ -64,7 +66,6 @@ spec:
           nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             chunked_transfer_encoding off;
-          nginx.ingress.kubernetes.io/auth-snippet: proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - host: &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
