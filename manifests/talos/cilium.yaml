@@ -733,7 +733,7 @@ spec:
     spec:
       containers:
       - name: cilium-agent
-        image: "quay.io/cilium/cilium:v1.14.0"
+        image: "quay.io/cilium/cilium:v1.14.2"
         imagePullPolicy: IfNotPresent
         command:
         - cilium-agent
@@ -858,7 +858,7 @@ spec:
           mountPath: /tmp
       initContainers:
       - name: config
-        image: "quay.io/cilium/cilium:v1.14.0"
+        image: "quay.io/cilium/cilium:v1.14.2"
         imagePullPolicy: IfNotPresent
         command:
         - cilium
@@ -886,7 +886,7 @@ spec:
       # from a privileged container because the mount propagation bidirectional
       # only works from privileged containers.
       - name: mount-bpf-fs
-        image: "quay.io/cilium/cilium:v1.14.0"
+        image: "quay.io/cilium/cilium:v1.14.2"
         imagePullPolicy: IfNotPresent
         args:
         - 'mount | grep "/sys/fs/bpf type bpf" || mount -t bpf bpf /sys/fs/bpf'
@@ -902,7 +902,7 @@ spec:
           mountPath: /sys/fs/bpf
           mountPropagation: Bidirectional
       - name: clean-cilium-state
-        image: "quay.io/cilium/cilium:v1.14.0"
+        image: "quay.io/cilium/cilium:v1.14.2"
         imagePullPolicy: IfNotPresent
         command:
         - /init-container.sh
@@ -950,7 +950,7 @@ spec:
             memory: 100Mi # wait-for-kube-proxy
       # Install the CNI binaries in an InitContainer so we don't have a writable host mount in the agent
       - name: install-cni-binaries
-        image: "quay.io/cilium/cilium:v1.14.0"
+        image: "quay.io/cilium/cilium:v1.14.2"
         imagePullPolicy: IfNotPresent
         command:
           - "/install-plugin.sh"
@@ -1119,7 +1119,7 @@ spec:
     spec:
       containers:
       - name: cilium-operator
-        image: "quay.io/cilium/operator-generic:v1.14.0"
+        image: "quay.io/cilium/operator-generic:v1.14.2"
         imagePullPolicy: IfNotPresent
         command:
         - cilium-operator-generic
