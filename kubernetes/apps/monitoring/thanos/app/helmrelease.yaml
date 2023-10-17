@@ -23,7 +23,7 @@ spec:
         bucket: "thanos"
         endpoint: "${LB_MINIO_IP}:9000"
         access_key: "thanos"
-        secret_key: "ZyyOaNFi1KEeMqm4grNrLeztG5RBjJIUxcB2pBnM"
+        secret_key: "Sgo2ozmR39XpSCBg44iosI90sc7LoIqF"
 
     query:
       enabled: true
