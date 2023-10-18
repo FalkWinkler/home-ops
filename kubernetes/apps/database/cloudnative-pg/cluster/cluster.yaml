@@ -13,8 +13,14 @@ spec:
   superuserSecret:
     name: postgres-superuser
   bootstrap:
-    recovery:
-      source: postgres-backup
+    initdb:
+      database: app
+      owner: app
+      secret:
+        name: postgres-superuser
+    #Alternative bootstrap method: start from a backup
+    # recovery:
+    #   source: postgres-backup
   postgresql:
     parameters:
       max_connections: "600"
