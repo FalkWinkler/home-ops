@@ -27,8 +27,8 @@ spec:
       tag: 1.17
 
     envFrom:
-      # - secretRef:
-      #     name: *app
+      - secretRef:
+          name: *app
       - configMapRef:
           name: paperless-configmap
 
