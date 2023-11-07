@@ -66,11 +66,16 @@ spec:
               PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
 
               # Configure user permissions
-              USERMAP_GID: "65543"
-
+              USERMAP_GID: "65543" # truenas user group id
             envFrom:
               - secretRef:
                   name: *app
+            resources:
+              requests:
+                cpu: 11m
+                memory: 1812M
+              limits:
+                memory: 1812M
 
     service:
       main:
@@ -108,18 +113,3 @@ spec:
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
         path: /mnt/Volume1/document/export
-
-
-    resources:
-      requests:
-        cpu: 11m
-        memory: 1812M
-      limits:
-        memory: 1812M
-
-    volumeClaimTemplates:
-      - name: data
-        mountPath: /data/local
-        accessMode: ReadWriteOnce
-        size: 15Gi
-        storageClass: ceph-block
