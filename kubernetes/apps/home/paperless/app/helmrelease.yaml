@@ -71,8 +71,6 @@ spec:
             envFrom:
               - secretRef:
                   name: *app
-              - configMapRef:
-                  name: paperless-configmap
 
     service:
       main:
