@@ -100,18 +100,18 @@ spec:
           - hosts:
               - *host
 
-    # persistence:
-    #   nas-consume:
-    #     enabled: true
-    #     mountPath: /data/nas/consume
-    #     readonly: false
-    #     type: nfs
-    #     server: "${LOCAL_LAN_TRUENAS}"
-    #     path: /mnt/Volume1/document/scan
-    #   nas-export:
-    #     enabled: true
-    #     mountPath: /data/nas/export
-    #     readonly: false
-    #     type: nfs
-    #     server: "${LOCAL_LAN_TRUENAS}"
-    #     path: /mnt/Volume1/document/export
+    persistence:
+      nas-consume:
+        enabled: true
+        mountPath: /data/nas/consume
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/scan
+      nas-export:
+        enabled: true
+        mountPath: /data/nas/export
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/export
