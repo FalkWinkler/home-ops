@@ -46,7 +46,6 @@ spec:
               PAPERLESS_WEBSERVER_WORKERS: "2"
               PAPERLESS_TASK_WORKERS: "2"
 
-
               # Configure folders
               PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
               PAPERLESS_DATA_DIR: /data/local/data
@@ -101,18 +100,18 @@ spec:
           - hosts:
               - *host
 
-    persistence:
-      nas-consume:
-        enabled: true
-        mountPath: /data/nas/consume
-        readonly: false
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/document/scan
-      nas-export:
-        enabled: true
-        mountPath: /data/nas/export
-        readonly: false
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/document/export
+    # persistence:
+    #   nas-consume:
+    #     enabled: true
+    #     mountPath: /data/nas/consume
+    #     readonly: false
+    #     type: nfs
+    #     server: "${LOCAL_LAN_TRUENAS}"
+    #     path: /mnt/Volume1/document/scan
+    #   nas-export:
+    #     enabled: true
+    #     mountPath: /data/nas/export
+    #     readonly: false
+    #     type: nfs
+    #     server: "${LOCAL_LAN_TRUENAS}"
+    #     path: /mnt/Volume1/document/export
