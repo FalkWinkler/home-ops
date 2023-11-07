@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3S
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -17,20 +17,33 @@ spec:
         namespace: flux-system
 
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        type: statefulset
 
-    image:
-      repository: ghcr.io/paperless-ngx/paperless-ngx
-      tag: 1.17
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    envFrom:
-      - secretRef:
-          name: *app
-      - configMapRef:
-          name: paperless-configmap
+        statefulset:
+          volumeClaimTemplates:
+            - name: data
+              accessMode: ReadWriteOnce
+              size: 15Gi
+              storageClass: ceph-block
+              globalMounts:
+                - path: /data/local
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 1.17
+
+            envFrom:
+              - secretRef:
+                  name: *app
+              - configMapRef:
+                  name: paperless-configmap
 
     service:
       main:
@@ -68,20 +81,7 @@ spec:
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
         path: /mnt/Volume1/document/export
-      nas-media-backup:
-        enabled: true
-        mountPath: /data/nas/backup/media
-        readonly: false
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/document/media
-      nas-data-backup:
-        enabled: true
-        mountPath: /data/nas/backup/data
-        readonly: false
-        type: nfs
-        server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/document/data
+
 
     resources:
       requests:

@@ -12,14 +12,6 @@ data:
   PAPERLESS_WEBSERVER_WORKERS: "2"
   PAPERLESS_TASK_WORKERS: "2"
 
-  # Configure LDAP
-  PAPERLESS_LDAP_AUTH_ENABLED: "false"
-  PAPERLESS_LDAP_AUTH_URL: "ldap://lldap.security.svc.cluster.local:389"
-  PAPERLESS_LDAP_AUTH_SEARCH_BASE: "ou=people,dc=bjw-s,dc=dev"
-  PAPERLESS_LDAP_UID_FORMAT: "uid=%s,ou=people,dc=bjw-s,dc=dev"
-  PAPERLESS_LDAP_USER_GROUP: "cn=paperless,ou=groups,dc=bjw-s,dc=dev"
-  PAPERLESS_LDAP_ADMIN_GROUP: "cn=paperless_admin,ou=groups,dc=bjw-s,dc=dev"
-  PAPERLESS_LDAP_LLDAP_FIX: "true"
 
   # Configure folders
   PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
