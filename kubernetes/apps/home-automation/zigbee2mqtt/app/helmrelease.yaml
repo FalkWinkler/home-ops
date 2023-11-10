@@ -21,6 +21,9 @@ spec:
       type: statefulset
       annotations:
         reloader.stakater.com/auto: "true"
+      nodeSelector:
+        google.feature.node.kubernetes.io/zigbee-usb: "true"
+        # feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
 
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
@@ -115,8 +118,7 @@ spec:
     #     type: hostPath
     #     hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
     #     hostPathType: CharDevice
-    nodeSelector:
-      feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
+
     resources:
       requests:
         cpu: 8m
