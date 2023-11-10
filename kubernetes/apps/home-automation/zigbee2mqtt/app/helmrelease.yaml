@@ -103,21 +103,29 @@ spec:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-
+      # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+      privileged:  true
+    # -- Configure persistence settings for the chart under this key.
+    # @default -- See values.yaml
     persistence:
-      ttyacm:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/ttyACM0
-      ttyusb:
+      # -- Configure a hostPathMount to mount a USB device in the container.
+      # @default -- See values.yaml
+      usb:
         enabled: true
         type: hostPath
         hostPath: /dev/ttyUSB0
-    #   usb:
-    #     enabled: true
-    #     type: hostPath
-    #     hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
-    #     hostPathType: CharDevice
+
+    # -- Affinity constraint rules to place the Pod on a specific node.
+    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
+              operator: In
+              values:
+              - "true"
 
     resources:
       requests:
