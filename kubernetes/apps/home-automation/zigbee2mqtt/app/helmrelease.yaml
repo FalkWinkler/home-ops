@@ -17,13 +17,6 @@ spec:
         namespace: flux-system
 
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-      nodeSelector:
-        google.feature.node.kubernetes.io/zigbee-usb: "true"
-        # feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
 
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
