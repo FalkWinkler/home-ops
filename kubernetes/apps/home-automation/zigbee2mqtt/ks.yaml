@@ -15,4 +15,4 @@ spec:
   dependsOn:
     - name: cluster-apps-mosquitto
     - name: cluster-apps-rook-ceph-cluster
-    - name: cluster-apps-ser2sock
+   # - name: cluster-apps-ser2sock
