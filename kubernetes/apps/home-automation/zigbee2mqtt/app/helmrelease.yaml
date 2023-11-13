@@ -25,13 +25,13 @@ spec:
           reloader.stakater.com/auto: "true"
 
         statefulset:
-          # volumeClaimTemplates:
-          #   - name: data
-          #     accessMode: ReadWriteOnce
-          #     size: 1Gi
-          #     storageClass: ceph-block
-          #     globalMounts:
-          #       - path: /data
+          volumeClaimTemplates:
+            - name: data
+              accessMode: ReadWriteOnce
+              size: 1Gi
+              storageClass: ceph-block
+              globalMounts:
+                - path: /data
 
         pod:
           securityContext:
