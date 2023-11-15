@@ -13,11 +13,11 @@ spec:
   superuserSecret:
     name: postgres-superuser
   bootstrap:
-    initdb:
-      database: app
-      owner: app
-      secret:
-        name: postgres-superuser
+    # initdb:
+    #   database: app
+    #   owner: app
+    #   secret:
+    #     name: postgres-superuser
     #Alternative bootstrap method: start from a backup
     recovery:
       source: postgres-backup
