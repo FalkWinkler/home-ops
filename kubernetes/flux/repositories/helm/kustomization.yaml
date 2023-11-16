@@ -35,3 +35,4 @@ resources:
   - ./rook-ceph.yaml
   - ./intel.yaml
   - ./backube.yaml
+  - ./crunchydata.yaml
