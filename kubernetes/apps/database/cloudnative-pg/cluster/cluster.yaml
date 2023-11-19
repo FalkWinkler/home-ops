@@ -10,6 +10,7 @@ spec:
   storage:
     size: 15Gi
     storageClass: ceph-block
+  enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
   bootstrap:
