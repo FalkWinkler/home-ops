@@ -38,6 +38,11 @@ spec:
           secretKeyRef:
             name: home-assitant-postgres
             key: POSTGRES_DB
+      SECRET_RECORDER_DB_URL:
+        valueFrom:
+          secretKeyRef:
+            name: home-assitant-postgres
+            key: POSTGRES_URL
 
     envFrom:
       - secretRef:
