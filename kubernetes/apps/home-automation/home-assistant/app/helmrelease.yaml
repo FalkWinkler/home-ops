@@ -61,17 +61,12 @@ spec:
           hajimari.io/icon: mdi:home-assistant
         #   external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
         hosts:
-          - host: &host "home-assistant.${SECRET_DOMAIN}"
+          - host: &host "domo.${SECRET_DOMAIN}"
             paths:
               - path: /
-          - host: &host2 "hass.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
         tls:
           - hosts:
               - *host
-              - *host2
 
     persistence:
       deploy-key:
@@ -90,7 +85,8 @@ spec:
         enabled: false
       startup:
         enabled: false
-
+    podAnnotations:
+      secret.reloader.stakater.com/reload: "home-assistant-secret"
     resources:
       requests:
         cpu: 47m
