@@ -98,7 +98,7 @@ spec:
       startup:
         enabled: false
     podAnnotations:
-      secret.reloader.stakater.com/reload: "home-assistant-secret"
+      secret.reloader.stakater.com/reload: "home-assistant-secret,home-assistant-ssh"
     resources:
       requests:
         cpu: 47m
