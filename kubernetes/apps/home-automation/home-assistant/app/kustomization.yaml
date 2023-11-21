@@ -5,6 +5,7 @@ namespace: home-automation
 resources:
   - ./volsync.yaml
   - ./postgres-secret.sops.yaml
+  - ./ssh.secret.sops.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
 patchesStrategicMerge:

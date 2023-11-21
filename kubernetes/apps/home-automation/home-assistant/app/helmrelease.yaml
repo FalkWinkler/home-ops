@@ -74,14 +74,21 @@ spec:
               - *host
 
     persistence:
-      deploy-key:
+      # deploy-key:
+      #   enabled: true
+      #   type: secret
+      #   name: home-assistant-secret
+      #   defaultMode: 256
+      #   subPath:
+      #     - path: GH_DEPLOY_KEY
+      #       mountPath: /root/.ssh/id_rsa
+      ssh:
         enabled: true
         type: secret
-        name: home-assistant-secret
-        defaultMode: 256
-        subPath:
-          - path: GH_DEPLOY_KEY
-            mountPath: /root/.ssh/id_rsa
+        name: home-assistant-ssh
+        mountPath: /root/.ssh
+        readOnly: true
+        defaultMode: 0600
 
     probes:
       liveness:
