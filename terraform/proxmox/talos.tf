@@ -12,7 +12,7 @@ data "talos_machine_configuration" "mc_1" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "node-0.home.lan"
+        hostname         = "node1.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"
@@ -58,7 +58,7 @@ data "talos_machine_configuration" "mc_2" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "node-1.home.lan"
+        hostname         = "node2.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip + 1)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"
@@ -104,7 +104,7 @@ data "talos_machine_configuration" "mc_3" {
   config_patches = [
     templatefile("${path.module}/templates/controlplane.yaml.tpl",
       merge(var.kubernetes, {
-        hostname         = "node-2.home.lan"
+        hostname         = "node3.home.lan"
         ipv4_local       = "${cidrhost(var.vpc_main_cidr, var.first_ip + 2)}"
         identity         = "${file(var.private_key_file_path)}"
         identitypub      = "${file(var.public_key_file_path)}"

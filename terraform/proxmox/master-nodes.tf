@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "controlplanes" {
   count       = 3
-  name        = "node-${count.index}"
+  name        = "node${count.index + 1}"
   #target_node = var.target_node_name
   target_node     = element(var.nodes, count.index)
   clone       = var.proxmox_image
@@ -15,7 +15,7 @@ resource "proxmox_vm_qemu" "controlplanes" {
   nameserver   = var.nameserver
 
   onboot  = true
-  cpu     = "kvm64"
+  cpu     = "host"
   sockets = 1
   cores   = element(var.node_cpu, count.index)
   memory  = element(var.node_ram, count.index)#4096

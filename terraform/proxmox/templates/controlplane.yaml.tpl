@@ -26,12 +26,13 @@ machine:
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
-    bootloader: true
     wipe: false
     extensions:
-      - image: ghcr.io/siderolabs/qemu-guest-agent:8.0.2
+      - image: ghcr.io/siderolabs/qemu-guest-agent:8.1.0
       - image: ghcr.io/siderolabs/i915-ucode:20230310
       - image: ghcr.io/siderolabs/intel-ucode:20230512
+      - image: ghcr.io/siderolabs/iscsi-tools:v0.1.4
+
   files:
     - content: |
         [plugins."io.containerd.grpc.v1.cri"]
@@ -61,7 +62,7 @@ machine:
           slot: 0
   time:
     servers:
-      - time.cloudflare.com
+      - 192.168.10.1
   # Features describe individual Talos features that can be switched on or off.
   features:
     rbac: true # Enable role-based access control (RBAC).
@@ -101,7 +102,8 @@ cluster:
   controlPlane:
     endpoint: https://${ipv4_vip}:6443
   apiServer:
-    disablePodSecurityPolicy: true
+    disablePodSecurityPolicy: true # Disable PodSecurityPolicy in the API server and default manifests.
+    admissionControl: []
     certSANs:
       - ${apiDomain}
       - ${ipv4_vip}

@@ -144,12 +144,12 @@ variable "known_hosts" {
 
 variable "nodes" {
   type = list(string)
-  default = [ "pve","pve2","pve3" ]
+  default = [ "pve1","pve2","pve3" ]
 }
 
 variable "node_ram" {
   type = list(string)
-  default = [ "32768","15360","15360" ]
+  default = [ "32768","28672","28672" ]
 }
 
 variable "node_ssds" {
