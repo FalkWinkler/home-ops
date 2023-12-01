@@ -7,6 +7,11 @@ vars:
 
 tasks:
 
+  installrouter:
+    desc: Prepare all the k8s nodes for running k3s
+    dir: "{{.ANSIBLE_DIR}}/router"
+    cmd: ansible-playbook -i {{.ANSIBLE_DIR}}/router/inventory/hosts.yml {{.ANSIBLE_DIR}}/router/playbooks/apps.yml
+
   prepare:
     desc: Prepare all the k8s nodes for running k3s
     dir: "{{.ANSIBLE_DIR}}"
