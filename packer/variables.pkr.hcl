@@ -33,7 +33,7 @@ variable "gateway" {
 
 variable "talos_version" {
   type    = string
-  default = "v1.4.8"
+  default = "v1.5.2"
 }
 
 locals {

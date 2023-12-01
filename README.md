@@ -4,7 +4,7 @@ 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
 # talos
 
 ```
-export PROXMOX_HOST="https://192.168.10.253:8006/api2/json"
+export PROXMOX_HOST="https://192.168.10.254:8006/api2/json"
 export PROXMOX_TOKEN_ID='terraform-prov@pve!mytoken'
 export PROXMOX_TOKEN_SECRET="0bab4ffc-d570-4d0d-83e9-75f5b480e5d2"
 export PROXMOX_NODE_NAME="pve"
@@ -18,6 +18,27 @@ terraform destroy -auto-approve -var-file="terraform.tfvars" -var proxmox_token_
 ```
 terraform apply -auto-approve -var-file="terraform.tfvars" -var proxmox_token_id="${PROXMOX_TOKEN_ID}"  -var proxmox_token_secret="${PROXMOX_TOKEN_SECRET}" -var target_node_name="${PROXMOX_NODE_NAME}"  -var proxmox_host="${PROXMOX_HOST}" -var cluster_name="${CLUSTER_NAME}"
 ```
+
+# proxmox rook-ceph disk
+
+## pve1
+````
+qm set NODEID -scsi2 /dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F94
+```
+
+## pve2
+````sh
+qm set NODEID -scsi2 /dev/disk/by-id/ata-CT500MX500SSD1_2314E6C44636
+
+```
+
+## pve3
+````sh
+qm set NODEID -scsi2 /dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F90
+
+```
+# talos
+- https://bnovickovs.me/talos-kubernetes-clusters-deployment-on-proxmox-cilium-cni/
 # truenas
 
 - https://github.com/fenio/k8s-truenas/tree/main
@@ -57,7 +78,6 @@ _Additional applications include [hajimari](https://github.com/toboshii/hajimari
 
 For provisioning the following tools will be used:
 
-- [Ansible](https://www.ansible.com) - Sets up the operating system and installs k3s
 - [Terraform](https://www.terraform.io) - Provisions an existing Cloudflare domain and certain DNS records to be used with your Kubernetes cluster
 
 ## 📝 Prerequisites

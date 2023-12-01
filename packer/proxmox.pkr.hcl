@@ -37,7 +37,7 @@ source "proxmox" "talos" {
   ssh_timeout  = "15m"
   qemu_agent   = true
 
-  template_name        = "talos1"
+  template_name        = "talos3"
   template_description = "Talos system disk"
 
   boot_wait = "5s"

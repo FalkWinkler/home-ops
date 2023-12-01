@@ -42,10 +42,13 @@ RUN curl -fsSL "https://github.com/derailed/k9s/releases/download/v${K9S_VERSION
 
 # install cilium
 RUN curl -fsSL https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-amd64.tar.gz | tar -xz -C /usr/local/bin cilium
+
 # krew plugin
 RUN curl -fsSL -o /tmp/krew.tar.gz "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" \
     && tar zxvf /tmp/krew.tar.gz -C /tmp \
-    && mv /tmp/krew-linux_amd64 /usr/local/bin/krew
+    && mv /tmp/krew-linux_amd64 /usr/local/bin/krew \
+    && chmod +x /usr/local/bin/krew
+
 
 # install kubestr
 RUN curl -fsSL https://github.com/kastenhq/kubestr/releases/download/v0.4.37/kubestr_0.4.37_Linux_amd64.tar.gz  | tar -xz -C /usr/local/bin kubestr
@@ -64,6 +67,11 @@ RUN curl -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v$
 # Cloud Native PostgreSQL plugin for kubectl
 RUN curl -sSfL https://github.com/EnterpriseDB/kubectl-cnp/raw/main/install.sh | sudo sh -s -- -b /usr/local/bin
 
+# krew plugin
+RUN curl -fsSL -o /tmp/krew.tar.gz "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz" \
+    && tar zxvf /tmp/krew.tar.gz -C /tmp \
+    && mv /tmp/krew-linux_amd64 /usr/local/bin/krew
+
 # talos
 RUN curl -sL https://talos.dev/install | sh
 
@@ -76,6 +84,7 @@ RUN apt-get update && apt-get install -y apt-transport-https ca-certificates cur
     echo "deb https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list && \
     apt-get update && \
     apt-get -y install doppler
+
 
 # Download and Install the latest packer (AMD64)
 RUN PACKER_VERSION=$(curl -sSL https://checkpoint-api.hashicorp.com/v1/check/packer | jq -r -M ".current_version") \
@@ -112,10 +121,12 @@ RUN if [ "${INSTALL_AZURE_CLI}" = "true" ]; then bash /tmp/library-scripts/azcli
     fi \
     && rm -rf /var/lib/apt/lists/*
 
-# Install krew plugin
+    # install kubectl plugins
 RUN krew install krew \
     && krew install ns \
-    && krew install ctx
+    && krew install ctx \
+    && krew install cnpg \
+    && krew install volsync
 
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]

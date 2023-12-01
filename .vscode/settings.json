@@ -1,11 +1,6 @@
 {
     "files.associations": {
-        "*.json5": "jsonc",
-        "**/ansible/**/*.yml": "ansible",
-        "**/ansible/**/*.sops.yml": "yaml",
-        "**/ansible/**/inventory/**/*.yml": "yaml",
-        "**/terraform/**/*.tf": "terraform",
-        "**/kubernetes/**/*.sops.toml": "plaintext"
+        "*.yaml": "home-assistant"
     },
     "yaml.schemas": {
         "ansible": "ansible/*.yml",
@@ -13,7 +8,8 @@
         "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.22.4-standalone-strict/all.json": [
             "file:///workspaces/home-ops/kubernetes/flux/config/cluster.yaml",
             "file:///workspaces/c44e4ff3f8dbd00e0d934990f0ae58ac9accdbef428397cf2cbb884b98ae34a2/kubernetes/flux/config/cluster.yaml"
-        ]
+        ],
+        "kubernetes://schema/apps/v1@deployment": "file:///workspaces/home-ops/zigbee.yaml"
     },
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": true,
