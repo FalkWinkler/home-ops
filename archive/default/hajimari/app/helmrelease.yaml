@@ -50,6 +50,8 @@ spec:
           - networking
           - document
           - security
+          - home
+          - homeautomation
     ingress:
       main:
         enabled: true
