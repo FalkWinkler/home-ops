@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 1.17
+              tag: 2.1.1
             env:
               # Configure application
               PAPERLESS_URL: https://dms.${SECRET_DOMAIN}
