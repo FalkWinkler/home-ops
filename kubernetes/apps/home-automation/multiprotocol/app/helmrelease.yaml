@@ -29,8 +29,14 @@ spec:
       # # -- Serial device baud rate
       BAUDRATE: 460800
       OTBR_LOG_LEVEL: "debug"
+      OTBR_ENABLE: 1
+      OTB_FIREWALL: 1
+      OTBR_REST_LISTEN_PORT: "8081"
+      OTBR_WEB_PORT: "8086"
+      EZSP_LISTEN_PORT: "20108"
       BACKBONE_IF: "eth0"
       FLOW_CONTROL: true
+      NETWORK_DEVICES: 0
       NETWORK_DEVICE: ""
       AUTOFLASH_FIRMWARE: 0
       FIRMWARE: ""
