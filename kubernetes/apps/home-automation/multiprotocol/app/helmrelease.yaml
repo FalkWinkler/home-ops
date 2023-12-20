@@ -21,11 +21,10 @@ spec:
       repository: homeassistant/amd64-addon-silabs-multiprotocol
       tag: 2.3.2
     env:
-      DEVICE:
       # # -- Port where ser2sock listens
       # LISTENER_PORT: 10000
       # # -- Path to the serial device
-      SERIAL_DEVICE: /dev/ttyUSB0
+      DEVICE: /dev/ttyUSB0
       # # -- Serial device baud rate
       BAUDRATE: 460800
       OTBR_LOG_LEVEL: "debug"
