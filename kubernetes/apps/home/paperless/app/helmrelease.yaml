@@ -70,6 +70,7 @@ spec:
               PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
 
               # Configure user permissions
+              USERMAP_UID: "1003" # truenas user group id
               USERMAP_GID: "1003" # truenas user group id
             envFrom:
               - secretRef:
