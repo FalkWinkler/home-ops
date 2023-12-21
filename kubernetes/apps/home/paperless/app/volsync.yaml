@@ -14,8 +14,8 @@ spec:
     repository: paperless-restic-secret
     moverSecurityContext:
       runAsUser: 1000
-      runAsGroup: 65543
-      fsGroup: 65543
+      runAsGroup: 1003
+      fsGroup: 1003
     retain:
       daily: 14
     volumeSnapshotClassName: csi-ceph-blockpool
