@@ -33,6 +33,11 @@ spec:
               globalMounts:
                 - path: /data/local
 
+        pod:
+          securityContext:
+            supplementalGroups:
+              - 1003 # apps-rw
+
         containers:
           main:
             image:
