@@ -61,11 +61,11 @@ spec:
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
-              PAPERLESS_FILENAME_FORMAT: '{correspondent}/{document_type}/{created_year}-{created_month}-{created_day}_{title}_{asn}'
+              PAPERLESS_FILENAME_FORMAT: '{correspondent}/{created_year}/{document_type}/{created}-{title}'
               PAPERLESS_FILENAME_DATE_ORDER: YMD
               # Configure OCR
               PAPERLESS_OCR_LANGUAGES: deu
-              PAPERLESS_OCR_LANGUAGE: deu
+              PAPERLESS_OCR_LANGUAGE: deu+eng
 
               # Configure redis integration
               PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
