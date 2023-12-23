@@ -33,10 +33,10 @@ spec:
               globalMounts:
                 - path: /data/local
 
-        pod:
-          securityContext:
-            supplementalGroups:
-              - 1003 # apps-rw
+        # pod:
+        #   securityContext:
+        #     supplementalGroups:
+        #       - 1003 # apps-rw
 
         containers:
           main:
@@ -72,7 +72,7 @@ spec:
 
               # Configure user permissions
               # USERMAP_UID: "1003" # truenas user group id
-              USERMAP_GID: "1003" # truenas user group id
+              # USERMAP_GID: "1003" # truenas user group id
             envFrom:
               - secretRef:
                   name: *app
