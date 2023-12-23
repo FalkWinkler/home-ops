@@ -35,8 +35,6 @@ spec:
 
         pod:
           securityContext:
-            runAsUser: 1003 # paperless aud truenas
-            runAsGroup: 1003 # paperless aud truenas
             supplementalGroups:
               - 1003 # apps-rw
 
@@ -73,7 +71,7 @@ spec:
               PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
 
               # Configure user permissions
-              USERMAP_UID: "1003" # truenas user group id
+              # USERMAP_UID: "1003" # truenas user group id
               USERMAP_GID: "1003" # truenas user group id
             envFrom:
               - secretRef:
