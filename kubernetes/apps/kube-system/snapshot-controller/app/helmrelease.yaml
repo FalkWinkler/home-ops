@@ -4,6 +4,11 @@ kind: HelmRelease
 metadata:
   name: snapshot-controller
   namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: snapshot-controller
+    meta.helm.sh/release-namespace: kube-system
 spec:
   interval: 15m
   chart:
