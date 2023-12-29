@@ -147,7 +147,10 @@ spec:
       #     limits:
       #       memory: "1G"
     cephBlockPoolsVolumeSnapshotClass:
-      enabled: false
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
 
     cephBlockPools:
       - name: ceph-blockpool
