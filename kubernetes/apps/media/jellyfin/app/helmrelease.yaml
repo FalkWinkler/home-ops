@@ -95,7 +95,7 @@ spec:
         readonly: false
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/media
+        path: /mnt/SSD/media
         globalMounts:
           - path: /data/nas-media
       transcode:
