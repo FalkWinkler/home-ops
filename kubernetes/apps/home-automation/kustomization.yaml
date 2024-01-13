@@ -13,4 +13,4 @@ resources:
   - ./zigbee2mqtt/ks.yaml
   - ./ser2sock/ks.yaml
   - ./code-server/ks.yaml
-  # - ./multiprotocol/ks.yaml
+  - ./multiprotocol/ks.yaml
