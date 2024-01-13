@@ -13,6 +13,11 @@ spec:
         - feature: usb.device
           matchExpressions:
             vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee
+    - # zigbee und matter sonoff E USB device
+      name: multiprotocol
+      labels:
+        google.feature.node.kubernetes.io/multiprotocol-usb: "true"
+      matchFeatures:
         - feature: usb.device
           matchExpressions:
             vendor: { op: In, value: ["ff","1a86", "55d4"] } #zigbee E
