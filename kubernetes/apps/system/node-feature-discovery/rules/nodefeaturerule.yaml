@@ -13,3 +13,6 @@ spec:
         - feature: usb.device
           matchExpressions:
             vendor: { op: In, value: ["ff","10c4", "ea60"] } #zigbee
+        - feature: usb.device
+          matchExpressions:
+            vendor: { op: In, value: ["ff","1a86", "55d4"] } #zigbee E
