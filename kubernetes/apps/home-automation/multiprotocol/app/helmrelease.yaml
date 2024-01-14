@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: homeassistant/amd64-addon-silabs-multiprotocol
-      tag: 2.3.2
+      tag: 2.4.3
     env:
       # # -- Port where ser2sock listens
       # LISTENER_PORT: 10000
@@ -32,7 +32,10 @@ spec:
       OTB_FIREWALL: 1
       OTBR_REST_LISTEN_PORT: "8081"
       OTBR_WEB_PORT: "8086"
+
+      # ZIGBEED environment variables
       EZSP_LISTEN_PORT: "20108"
+
       BACKBONE_IF: "eth0"
       FLOW_CONTROL: "false"
       NETWORK_DEVICES: 0
