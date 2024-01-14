@@ -76,6 +76,10 @@ spec:
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged:  true
+      capabilities:
+        add:
+        - SYS_ADMIN
+        - NET_ADMIN
     hostNetwork: true
 
     # -- Affinity constraint rules to place the Pod on a specific node.
