@@ -78,7 +78,7 @@ spec:
       privileged:  true
       capabilities:
         add:
-        - SYS_ADMIN
+        - IPC_LOCK
         - NET_ADMIN
     hostNetwork: true
 
