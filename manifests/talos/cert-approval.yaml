@@ -1,24 +1,26 @@
----
-# Source: kubelet-csr-approver/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kubelet-csr-approver
-  namespace: kube-system
-  labels:
-    helm.sh/chart: kubelet-csr-approver-1.0.4
-    app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/instance: kubelet-csr-approver
-    app.kubernetes.io/version: "v1.0.4"
-    app.kubernetes.io/managed-by: Helm
   annotations:
     meta.helm.sh/release-name: kubelet-csr-approver
     meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: kubelet-csr-approver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubelet-csr-approver
+    app.kubernetes.io/version: v1.0.7
+    helm.sh/chart: kubelet-csr-approver-1.0.7
+  name: kubelet-csr-approver
+  namespace: system-controllers
 ---
-# Source: kubelet-csr-approver/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
   name: kubelet-csr-approver
 rules:
 - apiGroups:
@@ -58,12 +60,16 @@ rules:
   verbs:
   - approve
 ---
-# Source: kubelet-csr-approver/templates/rolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  annotations:
+    meta.helm.sh/release-name: kubelet-csr-approver
+    meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
   name: kubelet-csr-approver
-  namespace: kube-system
+  namespace: system-controllers
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -71,147 +77,139 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kubelet-csr-approver
-  namespace: kube-system
+  namespace: system-controllers
 ---
-# Source: kubelet-csr-approver/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubelet-csr-approver
-  namespace: kube-system
-  labels:
-    helm.sh/chart: kubelet-csr-approver-1.0.4
-    app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/instance: kubelet-csr-approver
-    app.kubernetes.io/version: "v1.0.4"
-    app.kubernetes.io/managed-by: Helm
   annotations:
-    prometheus.io/port: '8080'
-    prometheus.io/scrape: 'true'
     meta.helm.sh/release-name: kubelet-csr-approver
     meta.helm.sh/release-namespace: kube-system
-spec:
-  type: ClusterIP
-  ports:
-    - port: 8080
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
-  selector:
-    app.kubernetes.io/name: kubelet-csr-approver
+    prometheus.io/port: "8080"
+    prometheus.io/scrape: "true"
+  labels:
     app.kubernetes.io/instance: kubelet-csr-approver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubelet-csr-approver
+    app.kubernetes.io/version: v1.0.7
+    helm.sh/chart: kubelet-csr-approver-1.0.7
+  name: kubelet-csr-approver
+  namespace: system-controllers
+spec:
+  ports:
+  - name: metrics
+    port: 8080
+    protocol: TCP
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/instance: kubelet-csr-approver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubelet-csr-approver
+  type: ClusterIP
 ---
-# Source: kubelet-csr-approver/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubelet-csr-approver
-  namespace: kube-system
-  labels:
-    helm.sh/chart: kubelet-csr-approver-1.0.4
-    app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/instance: kubelet-csr-approver
-    app.kubernetes.io/version: "v1.0.4"
-    app.kubernetes.io/managed-by: Helm
   annotations:
     meta.helm.sh/release-name: kubelet-csr-approver
     meta.helm.sh/release-namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: kubelet-csr-approver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubelet-csr-approver
+    app.kubernetes.io/version: v1.0.7
+    helm.sh/chart: kubelet-csr-approver-1.0.7
+  name: kubelet-csr-approver
+  namespace: system-controllers
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app.kubernetes.io/name: kubelet-csr-approver
       app.kubernetes.io/instance: kubelet-csr-approver
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: kubelet-csr-approver
   template:
     metadata:
+      annotations:
+        meta.helm.sh/release-name: kubelet-csr-approver
+        meta.helm.sh/release-namespace: kube-system
       labels:
-        app.kubernetes.io/name: kubelet-csr-approver
         app.kubernetes.io/instance: kubelet-csr-approver
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kubelet-csr-approver
     spec:
-      serviceAccountName: kubelet-csr-approver
-      securityContext:
-        {}
       containers:
-        - name: kubelet-csr-approver
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - all
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsGroup: 65532
-            runAsNonRoot: true
-            runAsUser: 65532
-            seccompProfile:
-              type: RuntimeDefault
-          image: "ghcr.io/postfinance/kubelet-csr-approver:v1.0.4"
-          imagePullPolicy: IfNotPresent
-          args:
-            - -metrics-bind-address
-            - ":8080"
-            - -health-probe-bind-address
-            - ":8081"
-            - -leader-election
-          env:
-            - name: PROVIDER_REGEX
-              value: master-.|worker-.|node.
-            - name: PROVIDER_IP_PREFIXES
-              value: "0.0.0.0/0"
-            - name: MAX_EXPIRATION_SECONDS
-              value: "86400"
-            - name: ALLOWED_DNS_NAMES
-              value: "1"
-            - name: BYPASS_DNS_RESOLUTION
-              value: "true"
-            - name: BYPASS_HOSTNAME_CHECK
-              value: "true"
-          ports:
-            - name: metrics
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 8081
-          resources:
-            limits:
-              cpu: 500m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 64Mi
+      - args:
+        - -metrics-bind-address
+        - :8080
+        - -health-probe-bind-address
+        - :8081
+        - -leader-election
+        env:
+        - name: PROVIDER_REGEX
+          value: ^(node1|node2|node3)$
+        - name: BYPASS_DNS_RESOLUTION
+          value: "true"
+        - name: ALLOWED_DNS_NAMES
+          value: "1"
+        image: ghcr.io/postfinance/kubelet-csr-approver:v1.0.7
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+        name: kubelet-csr-approver
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+      securityContext: {}
+      serviceAccountName: kubelet-csr-approver
       tolerations:
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/master
-          operator: Equal
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Equal
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Equal
 ---
-# Source: kubelet-csr-approver/templates/tests/test-connection.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "kubelet-csr-approver-test-connection"
-  labels:
-    helm.sh/chart: kubelet-csr-approver-1.0.4
-    app.kubernetes.io/name: kubelet-csr-approver
-    app.kubernetes.io/instance: kubelet-csr-approver
-    app.kubernetes.io/version: "v1.0.4"
-    app.kubernetes.io/managed-by: Helm
   annotations:
+    helm.sh/hook: test
     meta.helm.sh/release-name: kubelet-csr-approver
     meta.helm.sh/release-namespace: kube-system
-    "helm.sh/hook": test
-
+  labels:
+    app.kubernetes.io/instance: kubelet-csr-approver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubelet-csr-approver
+    app.kubernetes.io/version: v1.0.7
+    helm.sh/chart: kubelet-csr-approver-1.0.7
+  name: kubelet-csr-approver-test-connection
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command:
-        - /bin/sh
-        - -c
-        - |
-          sleep 10 ; wget -O- -S kubelet-csr-approver:8080/metrics
+  - command:
+    - /bin/sh
+    - -c
+    - |
+      sleep 10 ; wget -O- -S kubelet-csr-approver:8080/metrics
+    image: busybox
+    name: wget
   restartPolicy: Never
