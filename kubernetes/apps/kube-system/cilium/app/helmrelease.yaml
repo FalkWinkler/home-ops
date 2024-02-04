@@ -1,35 +1,20 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: cilium
-  namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: cilium
-    meta.helm.sh/release-namespace: kube-system
 spec:
-  interval: 15m
   chart:
     spec:
       chart: cilium
-      version: 1.15.0
+      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-  maxHistory: 2
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+      version: 1.15.0
+  interval: 30m
 
   valuesFrom:
     - kind: ConfigMap
@@ -40,33 +25,33 @@ spec:
       serviceMonitor:
         enabled: true
 
-        dashboards:
-          enabled: true
-          label: grafana_dashboard
-          namespace: monitoring
-          labelValue: "1"
-          annotations: {}
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        namespace: monitoring
+        labelValue: "1"
+        annotations: {}
 
-        relay:
-          prometheus:
-            serviceMonitor:
-              enabled: true
-
-        ui:
-          ingress:
-            enabled: true
-            className: "internal"
-            hosts:
-              - &host "hubble-home-cluster.${SECRET_DOMAIN}"
-            tls:
-              - hosts:
-                  - *host
-
-      prometheus:
-        serviceMonitor:
-          enabled: true
-
-      operator:
+      relay:
         prometheus:
           serviceMonitor:
             enabled: true
+
+      ui:
+        ingress:
+          enabled: true
+          className: "internal-nginx"
+          hosts:
+            - &host hubble-main.bjw-s.dev
+          tls:
+            - hosts:
+                - *host
+
+    prometheus:
+      serviceMonitor:
+        enabled: true
+
+    operator:
+      prometheus:
+        serviceMonitor:
+          enabled: true
