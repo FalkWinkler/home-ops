@@ -38,14 +38,14 @@ resource "proxmox_vm_qemu" "controlplanes" {
   }
 
   boot = "order=scsi0"
-  disk {
-    type    = "scsi"
-    storage = var.proxmox_storage1
-    size    = "100G"
-    cache   = "writethrough"
-    ssd     = 1
-    backup  = false
-  }
+  # disk {
+  #   type    = "scsi"
+  #   storage = var.proxmox_storage1
+  #   size    = "100G"
+  #   cache   = "writethrough"
+  #   ssd     = 1
+  #   backup  = false
+  # }
   #   disk {
   #   type    = "scsi"
   #   storage = var.proxmox_storage2

@@ -6,8 +6,7 @@ machine:
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     extraArgs:
-      feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true
-      rotate-server-certificates: true
+      feature-gates: GracefulNodeShutdown=true
     nodeIP:
       validSubnets: ${format("%#v",split(",",nodeSubnets))}
   network:
@@ -102,7 +101,6 @@ cluster:
   controlPlane:
     endpoint: https://${ipv4_vip}:6443
   apiServer:
-    disablePodSecurityPolicy: true # Disable PodSecurityPolicy in the API server and default manifests.
     admissionControl: []
     certSANs:
       - ${apiDomain}
