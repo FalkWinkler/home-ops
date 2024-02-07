@@ -6,6 +6,7 @@ machine:
     - "127.0.0.1" # KubePrism
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
+    disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
     extraArgs:
       feature-gates: GracefulNodeShutdown=true
       rotate-server-certificates: "true"
@@ -73,6 +74,7 @@ machine:
   features:
     rbac: true # Enable role-based access control (RBAC).
     stableHostname: true # Enable stable default hostname.
+    apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
     kubePrism:
       enabled: true
       port: 7445
@@ -138,11 +140,11 @@ cluster:
         disabled: false
       service:
         disabled: false
-  etcd:
-    advertisedSubnets:
-      - ${nodeSubnets}
-    # extraArgs:
-    #   listen-metrics-urls: http://0.0.0.0:2381
+  # etcd:
+  #   advertisedSubnets:
+  #     - ${nodeSubnets}
+  #   # extraArgs:
+  #   #   listen-metrics-urls: http://0.0.0.0:2381
   extraManifests:
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cert-approval.yaml
     - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
