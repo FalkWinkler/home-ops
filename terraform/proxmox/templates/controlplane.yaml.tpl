@@ -3,12 +3,15 @@ machine:
     - ${apiDomain}
     - ${ipv4_vip}
     - ${ipv4_local}
+    - "127.0.0.1" # KubePrism
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     extraArgs:
       feature-gates: GracefulNodeShutdown=true
+      rotate-server-certificates: "true"
     nodeIP:
-      validSubnets: ${format("%#v",split(",",nodeSubnets))}
+      validSubnets:
+        - ${nodeSubnets}
   network:
     hostname: "${hostname}"
     interfaces:
@@ -22,6 +25,10 @@ machine:
         - 1.1.1.1
     kubespan:
       enabled: false
+    extraHostEntries:
+      - ip: ${ipv4_vip}
+        aliases:
+          - ${apiDomain}
   install:
     disk: /dev/sda
     image: ghcr.io/siderolabs/installer:${talos-version}
@@ -42,23 +49,23 @@ machine:
   sysctls:
     net.core.somaxconn: 65535
     net.core.netdev_max_backlog: 4096
-  systemDiskEncryption:
-    state:
-      provider: luks2
-      options:
-        - no_read_workqueue
-        - no_write_workqueue
-      keys:
-        - nodeID: {}
-          slot: 0
-    ephemeral:
-      provider: luks2
-      options:
-        - no_read_workqueue
-        - no_write_workqueue
-      keys:
-        - nodeID: {}
-          slot: 0
+  # systemDiskEncryption:
+  #   state:
+  #     provider: luks2
+  #     options:
+  #       - no_read_workqueue
+  #       - no_write_workqueue
+  #     keys:
+  #       - nodeID: {}
+  #         slot: 0
+  #   ephemeral:
+  #     provider: luks2
+  #     options:
+  #       - no_read_workqueue
+  #       - no_write_workqueue
+  #     keys:
+  #       - nodeID: {}
+  #         slot: 0
   time:
     servers:
       - 192.168.10.1
@@ -69,11 +76,17 @@ machine:
     kubePrism:
       enabled: true
       port: 7445
-  kernel:
-    modules:
-      - name: br_netfilter
-        parameters:
-          - nf_conntrack_max=131072
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:admin
+      allowedKubernetesNamespaces:
+        - system-controllers
+  # kernel:
+  #   modules:
+  #     - name: br_netfilter
+  #       parameters:
+  #         - nf_conntrack_max=131072
   registries:
     mirrors:
       docker.io:
@@ -98,13 +111,16 @@ machine:
         overridePath: true
 cluster:
   allowSchedulingOnControlPlanes: true
+  allowSchedulingOnMasters: true
   controlPlane:
     endpoint: https://${ipv4_vip}:6443
   apiServer:
     admissionControl: []
+    disablePodSecurityPolicy: true
     certSANs:
       - ${apiDomain}
       - ${ipv4_vip}
+      - "127.0.0.1" # KubePrism
   network:
     dnsDomain: ${domain}
     podSubnets: ${format("%#v",split(",",podSubnets))}
@@ -123,15 +139,17 @@ cluster:
       service:
         disabled: false
   etcd:
-    extraArgs:
-      listen-metrics-urls: http://0.0.0.0:2381
+    advertisedSubnets:
+      - ${nodeSubnets}
+    # extraArgs:
+    #   listen-metrics-urls: http://0.0.0.0:2381
   extraManifests:
     - https://raw.githubusercontent.com/FalkWinkler/home-ops/develop/manifests/talos/cert-approval.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
-    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.66.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+    - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.71.2/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
