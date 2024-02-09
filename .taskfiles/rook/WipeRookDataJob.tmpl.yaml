@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: "${jobName}"
-  namespace: "default"
+  namespace: "kube-system"
 spec:
   ttlSecondsAfterFinished: 3600
   template:
