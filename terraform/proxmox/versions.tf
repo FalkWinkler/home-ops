@@ -4,7 +4,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "thegameprofi/proxmox"
-      version = "2.9.15"
+      version = "2.10.0"
     }
     talos = {
       source  = "siderolabs/talos"
