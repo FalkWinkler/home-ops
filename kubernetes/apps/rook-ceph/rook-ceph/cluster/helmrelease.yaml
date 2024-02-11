@@ -151,6 +151,8 @@ spec:
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
+      annotations:
+        k10.kasten.io/is-snapshot-class: "true"
 
     cephBlockPools:
       - name: ceph-blockpool
