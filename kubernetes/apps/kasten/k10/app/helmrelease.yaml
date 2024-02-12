@@ -42,9 +42,9 @@ spec:
       create: true
       tls:
         enabled: true
-        secretName: *host
+        secretName: "k10.${SECRET_DOMAIN}"
       class: "internal" #Ingress controller type
-      host: &host "k10.${SECRET_DOMAIN}"
+      host: "k10.${SECRET_DOMAIN}"
 
       urlPath: "/" #url path for k10 gateway
 
