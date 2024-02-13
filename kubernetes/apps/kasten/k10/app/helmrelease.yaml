@@ -34,6 +34,8 @@ spec:
       namespaceSelector:
         matchLabels:
           k10/injectKanisterSidecar: "true"
+    externalGateway:
+      create: true
     auth:
       basicAuth:
         enabled: true
@@ -47,10 +49,10 @@ spec:
       host: "k10.${SECRET_DOMAIN}"
 
 
-    # eula:
-    #   accept: true #true value if EULA accepted
-    #   company: f-wi
-    #   email: k10@f-wi.com
+    eula:
+      accept: true #true value if EULA accepted
+      company: f-wi
+      email: k10@f-wi.com
     # license: "" #base64 encoded string provided by Kasten
     # secrets:
     #   awsAccessKeyId: 'admin'
