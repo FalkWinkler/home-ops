@@ -23,7 +23,7 @@ spec:
       type: RollingUpdate
       rollingUpdate:
         maxSurge: 1
-
+    cluster-name: home-cluster
     grafana:
       enabled: false
     backgroundController:
@@ -37,15 +37,15 @@ spec:
     externalGateway:
       create: true
     auth:
-      basicAuth:
-        enabled: true
-        htpasswd: ${SECRET_K10_AUTH}
-      # tokenAuth:
+      # basicAuth:
       #   enabled: true
-    ingress:
-      create: false
-      tls:
+      #   htpasswd: ${SECRET_K10_AUTH}
+      tokenAuth:
         enabled: true
+    ingress:
+      create: true
+      tls:
+        enabled: false
         secretName: "k10.${SECRET_DOMAIN}"
       class: "internal" #Ingress controller type
       host: "k10.${SECRET_DOMAIN}"
