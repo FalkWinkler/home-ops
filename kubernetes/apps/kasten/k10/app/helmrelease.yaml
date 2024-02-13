@@ -50,7 +50,7 @@ spec:
       class: "internal" #Ingress controller type
       host: "k10.${SECRET_DOMAIN}"
       pathType: Prefix
-      urlPath: /
+
 
 
     eula:
