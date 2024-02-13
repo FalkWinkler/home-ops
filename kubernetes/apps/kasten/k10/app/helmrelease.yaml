@@ -40,8 +40,8 @@ spec:
       basicAuth:
         enabled: true
         htpasswd: ${SECRET_K10_AUTH}
-      tokenAuth:
-        enabled: true
+      # tokenAuth:
+      #   enabled: true
     ingress:
       create: true
       tls:
