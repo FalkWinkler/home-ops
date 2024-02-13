@@ -40,6 +40,8 @@ spec:
       basicAuth:
         enabled: true
         htpasswd: ${SECRET_K10_AUTH}
+      tokenAuth:
+        enabled: true
     ingress:
       create: true
       tls:
@@ -47,6 +49,7 @@ spec:
         secretName: "k10.${SECRET_DOMAIN}"
       class: "internal" #Ingress controller type
       host: "k10.${SECRET_DOMAIN}"
+      pathType: Prefix
 
 
     eula:
