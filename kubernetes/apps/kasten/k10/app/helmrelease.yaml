@@ -53,7 +53,7 @@ spec:
 
 
     eula:
-      accept: true #true value if EULA accepted
+      accept: false #true value if EULA accepted
       company: f-wi
       email: k10@f-wi.com
     # license: "" #base64 encoded string provided by Kasten
