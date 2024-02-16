@@ -1,28 +1,31 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: kubelet-csr-approver
-  namespace: kube-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    meta.helm.sh/release-name: kubelet-csr-approver
-    meta.helm.sh/release-namespace: kube-system
 spec:
   interval: 30m
   chart:
     spec:
       chart: kubelet-csr-approver
-      version: 1.0.7
+      version: 1.0.6
       sourceRef:
         kind: HelmRepository
         name: postfinance
         namespace: flux-system
-      interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    providerRegex: |
-      ^(node1|node2|node3)$
-
+    providerRegex: ^(node1|node2|node3)$
     bypassDnsResolution: true
+    metrics:
+      enable: true
+      serviceMonitor:
+        enabled: true

@@ -6,9 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  url: "https://github.com/FalkWinkler/home-ops"
   ref:
-    branch: develop
-  url: "https://github.com/FalkWinkler/home-ops.git"
+    branch: "main"
   ignore: |
     # exclude all
     /*
