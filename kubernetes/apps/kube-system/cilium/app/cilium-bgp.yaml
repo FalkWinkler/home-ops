@@ -11,11 +11,7 @@ spec:
   virtualRouters:
     - localASN: 64512
       neighbors:
-        - peerAddress: "192.168.10.31/32"
-          peerASN: 64512
-        - peerAddress: "192.168.10.32/32"
-          peerASN: 64512
-        - peerAddress: "192.168.10.33/32"
+        - peerAddress: "192.168.10.1/32"
           peerASN: 64512
       serviceSelector:
         matchExpressions:
@@ -27,4 +23,4 @@ metadata:
   name: pool
 spec:
   cidrs:
-    - cidr: "${LOADBALANCER_CIDR}"
+    - cidr: "${BGP_ADVERTISED_CIDR}"

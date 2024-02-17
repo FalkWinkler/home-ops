@@ -1,22 +1,25 @@
 # Trash
 .DS_Store
 Thumbs.db
-.venv
 # k8s
 kubeconfig
-# vscode-sops
 .decrypted~*.yaml
 .config.env
 *.agekey
 *.pub
 *.key
+# Private
+.private
+.bin
 # Ansible
-xanmanning.k3s*
-# Terraform
-.terraform
-.terraform.tfstate*
-terraform.tfstate*
-.terraform
-*.tfstate
-*.tfstate.backup
-*.tfvars
+.venv*
+# Taskfile
+.task
+# Brew
+Brewfile.lock.json
+# intellij
+.idea
+# wiki
+wiki
+# Bootstrap
+/config.yaml
