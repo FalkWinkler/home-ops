@@ -40,7 +40,10 @@ tasks:
   bootstrap-genconfig:
     desc: Generate the Talos configs
     dir: "{{.TALOS_DIR}}"
-    cmd: talhelper genconfig
+    # cmd: talhelper genconfig
+    cmds: 
+      - talhelper -v
+      - talhelper genconfig
     preconditions:
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
 
@@ -66,7 +69,7 @@ tasks:
     dir: "{{.TALOS_DIR}}"
     cmds:
       - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --for=condition=Ready=False nodes --all --timeout=600s; do sleep 10; done
-      - helmfile --file ./apps/helmfile.yaml apply
+      - helmfile --file ./apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
       - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --for=condition=Ready nodes --all --timeout=600s; do sleep 10; done
     preconditions:
       - { msg: "Missing kubeconfig", sh: "test -f {{.KUBECONFIG_FILE}}" }
