@@ -18,7 +18,6 @@ resources:
   - ./prometheus-community.yaml
   - ./weave-gitops.yaml
   - ./kyverno.yaml
-  - ./piraeus.yaml
   - ./democratic-csi.yaml
   - ./truecharts.yaml
   - ./node-feature-discovery.yaml
