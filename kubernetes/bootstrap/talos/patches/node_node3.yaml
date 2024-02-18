@@ -1,0 +1,6 @@
+- op: add
+  path: /machine/install
+  value:
+    extensions:
+      - image: ghcr.io/siderolabs/i915-ucode:20230804
+      - image: ghcr.io/siderolabs/intel-ucode:sha256-0e0d1c57de2544cf6e0f21145e7d0c28caff1cb8dff5d49ab9c03c23c01cf7ea.sig

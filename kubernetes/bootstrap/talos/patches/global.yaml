@@ -22,3 +22,9 @@
         endpoints:
           - https://reg.f-wi.com/v2/proxy-quay.io
         overridePath: true
+- op: add
+  path: /machine/install
+  value:
+    extensions:
+      - image: ghcr.io/siderolabs/qemu-guest-agent:8.2.0
+      - image: 
