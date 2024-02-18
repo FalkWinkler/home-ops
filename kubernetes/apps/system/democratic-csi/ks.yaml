@@ -1,0 +1,46 @@
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: cluster-apps-democratic-csi-local-path
+#   namespace: flux-system
+# spec:
+#   path: "./kubernetes/apps/system/democratic-csi/local-path"
+#   sourceRef:
+#     kind: GitRepository
+#     name: home-kubernetes
+#   interval: 10m
+#   prune: true
+#   wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-democratic-csi-nfs
+  namespace: flux-system
+spec:
+  path: ./kubernetes/apps/system/democratic-csi/nfs/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: true # no flux ks dependents
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: cluster-apps-democratic-csi-iscsi
+#   namespace: flux-system
+# spec:
+#   path: ./kubernetes/apps/system/democratic-csi/iscsi/app
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: home-kubernetes
+#   wait: false # no flux ks dependents
+#   interval: 30m
+#   retryInterval: 1m
+#   timeout: 5m
