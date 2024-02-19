@@ -24,3 +24,5 @@ resources:
   - ./intel.yaml
   - ./backube.yaml
   - ./kasten.yaml
+  - ./kubernetes-sigs-nfd.yaml
+  - ./kubernetes-sigs-descheduler.yaml
