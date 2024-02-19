@@ -26,3 +26,4 @@ resources:
   - ./kasten.yaml
   - ./kubernetes-sigs-nfd.yaml
   - ./kubernetes-sigs-descheduler.yaml
+  - ./piraeus.yaml
