@@ -1,6 +1,0 @@
-- op: add
-  path: /machine/install
-  value:
-    extensions:
-      - image: ghcr.io/siderolabs/amd-ucode:20230804
-      - image: ghcr.io/siderolabs/amdgpu-firmware:sha256-74466ce2cb9412b3e984b35e606d92b5086de40161c61824ecadf8cb02a465a8.sig
