@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app paperless
+  namespace: home
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.0.3
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+
+  values:
+    controllers:
+      main:
+        type: statefulset
+
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        statefulset:
+          volumeClaimTemplates:
+            - name: data
+              accessMode: ReadWriteOnce
+              size: 15Gi
+              storageClass: ceph-block
+              globalMounts:
+                - path: /data/local
+
+        # pod:
+        #   securityContext:
+        #     supplementalGroups:
+        #       - 1003 # apps-rw
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 2.1.3
+            env:
+              # Configure application
+              PAPERLESS_URL: https://dms.${SECRET_DOMAIN}
+              PAPERLESS_PORT: "8000"
+              PAPERLESS_TIME_ZONE: "Europe/Berlin"
+              PAPERLESS_WEBSERVER_WORKERS: "2"
+              PAPERLESS_TASK_WORKERS: "2"
+
+              # Configure folders
+              PAPERLESS_CONSUMPTION_DIR: /data/nas/consume
+              PAPERLESS_DATA_DIR: /data/local/data
+              PAPERLESS_EXPORT_DIR: /data/nas/export
+              PAPERLESS_MEDIA_ROOT: /data/local/media
+
+              # Configure folder importer
+              PAPERLESS_CONSUMER_POLLING: "60"
+              PAPERLESS_CONSUMER_RECURSIVE: "true"
+              PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              PAPERLESS_FILENAME_FORMAT: '{correspondent}/{created_year}/{document_type}/{created}-{title}'
+              PAPERLESS_FILENAME_DATE_ORDER: YMD
+              # Configure OCR
+              PAPERLESS_OCR_LANGUAGES: deu
+              PAPERLESS_OCR_LANGUAGE: deu+eng
+
+              # Configure redis integration
+              PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
+
+              # Configure user permissions
+              # USERMAP_UID: "1003" # truenas user group id
+              # USERMAP_GID: "1003" # truenas user group id
+            envFrom:
+              - secretRef:
+                  name: *app
+            resources:
+              requests:
+                cpu: 11m
+                memory: 1812M
+              limits:
+                memory: 1812M
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8000
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "note-multiple"
+        hosts:
+          - host: &host "dms.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      nas-consume:
+        enabled: true
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/scan
+        globalMounts:
+          - path: /data/nas/consume
+
+      nas-export:
+        enabled: true
+        readonly: false
+        type: nfs
+        server: "${LOCAL_LAN_TRUENAS}"
+        path: /mnt/Volume1/document/export
+        globalMounts:
+          - path: /data/nas/export
