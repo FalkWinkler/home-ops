@@ -1,9 +1,9 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
-  namespace: rook-ceph
 spec:
   interval: 30m
   chart:
@@ -18,34 +18,62 @@ spec:
     toolbox:
       enabled: false
 
-    ingress:
-      ingressClassName: "internal"
-      dashboard:
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: content-save
-          hajimari.io/appName: "rook-ceph"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-
-        host:
-          name: &host "rook.${SECRET_DOMAIN}"
-          path: "/"
-        tls:
-          - hosts:
-              - *host
-
     monitoring:
       enabled: true
       createPrometheusRules: true
 
     configOverride: |
-          [global]
-          bdev_enable_discard = true
-          bdev_async_discard = true
+      [global]
+      bdev_enable_discard = true
+      bdev_async_discard = true
 
     cephClusterSpec:
       network:
         provider: host
+
+      resources:
+        mgr:
+          requests:
+            cpu: "125m"
+            memory: "512Mi"
+          limits:
+            memory: "2Gi"
+        mon:
+          requests:
+            cpu: "49m"
+            memory: "512Mi"
+          limits:
+            memory: "1Gi"
+        osd:
+          requests:
+            cpu: "442m"
+            memory: "2Gi"
+          limits:
+            memory: "6Gi"
+        mgr-sidecar:
+          requests:
+            cpu: "49m"
+            memory: "128Mi"
+          limits:
+            memory: "256Mi"
+        crashcollector:
+          requests:
+            cpu: "15m"
+            memory: "64Mi"
+          limits:
+            memory: "64Mi"
+        logcollector:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            memory: "1Gi"
+        cleanup:
+          requests:
+            cpu: "250m"
+            memory: "100Mi"
+          limits:
+            memory: "1Gi"
 
       crashCollector:
         disable: false
@@ -53,7 +81,6 @@ spec:
       dashboard:
         enabled: true
         urlPrefix: /
-
 
       storage:
         useAllNodes: false
@@ -71,88 +98,17 @@ spec:
             devices:
               - name: "/dev/sdb"
 
-      resources:
-        mgr:
-          requests:
-            # @default cpu 600m
-            cpu: 125m
-            memory: 100Mi
-        mgr-sidecar:
-          # @default cpu 600m
-          requests:
-            cpu: 50m
-            memory: 50Mi
-        mon:
-          requests:
-            # @default cpu 1000m
-            cpu: 49m
-            memory: 256Mi
-        osd:
-          requests:
-            # @default cpu 3000m
-            cpu: 300m
-            memory: 512Mi
-        prepareosd:
-          requests:
-            # @default cpu 3000m
-            cpu: 100m
-
-      # placement:
-      #   all:
-      #     tolerations:
-      #       - effect: NoSchedule
-      #         operator: Exists
-      #       - effect: NoExecute
-      # resources:
-      #   mgr:
-      #     requests:
-      #       cpu: "125m"
-      #       memory: "549M"
-      #     limits:
-      #       memory: "1219M"
-      #   mon:
-      #     requests:
-      #       cpu: "49m"
-      #       memory: "477M"
-      #     limits:
-      #       memory: "1059M"
-      #   osd:
-      #     requests:
-      #       cpu: "442m"
-      #       memory: "2678M"
-      #     limits:
-      #       memory: "5944M"
-      #   mgr-sidecar:
-      #     requests:
-      #       cpu: "49m"
-      #       memory: "94M"
-      #     limits:
-      #       memory: "208M"
-      #   crashcollector:
-      #     requests:
-      #       cpu: "15m"
-      #       memory: "64M"
-      #     limits:
-      #       memory: "64M"
-      #   logcollector:
-      #     requests:
-      #       cpu: "100m"
-      #       memory: "100M"
-      #     limits:
-      #       memory: "1G"
-      #   cleanup:
-      #     requests:
-      #       cpu: "250m"
-      #       memory: "100M"
-      #     limits:
-      #       memory: "1G"
-    cephBlockPoolsVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-blockpool
-      isDefault: false
-      deletionPolicy: Delete
-      annotations:
-        k10.kasten.io/is-snapshot-class: "true"
+    ingress:
+      dashboard:
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        host:
+          name: &host rook.${SECRET_DOMAIN}
+          path: "/"
+        tls:
+          - hosts:
+              - *host
 
     cephBlockPools:
       - name: ceph-blockpool
@@ -177,6 +133,12 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
 
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-blockpool
+      isDefault: false
+      deletionPolicy: Delete
+
     cephFileSystems:
       - name: ceph-filesystem
         spec:
@@ -193,9 +155,9 @@ spec:
             resources:
               requests:
                 cpu: "35m"
-                memory: "64M"
+                memory: "1Gi"
               limits:
-                memory: "144M"
+                memory: "3Gi"
         storageClass:
           enabled: true
           isDefault: false
@@ -211,6 +173,12 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
+
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: csi-ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
 
     cephObjectStores:
       - name: ceph-objectstore
@@ -230,7 +198,7 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 128M
+                memory: 256Mi
               limits:
                 memory: 2Gi
             instances: 1
