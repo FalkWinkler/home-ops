@@ -26,6 +26,8 @@ spec:
     controllers:
       main:
         strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:
@@ -47,6 +49,9 @@ spec:
                   fieldRef:
                     fieldPath: metadata.namespace
             securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+              runAsGroup: 65534
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
@@ -67,23 +72,25 @@ spec:
           tolerations:
             - key: CriticalAddonsOnly
               operator: Exists
-            - key: node-role.kubernetes.io/control-plane
-              operator: Exists
-              effect: NoSchedule
             - key: node-role.kubernetes.io/master
               operator: Exists
               effect: NoSchedule
-    serviceAccount:
-      create: true
-      name: system-upgrade
+            - key: node-role.kubernetes.io/controlplane
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/etcd
+              operator: Exists
+              effect: NoExecute
+
     service:
       main:
         enabled: false
     persistence:
       tmp:
         type: emptyDir
-        globalMounts:
-          - path: /tmp
       etc-ssl:
         type: hostPath
         hostPath: /etc/ssl
@@ -105,3 +112,6 @@ spec:
         globalMounts:
           - path: /etc/ca-certificates
             readOnly: true
+    serviceAccount:
+      name: system-upgrade
+      create: true
