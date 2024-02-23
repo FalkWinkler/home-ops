@@ -39,4 +39,4 @@ spec:
   wait: true
   dependsOn:
     - name: rook-ceph
-    - name: cluster-apps-snapshot-controller
+    - name: snapshot-controller
