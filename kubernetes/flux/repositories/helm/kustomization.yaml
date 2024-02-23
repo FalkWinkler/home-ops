@@ -27,3 +27,8 @@ resources:
   - ./kubernetes-sigs-nfd.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./piraeus.yaml
+  - ./bitnami.yaml
+  - ./crunchydata.yaml
+  - ./csi-diver-nfs.yaml
+  - ./kubernetes-sigs-descheduler.yaml
+
