@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: snapshot-controller
-      version: 2.1.0
+      version: 2.2.0
       sourceRef:
         kind: HelmRepository
         name: piraeus
@@ -29,16 +29,23 @@ spec:
     keepHistory: false
   values:
     # https://artifacthub.io/packages/helm/piraeus-charts/snapshot-controller
-    volumeSnapshotClasses:
-      - name: csi-ceph-blockpool
-        driver: rook-ceph.rbd.csi.ceph.com
-        annotations:
-          snapshot.storage.kubernetes.io/is-default-class: "true"
-          k10.kasten.io/is-snapshot-class: "true"
-        parameters:
-          clusterID: rook-ceph
-          csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph
-        deletionPolicy: Delete
+    # volumeSnapshotClasses:
+    #   - name: csi-ceph-blockpool
+    #     driver: rook-ceph.rbd.csi.ceph.com
+    #     annotations:
+    #       snapshot.storage.kubernetes.io/is-default-class: "true"
+    #       k10.kasten.io/is-snapshot-class: "true"
+    #     parameters:
+    #       clusterID: rook-ceph
+    #       csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
+    #       csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph
+    #     deletionPolicy: Delete
     serviceMonitor:
       create: true
+    webhook:
+      enabled: true
+      tls:
+        certManagerIssuerRef:
+          name: snapshot-controller-webhook-ca
+          kind: Issuer
+
