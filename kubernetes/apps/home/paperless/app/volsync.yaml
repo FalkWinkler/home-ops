@@ -5,7 +5,7 @@ metadata:
   name: paperless
   namespace: home
 spec:
-  sourcePVC: data-paperless-0
+  sourcePVC: paperless-data
   trigger:
     schedule: "0 */12 * * *"
   restic:
@@ -24,3 +24,6 @@ spec:
       hourly: 24
       daily: 7
       weekly: 5
+    capacity: 15Gi
+    accessModes: ReadWriteOnce
+
