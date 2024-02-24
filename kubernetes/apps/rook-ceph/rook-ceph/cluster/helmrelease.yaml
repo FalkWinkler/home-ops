@@ -81,6 +81,7 @@ spec:
       dashboard:
         enabled: true
         urlPrefix: /
+        ssl: false
 
       storage:
         useAllNodes: false
@@ -102,7 +103,8 @@ spec:
       dashboard:
         ingressClassName: "internal"
         annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          hajimari.io/appName: "Rook"
+          hajimari.io/icon: mdi:chess-rook
         host:
           name: &host rook.${SECRET_DOMAIN}
           path: "/"
