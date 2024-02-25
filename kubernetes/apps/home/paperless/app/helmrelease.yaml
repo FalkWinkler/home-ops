@@ -122,11 +122,10 @@ spec:
       data:
         enabled: true
         existingClaim: "paperless-data"
-        globalMounts:
-          - subPath: data
-            path: /usr/src/paperless/data
-          - subPath: media
-            path: /usr/src/paperless/media
+        advancedMounts:
+          main:
+            main:
+              - path: /data/local
 
       nas-consume:
         enabled: true
