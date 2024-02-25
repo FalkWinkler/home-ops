@@ -101,8 +101,6 @@ spec:
     ingress:
       dashboard:
         ingressClassName: "internal"
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         host:
           name: &host rook.${SECRET_DOMAIN}
           path: "/"
