@@ -12,5 +12,5 @@ spec:
     name: "paperless-bootstrap"
   resources:
     requests:
-      storage: "${VOLSYNC_CAPACITY:-1Gi}"
+      storage: "${VOLSYNC_CAPACITY:-15Gi}"
   storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
