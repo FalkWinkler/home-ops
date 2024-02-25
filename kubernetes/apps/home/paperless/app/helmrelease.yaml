@@ -22,21 +22,9 @@ spec:
         fsGroup: 65539
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      main:
-        type: statefulset
-
+      main:       
         annotations:
           reloader.stakater.com/auto: "true"
-
-        statefulset:
-          volumeClaimTemplates:
-            - name: data
-              accessMode: ReadWriteOnce
-              size: 15Gi
-              storageClass: ceph-block
-              globalMounts:
-                - path: /data/local
-
         # pod:
         #   securityContext:
         #     supplementalGroups:
