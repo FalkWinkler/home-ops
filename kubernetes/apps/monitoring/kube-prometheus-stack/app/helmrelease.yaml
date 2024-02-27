@@ -1,23 +1,30 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: kube-prometheus-stack
-  namespace: monitoring
 spec:
   interval: 30m
-  timeout: 15m
+  maxHistory: 2
+  timeout: 20m
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 55.5.1
+      version: 56.8.2
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
+      interval: 30m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   values:
     crds:
       enabled: true
+    cleanPrometheusOperatorObjectNames: true
 
     ###
     ### Component values
@@ -91,11 +98,6 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: true
 
     ###
     ### Prometheus operator values
@@ -126,7 +128,7 @@ spec:
         ingressClassName: internal
         pathType: Prefix
         hosts:
-          - &host_prometheus "prometheus.${SECRET_DOMAIN}"
+          - &host_prometheus prometheus.${SECRET_DOMAIN}
         tls:
           - hosts:
               - *host_prometheus
@@ -137,28 +139,13 @@ spec:
             name: alertmanager
             port: 9093
             apiVersion: v2
-        additionalScrapeConfigs:
-          - job_name: node-exporter
-            scrape_interval: 1m
-            scrape_timeout: 10s
-            honor_timestamps: true
-            static_configs:
-              - targets:
-                  - "gateway.${SECRET_DOMAIN}:9100"
-                  - "nas.${SECRET_DOMAIN}:9100"
-                  - "pikvm.${SECRET_DOMAIN}:9100"
-
-          - job_name: speedtest-exporter
-            scrape_interval: 60m
-            scrape_timeout: 60s
-            honor_timestamps: true
-            static_configs:
-              - targets:
-                  - "gateway.${SECRET_DOMAIN}:9798"
-
         enableAdminAPI: true
+        enableFeatures:
+          - auto-gomaxprocs
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
         externalLabels:
-          cluster: cluster-0
+          cluster: ${CLUSTER_NAME}
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         replicas: 1
@@ -170,8 +157,9 @@ spec:
           limits:
             memory: 3760M
         retention: 2d
-        retentionSize: "6GB"
+        retentionSize: "15GB"
         ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
         scrapeInterval: 1m
         serviceMonitorSelectorNilUsesHelmValues: false
         storageSpec:
@@ -180,14 +168,15 @@ spec:
               storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 20Gi
         thanos:
-          image: quay.io/thanos/thanos:v0.32.1@sha256:43419f66b212a0dcf49fab756329fb107ac962798bdaef647f6b23d3a5d9e8cb
+          image: quay.io/thanos/thanos:v0.34.1
           objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
-          # renovate: datasource=docker depName=quay.io/thanos/thanos
-          version: "0.32.1"
+            existingSecret:
+              name: kube-prometheus-stack-secret
+              key: objstore.yml
+          # renovate: depName=quay.io/thanos/thanos datasource=docker
+          version: "0.34.1"
         walCompression: true
 
       thanosService:
