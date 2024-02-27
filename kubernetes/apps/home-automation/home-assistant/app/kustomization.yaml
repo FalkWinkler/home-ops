@@ -8,8 +8,8 @@ resources:
   - ./ssh.secret.sops.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-patchesStrategicMerge:
-  - patches/postgres.yaml
+# patchesStrategicMerge:
+#   - patches/postgres.yaml
 commonLabels:
   app.kubernetes.io/name: home-assistant
   app.kubernetes.io/instance: home-assistant
