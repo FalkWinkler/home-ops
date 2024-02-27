@@ -27,9 +27,7 @@ resources:
   - ./kubernetes-sigs-nfd.yaml
   - ./kubernetes-sigs-descheduler.yaml
   - ./piraeus.yaml
-  - ./crunchydata.yaml
-  - ./csi-diver-nfs.yaml
-  - ./kubernetes-sigs-descheduler.yaml
-  - bitnami.yaml
-  - zalando-postgres-operator.yaml
+  - ./crunchydata.yaml 
+  - ./bitnami.yaml
+  - ./zalando-postgres-operator.yaml
 
