@@ -1,15 +1,14 @@
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: home-assistant
-  namespace: home-automation
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.6.0
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -18,45 +17,46 @@ spec:
 
   values:
 
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.11.0
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2024.2.2
+            # env:
+            #   POSTGRES_HOST:
+            #     valueFrom:
+            #       secretKeyRef:
+            #         name: home-assitant-postgres
+            #         key: POSTGRES_HOST
+            #   POSTGRES_DB:
+            #     valueFrom:
+            #       secretKeyRef:
+            #         name: home-assitant-postgres
+            #         key: POSTGRES_DB
+            #   SECRET_RECORDER_DB_URL:
+            #     valueFrom:
+            #       secretKeyRef:
+            #         name: home-assitant-postgres
+            #         key: POSTGRES_URL
 
-    env:
-      POSTGRES_HOST:
-        valueFrom:
-          secretKeyRef:
-            name: home-assitant-postgres
-            key: POSTGRES_HOST
-      POSTGRES_DB:
-        valueFrom:
-          secretKeyRef:
-            name: home-assitant-postgres
-            key: POSTGRES_DB
-      SECRET_RECORDER_DB_URL:
-        valueFrom:
-          secretKeyRef:
-            name: home-assitant-postgres
-            key: POSTGRES_URL
-
-    envFrom:
-      - secretRef:
-          name: home-assistant-secret
+            envFrom:
+              - secretRef:
+                  name: home-assistant-secret
 
     service:
       main:
         ports:
           http:
             port: 8123
-        annotations:
-          io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
+        # annotations:
+        #   io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
+        # type: LoadBalancer
+        # externalTrafficPolicy: Cluster
 
     ingress:
       main:
@@ -66,11 +66,21 @@ spec:
           hajimari.io/icon: mdi:home-assistant
         #   external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
         hosts:
+          - host: "${HOSTNAME}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
           - host: &host "domo.${SECRET_DOMAIN}"
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
+              - "${HOSTNAME}"
               - *host
 
     persistence:
@@ -86,29 +96,18 @@ spec:
         enabled: true
         type: secret
         name: home-assistant-ssh
-        mountPath: /root/.ssh
+        globalMounts:
+         - path: /root/.ssh
         readOnly: true
-        defaultMode: 0600
-
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    podAnnotations:
-      secret.reloader.stakater.com/reload: "home-assistant-secret,home-assistant-ssh"
-    resources:
-      requests:
-        cpu: 47m
-        memory: 1254M
-      limits:
-        memory: 1254M
-
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
+        defaultMode: 256
+      config:
+        enabled: true
+        type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 5Gi
         storageClass: ceph-block
+        advancedMounts:
+          main:
+            main:
+              - path: /config
+
