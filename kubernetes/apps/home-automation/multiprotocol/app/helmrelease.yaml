@@ -19,7 +19,12 @@ spec:
   values:
     image:
       repository: homeassistant/amd64-addon-silabs-multiprotocol
-      tag: 2.1.0
+      tag: 2.4.4
+    command:
+      - lsusb
+      - ls /dev/
+      - ls /dev/ttyACM0
+      - ls /dev/ttyUSB0
     env:
       # # -- Port where ser2sock listens
       # LISTENER_PORT: 10000
