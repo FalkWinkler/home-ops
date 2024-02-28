@@ -21,7 +21,6 @@ spec:
       repository: homeassistant/amd64-addon-silabs-multiprotocol
       tag: 2.4.4
     command:
-      - lsusb
       - ls /dev/
       - ls /dev/ttyACM0
       - ls /dev/ttyUSB0
