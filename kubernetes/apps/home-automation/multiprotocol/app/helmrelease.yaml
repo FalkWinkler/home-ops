@@ -24,7 +24,7 @@ spec:
       # # -- Port where ser2sock listens
       # LISTENER_PORT: 10000
       # # -- Path to the serial device
-      DEVICE: "/dev/ttyUSB0"
+      DEVICE: "/dev/ttyACM0"
       # # -- Serial device baud rate
       BAUDRATE: "460800"
       OTBR_LOG_LEVEL: "debug"
@@ -71,7 +71,7 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /dev/ttyUSB0
+        hostPath: /dev/ttyACM0
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
