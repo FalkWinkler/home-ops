@@ -28,8 +28,8 @@ spec:
       # # -- Serial device baud rate
       BAUDRATE: "460800"
       OTBR_LOG_LEVEL: "debug"
-      OTBR_ENABLE: 1
-      OTB_FIREWALL: 1
+      OTBR_ENABLE: "true"
+      OTB_FIREWALL: "true"
       OTBR_REST_LISTEN_PORT: "8081"
       OTBR_WEB_PORT: "8086"
 
@@ -38,9 +38,8 @@ spec:
 
       BACKBONE_IF: "eth0"
       FLOW_CONTROL: "false"
-      NETWORK_DEVICES: 0
       NETWORK_DEVICE: ""
-      AUTOFLASH_FIRMWARE: 0
+      AUTOFLASH_FIRMWARE: "false"
       FIRMWARE: ""
     service:
       main:
@@ -76,10 +75,10 @@ spec:
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged:  true
-      # capabilities:
-      #   add:
-      #   - IPC_LOCK
-      #   - NET_ADMIN
+      capabilities:
+        add:
+        - IPC_LOCK
+        - NET_ADMIN
     hostNetwork: true
 
     # -- Affinity constraint rules to place the Pod on a specific node.
