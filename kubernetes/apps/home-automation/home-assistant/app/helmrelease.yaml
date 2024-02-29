@@ -16,17 +16,22 @@ spec:
         namespace: flux-system
 
   values:
-
     controllers:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        pod:
+          labels:
+            ingress.home.arpa/nginx-internal: allow
+            egress.home.arpa/world: allow
+            egress.home.arpa/kubedns: allow # FIXME: Remove when clusterNetworkPolicy is in place
+
         containers:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2024.2.2
+              tag: 2024.2.5
             # env:
             #   POSTGRES_HOST:
             #     valueFrom:
@@ -47,6 +52,38 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 47m
+                memory: 1.5Gi
+              limits:
+                memory: 1.5Gi
+      # Configure the code-server sidecar
+          code:
+            dependsOn: main
+            image:
+              # -- image repository
+              repository: ghcr.io/coder/code-server
+              # -- image tag
+              # this example is not automatically updated, so be sure to use the latest image
+              tag: 4.21.2
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
 
     service:
       main:
@@ -57,11 +94,18 @@ spec:
         #   io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
         # type: LoadBalancer
         # externalTrafficPolicy: Cluster
+      # Configure a service for the code-server sidecar
+      code:
+        type: ClusterIP
+        controller: main
+        ports:
+          http:
+            port: 8081
 
     ingress:
       main:
         enabled: true
-        className: "internal"
+        className: internal
         annotations:
           hajimari.io/icon: mdi:home-assistant
         #   external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
@@ -82,22 +126,28 @@ spec:
           - hosts:
               - "${HOSTNAME}"
               - *host
-
+    # Configure an Ingress for the code-server sidecar
+      code:
+        enabled: true
+        ingressClassName: internal"
+        hosts:
+          - host: &host-code "hass-code.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: code
+                  port: http
+        tls:
+          - hosts:
+              - *host-code
     persistence:
-      # deploy-key:
-      #   enabled: true
-      #   type: secret
-      #   name: home-assistant-secret
-      #   defaultMode: 256
-      #   subPath:
-      #     - path: GH_DEPLOY_KEY
-      #       mountPath: /root/.ssh/id_rsa
       ssh:
         enabled: true
         type: secret
         name: home-assistant-ssh
         globalMounts:
-         - path: /root/.ssh
+          - path: /root/.ssh
         readOnly: true
         defaultMode: 256
       config:
