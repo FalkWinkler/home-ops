@@ -87,13 +87,14 @@ spec:
 
     service:
       main:
+        annotations:
+        io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 8123
-        # annotations:
-        #   io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
-        # type: LoadBalancer
-        # externalTrafficPolicy: Cluster
+
       # Configure a service for the code-server sidecar
       code:
         type: ClusterIP
