@@ -41,10 +41,10 @@ spec:
     storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
     moverSecurityContext:
-      runAsUser: ${APP_UID:-568}
-      runAsGroup: ${APP_GID:-568}
-      fsGroup: ${APP_GID:-568}
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
     accessModes:
       - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
-    capacity: "${VOLSYNC_CAPACITY:-1Gi}"
+    capacity: "${VOLSYNC_CAPACITY:-5Gi}"
 
