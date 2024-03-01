@@ -13,9 +13,9 @@ spec:
     pruneIntervalDays: 14
     repository: home-assistant-restic-secret
     moverSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1003
-      fsGroup: 1003
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
     cacheStorageClassName: "local-hostpath"
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
