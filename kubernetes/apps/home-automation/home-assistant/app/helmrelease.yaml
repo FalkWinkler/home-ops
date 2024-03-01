@@ -153,10 +153,7 @@ spec:
         defaultMode: 256
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: ceph-block
+        existtingClaim: home-assistant-config
         advancedMounts:
           main:
             main:
