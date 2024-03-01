@@ -153,7 +153,7 @@ spec:
         defaultMode: 256
       config:
         enabled: true
-        existtingClaim: home-assistant-config
+        existingClaim: home-assistant-config
         advancedMounts:
           main:
             main:
