@@ -19,4 +19,4 @@ spec:
   dependsOn:
     - name: mosquitto
     - name: rook-ceph-cluster
-    - name: cluster-apps-ser2sock
+    - name: ser2sock
