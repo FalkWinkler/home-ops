@@ -86,12 +86,12 @@ spec:
           #   name: Loki
           #   type: loki
           #   url: http://loki-gateway.monitoring.svc.cluster.local:80
-          # - name: Alertmanager
-          #   type: alertmanager
-          #   access: proxy
-          #   url: http://alertmanager.monitoring.svc.cluster.local:9093
-          #   jsonData:
-          #     implementation: prometheus
+          - name: Alertmanager
+            type: alertmanager
+            access: proxy
+            url: http://alertmanager.monitoring.svc.cluster.local:9093
+            jsonData:
+              implementation: prometheus
         deleteDatasources:
           - name: Loki
             orgId: 1
@@ -102,7 +102,7 @@ spec:
       type: Recreate
 
       admin:
-      existingSecret: grafana-admin-secret
+        existingSecret: grafana-admin-secret
 
 
     grafana.ini:
@@ -143,12 +143,12 @@ spec:
       enabled: false
 
     plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
       - natel-discrete-panel
       - pr0ps-trackmap-panel
-      - grafana-piechart-panel
       - vonage-status-panel
-      - grafana-worldmap-panel
-      - grafana-clock-panel
 
 
     serviceMonitor:
@@ -168,15 +168,16 @@ spec:
     sidecar:
       dashboards:
         enabled: true
+        searchNamespace: ALL
         labelValue: ""
         label: grafana_dashboard
         folderAnnotation: grafana_folder
-        searchNamespace: ALL
         provider:
           disableDelete: true
           foldersFromFilesStructure: true
       datasources:
         enabled: true
-        labelValue: ""
         searchNamespace: ALL
+        labelValue: ""
+
       logLevel: INFO
