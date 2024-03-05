@@ -20,6 +20,10 @@ spec:
       type: s3
       config:
         insecure: true
+        bucket: "thanos"
+        endpoint: "${LB_MINIO_IP}:9000"
+        access_key: "thanos"
+        secret_key: "Sgo2ozmR39XpSCBg44iosI90sc7LoIqF"
 
     query:
       enabled: true
