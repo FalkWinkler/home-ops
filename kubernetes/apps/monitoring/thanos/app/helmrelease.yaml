@@ -27,7 +27,7 @@ spec:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
       stores:
-        - "${LB_MINIO_IP}:10901"
+        - "${LB_MINIO_IP}:9000"
       replicaLabels:
         - "__replica__" # must match with kube-prometheus-stack value `.prometheus.prometheusSpec.replicaExternalLabelName`
       resources:
