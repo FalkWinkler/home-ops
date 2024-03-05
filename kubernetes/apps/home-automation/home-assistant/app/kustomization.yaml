@@ -11,6 +11,3 @@ resources:
   - ./helmrelease.yaml
 # patchesStrategicMerge:
 #   - patches/postgres.yaml
-commonLabels:
-  app.kubernetes.io/name: home-assistant
-  app.kubernetes.io/instance: home-assistant

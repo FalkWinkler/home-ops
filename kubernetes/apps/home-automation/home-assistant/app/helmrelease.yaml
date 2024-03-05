@@ -143,14 +143,14 @@ spec:
           - hosts:
               - *host-code
     persistence:
-      # ssh:
-      #   enabled: true
-      #   type: secret
-      #   name: home-assistant-ssh
-      #   globalMounts:
-      #     - path: /root/.ssh
-      #   readOnly: true
-      #   defaultMode: 256
+      ssh:
+        enabled: true
+        type: secret
+        name: home-assistant-ssh
+        globalMounts:
+          - path: /root/.ssh
+        readOnly: true
+        defaultMode: 256
       config:
         enabled: true
         existingClaim: home-assistant-config
