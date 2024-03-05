@@ -148,8 +148,8 @@ spec:
         type: secret
         name: home-assistant-ssh
         globalMounts:
-          - path: /root/.ssh
-        readOnly: true
+          - path: /root/.ssh/id_ed25519
+            subPath: id_ed25519
         defaultMode: 256
       config:
         enabled: true
