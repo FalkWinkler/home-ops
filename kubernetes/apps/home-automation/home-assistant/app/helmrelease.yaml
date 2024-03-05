@@ -16,6 +16,13 @@ spec:
         namespace: flux-system
 
   values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       main:
         annotations:
@@ -147,8 +154,6 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-config
-        advancedMounts:
-          main:
-            main:
-              - path: /config
+        globalMounts:
+          - path: /config
 
