@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 13.2.1
+      version: 13.2.2
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -20,6 +20,10 @@ spec:
       type: s3
       config:
         insecure: true
+        bucket: "thanos"
+        endpoint: "minio.default.svc.cluster.local:9000"
+        access_key: "thanos"
+        secret_key: "Sgo2ozmR39XpSCBg44iosI90sc7LoIqF"
         
     query:
       enabled: true
@@ -27,7 +31,7 @@ spec:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
       stores:
-        - "${LB_MINIO_IP}:9000"
+        - "minio.default.svc.cluster.local:9000"
       replicaLabels:
         - "__replica__" # must match with kube-prometheus-stack value `.prometheus.prometheusSpec.replicaExternalLabelName`
       resources:
