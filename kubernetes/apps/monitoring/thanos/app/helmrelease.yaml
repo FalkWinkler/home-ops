@@ -30,8 +30,8 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
-      stores:
-        - "minio.default.svc.cluster.local:9000"
+      # stores:
+      #   - "minio.default.svc.cluster.local:9000"
       replicaLabels:
         - "__replica__" # must match with kube-prometheus-stack value `.prometheus.prometheusSpec.replicaExternalLabelName`
       resources:
