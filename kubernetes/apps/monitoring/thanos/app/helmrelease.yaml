@@ -45,9 +45,14 @@ spec:
       enabled: true
       ingress:
         enabled: true
-        hostname: "thanos.${SECRET_DOMAIN}"
+        hostname: &host "thanos.${SECRET_DOMAIN}"
         ingressClassName: "internal"
-        tls: true
+      annotations:
+        hajimari.io/icon: "table-search"
+      tls: true
+      extraTls:
+        - hosts:
+            - *host
 
     bucketweb:
       enabled: true
@@ -62,7 +67,7 @@ spec:
       enabled: true
       extraFlags:
         - "--compact.concurrency=4"
-        - --delete-delay=30m
+        - "--delete-delay=30m"
       retentionResolutionRaw: 14d
       retentionResolution5m: 30d
       retentionResolution1h: 90d
@@ -74,7 +79,7 @@ spec:
         #   memory: 270M
       persistence:
         enabled: true
-        storageClass: "local-hostpath"
+        storageClass: "openebs-hostpath"
         size: 15Gi
 
     storegateway:
@@ -87,7 +92,7 @@ spec:
         #   memory: 226M
       persistence:
         enabled: true
-        storageClass: "local-hostpath"
+        storageClass: "openebs-hostpath"
         size: 1Gi
 
     ruler:
@@ -105,14 +110,14 @@ spec:
         enabled: true
       persistence:
         enabled: true
-        storageClass: "local-hostpath"
+        storageClass: "openebs-hostpath"
         size: 512Mi
       resources:
         requests:
           cpu: 23m
           memory: 128M
-        limits:
-          memory: 256M
+        # limits:
+        #   memory: 256M
 
     metrics:
       enabled: true
