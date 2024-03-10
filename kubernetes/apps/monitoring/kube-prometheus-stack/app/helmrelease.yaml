@@ -127,6 +127,8 @@ spec:
         enabled: true
         ingressClassName: internal
         pathType: Prefix
+        annotations:
+          hajimari.io/icon: simple-icons:prometheus
         hosts:
           - &host_prometheus prometheus.${SECRET_DOMAIN}
         tls:

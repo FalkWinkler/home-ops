@@ -131,6 +131,8 @@ spec:
       code:
         enabled: true
         ingressClassName: internal"
+        annotations:
+          hajimari.io/icon: mdi:microsoft-visual-studio-code        
         hosts:
           - host: &host-code "hass-code.${SECRET_DOMAIN}"
             paths:
