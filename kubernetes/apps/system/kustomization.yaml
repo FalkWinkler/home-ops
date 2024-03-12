@@ -3,7 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   # Pre Flux-Kustomizations
-  - ./namespace.yaml  
+  - ./namespace.yaml
+  - ./deschuduler.yaml
   - ./democratic-csi/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugins/ks.yaml
