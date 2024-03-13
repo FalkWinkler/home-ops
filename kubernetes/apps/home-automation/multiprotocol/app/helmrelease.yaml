@@ -79,6 +79,15 @@ spec:
         add:
         - IPC_LOCK
         - NET_ADMIN
+        - CHOWN
+        - KILL
+        - NET_RAW
+        - SYS_ADMIN
+        - SYS_RESOURCE
+        - DAC_OVERRIDE
+        - FOWNER
+        - SETGID
+        - SETUID
     hostNetwork: true
 
     # -- Affinity constraint rules to place the Pod on a specific node.
