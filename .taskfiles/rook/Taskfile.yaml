@@ -19,12 +19,12 @@ tasks:
       - task: wipe-disk
         vars:
           node: "{{.node}}"
-          ceph_disk: "/dev/sda"
+          ceph_disk: "/dev/sdb"
       - task: wipe-data
         vars:
           node: "{{.node}}"
     vars:
-      node: delta
+      node: node1
 
   wipe-node-node2:
     desc: Trigger a wipe of Rook-Ceph data on node "node2"
@@ -32,12 +32,12 @@ tasks:
       - task: wipe-disk
         vars:
           node: "{{.node}}"
-          ceph_disk: "/dev/sda"
+          ceph_disk: "/dev/sdb"
       - task: wipe-data
         vars:
           node: "{{.node}}"
     vars:
-      node: enigma
+      node: node2
 
   wipe-node-node3:
     desc: Trigger a wipe of Rook-Ceph data on node "node3"
@@ -45,12 +45,12 @@ tasks:
       - task: wipe-disk
         vars:
           node: "{{.node}}"
-          ceph_disk: "/dev/sda"
+          ceph_disk: "/dev/sdb"
       - task: wipe-data
         vars:
           node: "{{.node}}"
     vars:
-      node: felix
+      node: node3
 
   wipe-disk:
     desc: Wipe all remnants of rook-ceph from a given disk (ex. task rook:wipe-disk node=delta ceph_disk="/dev/nvme0n1")

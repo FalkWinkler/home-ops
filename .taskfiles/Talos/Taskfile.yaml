@@ -4,8 +4,9 @@ version: "3"
 
 vars:
   TALOS_DIR: "{{.KUBERNETES_DIR}}/bootstrap/talos"
-  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talhelper.sops.yaml"
+  TALHELPER_SECRET_FILE: "{{.TALOS_DIR}}/talsecret.sops.yaml"
   TALHELPER_CONFIG_FILE: "{{.TALOS_DIR}}/talconfig.yaml"
+  TALHELPER_CONFIG_DIR: "{{.TALOS_DIR}}/clusterconfig"
 
 env:
   TALOSCONFIG: "{{.TALOS_DIR}}/clusterconfig/talosconfig"
@@ -40,12 +41,10 @@ tasks:
   bootstrap-genconfig:
     desc: Generate the Talos configs
     dir: "{{.TALOS_DIR}}"
-    # cmd: talhelper genconfig
-    cmds: 
-      - talhelper -v
-      - talhelper genconfig
+    cmd: talhelper genconfig -c {{.TALHELPER_CONFIG_FILE}} -s {{.TALHELPER_SECRET_FILE}} -o {{.TALHELPER_CONFIG_DIR}}
     preconditions:
-      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }      
+      - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
 
   bootstrap-apply:
     desc: Apply the Talos config on a node
@@ -63,6 +62,7 @@ tasks:
       - sleep 10
     preconditions:
       - { msg: "Missing talhelper config file", sh: "test -f {{.TALHELPER_CONFIG_FILE}}" }
+      - { msg: "Missing talhelper secret file", sh: "test -f {{.TALHELPER_SECRET_FILE}}" }
 
   bootstrap-apps:
     desc: Bootstrap core apps needed for Talos
@@ -90,6 +90,13 @@ tasks:
     preconditions:
       - { msg: "Node not found", sh: "talosctl --nodes {{.node}} get machineconfig" }
 
+  extensions:
+    desc: Source on a node
+    cmd: talosctl --nodes {{.node}} get extensions
+    requires:
+      vars: ["node"]
+    preconditions:
+      - { msg: "Node not found", sh: "talosctl --nodes {{.node}} get machineconfig" }
   fetch-kubeconfig:
     desc: Generate talos kubeconfig
     dir: "{{.TALOS_DIR}}"
