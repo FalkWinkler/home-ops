@@ -5,7 +5,7 @@ set -o noglob
 apk add --no-cache \
     bash bind-tools ca-certificates curl python3 \
     py3-pip moreutils jq git iputils openssh-client \
-    starship fzf fish
+    starship fzf fish envsubst
 
 apk add --no-cache \
     --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
@@ -31,7 +31,9 @@ for app in \
     "stern/stern!!?as=stern&type=script" \
     "siderolabs/talos!!?as=talosctl&type=script" \
     "yannh/kubeconform!!?as=kubeconform&type=script" \
-    "mikefarah/yq!!?as=yq&type=script"
+    "mikefarah/yq!!?as=yq&type=script" \
+    "rook/kubectl-rook-ceph!!?as=kubectl-rook-ceph&type=script" \
+    "rook/kubectx/kubens!!?as=kubectx/kubens&type=script"
 do
     echo "=== Installing ${app} ==="
     curl -fsSL "https://i.jpillora.com/${app}" | bash
