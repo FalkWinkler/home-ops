@@ -5,8 +5,8 @@ namespace: home
 resources:
   - ./pvc.yaml
   - ./secret.sops.yaml
-  - ./helmrelease.yaml
-  - ./volsync.yaml
+  # - ./helmrelease.yaml
+  # - ./volsync.yaml
 labels:
   - pairs:
       app.kubernetes.io/name: paperless
