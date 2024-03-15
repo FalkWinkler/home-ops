@@ -9,17 +9,18 @@ spec:
   trigger:
     schedule: "0 */12 * * *"
   restic:
-    copyMethod: Snapshot
-    pruneIntervalDays: 14
+    copyMethod: Snapshot 
     repository: paperless-restic-secret
-    moverSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1003
-      fsGroup: 1003
     cacheStorageClassName: "openebs-hostpath"
+    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
     volumeSnapshotClassName: "csi-ceph-blockpool"
+    moverSecurityContext:
+      runAsUser: 1003
+      runAsGroup: 1003
+      fsGroup: ${APP_GID:-568}
+    pruneIntervalDays: 7
     retain:
       hourly: 24
       daily: 7
@@ -41,8 +42,8 @@ spec:
     storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
     moverSecurityContext:
-      runAsUser: ${APP_UID:-568}
-      runAsGroup: ${APP_GID:-568}
+      runAsUser: 1003
+      runAsGroup: 1003
       fsGroup: ${APP_GID:-568}
     accessModes:
       - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
