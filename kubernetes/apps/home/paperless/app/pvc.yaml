@@ -5,12 +5,12 @@ metadata:
   name: "paperless-data"
 spec:
   accessModes:
-    - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
+    - ReadWriteOnce
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
     name: "paperless-bootstrap"
   resources:
     requests:
-      storage: "${VOLSYNC_CAPACITY:-15Gi}"
-  storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
+      storage: 15Gi
+  storageClassName: ceph-block
