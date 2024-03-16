@@ -15,7 +15,7 @@ spec:
     moverSecurityContext:
       runAsUser: 0
       runAsGroup: 0
-      fsGroup: 0
+      fsGroup: 568
     cacheStorageClassName: "openebs-hostpath"
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
@@ -43,7 +43,7 @@ spec:
     moverSecurityContext:
       runAsUser: 0
       runAsGroup: 0
-      fsGroup: 0
+      fsGroup: 568
     accessModes:
       - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
     capacity: "${VOLSYNC_CAPACITY:-5Gi}"

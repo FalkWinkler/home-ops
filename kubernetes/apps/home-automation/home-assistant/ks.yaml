@@ -18,4 +18,5 @@ spec:
   wait: false # no flux ks dependents
   dependsOn:
     - name: rook-ceph-cluster
+    - name: volsync
 
