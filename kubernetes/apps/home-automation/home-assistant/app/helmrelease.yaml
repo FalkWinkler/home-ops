@@ -141,8 +141,8 @@ spec:
             subPath: id_ed25519
         defaultMode: 256
       config:
-        enabled: true
         existingClaim: home-assistant-config
-        globalMounts:
-          - path: /config
-
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config
