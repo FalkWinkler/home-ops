@@ -34,7 +34,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 1.36
@@ -87,7 +87,8 @@ spec:
                 memory: 256M
 
     service:
-      main:
+      app:
+        controller: zigbee2mqtt
         ports:
           http:
             port: 8080
@@ -96,19 +97,18 @@ spec:
             port: 9000
 
     ingress:
-      main:
-        enabled: true
+      app:
         className: "internal"
         hosts:
-          - host: &host "zigbee2mqtt.${SECRET_DOMAIN}"
+          - host: &hostName "zigbee2mqtt.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
-              - *host
+              - *hostName
 
     persistence:
       data:
