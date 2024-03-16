@@ -18,3 +18,4 @@ spec:
   wait: true
   dependsOn:
     - name: rook-ceph-cluster
+    - name: volsync
