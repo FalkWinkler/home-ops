@@ -12,14 +12,14 @@ spec:
     copyMethod: Snapshot 
     repository: paperless-restic-secret
     cacheStorageClassName: "openebs-hostpath"
-    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
+    cacheAccessModes: [ReadWriteOnce]
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
     volumeSnapshotClassName: "csi-ceph-blockpool"
     moverSecurityContext:
       runAsUser: 1003
       runAsGroup: 1003
-      fsGroup: ${APP_GID:-568}
+      fsGroup: 568
     pruneIntervalDays: 7
     retain:
       hourly: 24
@@ -37,15 +37,15 @@ spec:
   restic:
     copyMethod: Snapshot
     repository: paperless-restic-secret
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-hostpath}"
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    cacheStorageClassName: -openebs-hostpath
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
       runAsUser: 1003
       runAsGroup: 1003
-      fsGroup: ${APP_GID:-568}
+      fsGroup: 568
     accessModes:
-      - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
-    capacity: "${VOLSYNC_CAPACITY:-1Gi}"
+      - ReadWriteOnce
+    capacity: 15Gi
 
