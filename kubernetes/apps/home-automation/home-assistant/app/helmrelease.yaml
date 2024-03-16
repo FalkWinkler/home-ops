@@ -111,7 +111,7 @@ spec:
           hajimari.io/icon: mdi:home-assistant
         #   external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
         hosts:
-          - host: &host "domo.${SECRET_DOMAIN}"
+          - host: &hostName "domo.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -119,11 +119,11 @@ spec:
                   port: http
         tls:
           - hosts:          
-              - *host
+              - *hostName
     # Configure an Ingress for the code-server sidecar
       code:
         enabled: true
-        className: internal"
+        className: internal
         annotations:
           hajimari.io/icon: mdi:microsoft-visual-studio-code        
         hosts:
