@@ -3,7 +3,6 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: home-assistant
-  namespace: home
 spec:
   sourcePVC: home-assistant-config
   trigger:
@@ -36,15 +35,15 @@ spec:
   restic:
     copyMethod: Snapshot
     repository: home-assistant-restic-secret
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-hostpath}"
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    cacheStorageClassName: openebs-hostpath
+    cacheCapacity: 1Gi
+    storageClassName: ceph-block
+    volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
       runAsUser: 0
       runAsGroup: 0
       fsGroup: 568
     accessModes:
-      - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
-    capacity: "${VOLSYNC_CAPACITY:-5Gi}"
+      - ReadWriteOnce
+    capacity: 5Gi
 
