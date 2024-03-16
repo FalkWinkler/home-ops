@@ -17,6 +17,7 @@ spec:
     name: home-kubernetes
   wait: false # no flux ks dependents
   dependsOn:
-    - name: mosquitto
     - name: rook-ceph-cluster
+    - name: volsync
     - name: ser2sock
+    - name: mosquitto
