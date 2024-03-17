@@ -2,23 +2,25 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: home-assistant
+  name: paperless
+  namespace: home-automation
 spec:
   sourcePVC: home-assistant-config
   trigger:
     schedule: "0 */12 * * *"
   restic:
-    copyMethod: Snapshot
-    pruneIntervalDays: 14
+    copyMethod: Snapshot 
     repository: home-assistant-restic-secret
-    moverSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 568
     cacheStorageClassName: "openebs-hostpath"
+    cacheAccessModes: [ReadWriteOnce]
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
     volumeSnapshotClassName: "csi-ceph-blockpool"
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    pruneIntervalDays: 7
     retain:
       hourly: 24
       daily: 7
@@ -40,8 +42,8 @@ spec:
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
+      runAsUser: 568
+      runAsGroup: 568
       fsGroup: 568
     accessModes:
       - ReadWriteOnce
