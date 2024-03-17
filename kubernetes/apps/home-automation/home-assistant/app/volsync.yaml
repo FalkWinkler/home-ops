@@ -2,8 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: paperless
-  namespace: home-automation
+  name: home-assistant
 spec:
   sourcePVC: home-assistant-config
   trigger:
