@@ -142,7 +142,5 @@ spec:
         defaultMode: 256
       config:
         existingClaim: home-assistant-config
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /config
+        globalMounts:         
+          - path: /config
