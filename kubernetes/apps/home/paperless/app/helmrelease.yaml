@@ -132,7 +132,7 @@ spec:
         readonly: false
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
-        path: /mnt/Volume1/document/scan
+        path: /mnt/SSD/scan
         globalMounts:
           - path: /data/nas/consume
 
