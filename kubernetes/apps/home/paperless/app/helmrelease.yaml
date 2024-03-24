@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -22,7 +23,7 @@ spec:
         fsGroup: 65539
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      main:       
+      paperless:       
         annotations:
           reloader.stakater.com/auto: "true"
         # pod:
@@ -31,10 +32,10 @@ spec:
         #       - 1003 # apps-rw
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.5.3
+              tag: 2.6.3
             env:
               # Configure application
               PAPERLESS_URL: https://dms.${SECRET_DOMAIN}
@@ -73,8 +74,7 @@ spec:
             envFrom:
               - secretRef:
                   name: *app
-          gotenburg:
-            name: gotenburg
+          gotenburg:    
             image:
               repository: ghcr.io/mchestr/gotenberg
               tag: 8.1.0
@@ -82,8 +82,7 @@ spec:
               - name: DISABLE_GOOGLE_CHROME
                 value: "1"
 
-          tika:
-            name: tika
+          tika:            
             image:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.1-full
@@ -95,15 +94,16 @@ spec:
                 memory: 1812M
 
     service:
-      main:
+      app:
+        controller: paperless
         ports:
           http:
             port: 8000
 
     ingress:
-      main:
+      app:
         enabled: true
-        ingressClassName: "internal"
+        className: "internal"
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: "mdi:note-multiple"
@@ -112,7 +112,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app                  
                   port: http
         tls:
           - hosts:
@@ -128,8 +128,7 @@ spec:
               - path: /data/local
 
       nas-consume:
-        enabled: true
-        readonly: false
+        enabled: true       
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
         path: /mnt/SSD/scan
@@ -137,8 +136,7 @@ spec:
           - path: /data/nas/consume
 
       nas-export:
-        enabled: true
-        readonly: false
+        enabled: true      
         type: nfs
         server: "${LOCAL_LAN_TRUENAS}"
         path: /mnt/Volume1/document/export
