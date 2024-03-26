@@ -58,6 +58,9 @@ spec:
               # Configure OCR
               PAPERLESS_OCR_LANGUAGES: deu
               PAPERLESS_OCR_LANGUAGE: deu+eng
+              # Configure Barcodes
+              PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
+              PAPERLESS_CONSUMER_BARCODE_TIFF_SUPPORT: "true"
 
               # Configure redis integration
               PAPERLESS_REDIS: redis://redis.database.svc.cluster.local
