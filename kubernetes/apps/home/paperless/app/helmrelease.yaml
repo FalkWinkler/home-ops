@@ -59,14 +59,14 @@ spec:
               PAPERLESS_OCR_LANGUAGES: deu
               PAPERLESS_OCR_LANGUAGE: deu+eng
               # Configure Barcodes
-              PAPERLESS_CONSUMER_ENABLE_BARCODES: 1
-              PAPERLESS_CONSUMER_BARCODE_TIFF_SUPPORT: 1           
+              PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
+              PAPERLESS_CONSUMER_BARCODE_TIFF_SUPPORT: "true"         
 
               # Configure redis integration
               PAPERLESS_REDIS: redis://redis.database.svc.cluster.local
 
               # tika   
-              PAPERLESS_TIKA_ENABLED: 1
+              PAPERLESS_TIKA_ENABLED: "true"
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
               PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
 
