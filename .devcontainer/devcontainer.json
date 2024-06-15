@@ -69,7 +69,7 @@
 		"ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {},
 		"ghcr.io/jsburckhardt/devcontainer-features/flux:1": {},
 		"ghcr.io/eitsupi/devcontainer-features/go-task:latest": {},
-		"ghcr.io/eitsupi/devcontainer-features/jq-likes:1": {
+		"ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {
 			"jqVersion": "none",
 			"yqVersion": "4",
 			"gojqVersion": "none"
