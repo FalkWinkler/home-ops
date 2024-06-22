@@ -13,6 +13,7 @@ spec:
     name: home-kubernetes
   wait: true
   dependsOn:
+    - name: prometheus-operator-crds
     # - name: cluster-apps-alertmanager
     - name: rook-ceph-cluster
 ---
