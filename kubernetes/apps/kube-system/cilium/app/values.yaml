@@ -1,40 +1,58 @@
 ---
 autoDirectNodeRoutes: true
-bgpControlPlane:
+bandwidthManager:
+  bbr: true
   enabled: true
 bpf:
-  masquerade: false
+  masquerade: true
+  tproxy: true
 cgroup:
-  automount:
+  autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
   name: home-kubernetes
-containerRuntime:
-  integration: containerd
-# NOTE: This might need to be set if you have more than one active NIC on your hosts
-# devices:
-#   - eno0
+cni:
+  exclusive: false
+enableRuntimeDeviceDetection: true
 endpointRoutes:
   enabled: true
 hubble:
-  enabled: false
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
+  relay:
+    enabled: true
+    rollOutPods: true
+  serviceMonitor:
+    enabled: false
+  ui:
+    enabled: true
+    ingress:
+      enabled: false
+    rollOutPods: true
 ipam:
-  mode: kubernetes
-ipv4NativeRoutingCIDR: "10.69.0.0/16"
+  mode: "kubernetes"
+ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
-  enabled: false # https://github.com/cilium/cilium/issues/28985
+  enabled: true
 loadBalancer:
   algorithm: maglev
   mode: dsr
 localRedirectPolicy: true
 operator:
-  replicas: 1
   rollOutPods: true
 rollOutCiliumPods: true
 routingMode: native
