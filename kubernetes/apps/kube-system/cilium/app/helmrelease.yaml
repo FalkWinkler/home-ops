@@ -1,47 +1,59 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cilium
 spec:
+  interval: 30m
   chart:
     spec:
       chart: cilium
-      interval: 30m
+      version: 1.15.6
       sourceRef:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-      version: 1.15.6
-  interval: 30m
-
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   valuesFrom:
     - kind: ConfigMap
-      name: cilium-values
-
+      name: cilium-helm-values
   values:
     hubble:
-      serviceMonitor:
-        enabled: true
-
-      dashboards:
-        enabled: true
-        annotations:
-          grafana_folder: Cilium
-
+      enabled: true
+      metrics:
+        enabled:
+          - dns:query
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - http
+        serviceMonitor:
+          enabled: true
+        dashboards:
+          enabled: true
+          annotations:
+            grafana_folder: Cilium
       relay:
+        enabled: true
+        rollOutPods: true
         prometheus:
           serviceMonitor:
             enabled: true
-
       ui:
+        enabled: true
+        rollOutPods: true
         ingress:
           enabled: true
-          className: "internal"
-          hosts:
-            - hubble.${SECRET_DOMAIN}
-
+          className: internal
+          hosts: ["hubble.${SECRET_DOMAIN}"]
     operator:
       prometheus:
         enabled: true
@@ -51,13 +63,11 @@ spec:
         enabled: true
         annotations:
           grafana_folder: Cilium
-
     prometheus:
       enabled: true
       serviceMonitor:
         enabled: true
         trustCRDsExist: true
-
     dashboards:
       enabled: true
       annotations:
