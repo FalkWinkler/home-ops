@@ -26,17 +26,17 @@ releases:
     chart: cilium/cilium
     version: 1.15.6
     values:
-      - ../apps/kube-system/cilium/app/values.yaml
+      - ../apps/kube-system/cilium/app/helm-values.yaml
     needs:
       - monitoring/prometheus-operator-crds
 
   - name: kubelet-csr-approver
-    namespace: system-controllers
+    namespace: kube-system
     chart: postfinance/kubelet-csr-approver
     version: 1.2.2
     values:
-      - ../apps/kube-system/kubelet-csr-approver/app/values.yaml
+      - ../apps/kube-system/kubelet-csr-approver/app/helm-values.yaml
     needs:
-      - kube-system/cilium
       - monitoring/prometheus-operator-crds
+      - kube-system/cilium
 

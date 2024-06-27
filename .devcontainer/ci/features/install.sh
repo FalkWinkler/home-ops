@@ -3,25 +3,24 @@ set -e
 set -o noglob
 
 apk add --no-cache \
-    bash bind-tools ca-certificates curl python3 \
+    age bash bind-tools ca-certificates curl direnv gettext python3 \
     py3-pip moreutils jq git iputils openssh-client \
-    starship fzf fish envsubst
+    starship fzf fish yq helm
 
 apk add --no-cache \
     --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
-        age helm kubectl sops
+        kubectl sops
 
-sudo apk add --no-cache \
+apk add --no-cache \
     --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
         lsd
 
 for app in \
-    "budimanjojo/talhelper!" \
+    "budimanjojo/talhelper!!?as=talhelper&type=script" \
     "cilium/cilium-cli!!?as=cilium&type=script" \
     "cli/cli!!?as=gh&type=script" \
     "cloudflare/cloudflared!!?as=cloudflared&type=script" \
     "derailed/k9s!!?as=k9s&type=script" \
-    "direnv/direnv!!?as=direnv&type=script" \
     "fluxcd/flux2!!?as=flux&type=script" \
     "go-task/task!!?as=task&type=script" \
     "helmfile/helmfile!!?as=helmfile&type=script" \
@@ -31,9 +30,9 @@ for app in \
     "stern/stern!!?as=stern&type=script" \
     "siderolabs/talos!!?as=talosctl&type=script" \
     "yannh/kubeconform!!?as=kubeconform&type=script" \
-    "mikefarah/yq!!?as=yq&type=script" \
     "rook/kubectl-rook-ceph!!?as=kubectl-rook-ceph&type=script" \
     "rook/kubectx/kubens!!?as=kubectx/kubens&type=script"
+
 do
     echo "=== Installing ${app} ==="
     curl -fsSL "https://i.jpillora.com/${app}" | bash
