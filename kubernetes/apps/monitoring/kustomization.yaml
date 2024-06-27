@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./alertmanager/ks.yaml
   - ./grafana/ks.yaml
+  - ./prometheus-operator-crds/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./thanos/ks.yaml
   - ./node-exporter/ks.yaml
