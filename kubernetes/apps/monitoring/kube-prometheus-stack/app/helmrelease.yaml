@@ -182,12 +182,12 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: quay.io/thanos/thanos:v0.32.1@sha256:43419f66b212a0dcf49fab756329fb107ac962798bdaef647f6b23d3a5d9e8cb
+          image: quay.io/thanos/thanos:v0.36.0@sha256:785c18b9f06b1b23c9e0040a77b072a424bfe2f018972751ec1bf8d61376a507
           objectStorageConfig:
             name: thanos-objstore-secret
             key: objstore.yml
           # renovate: datasource=docker depName=quay.io/thanos/thanos
-          version: "0.32.1"
+          version: "0.36.0"
         walCompression: true
 
       thanosService:
