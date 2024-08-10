@@ -31,7 +31,8 @@ for app in \
     "siderolabs/talos!!?as=talosctl&type=script" \
     "yannh/kubeconform!!?as=kubeconform&type=script" \
     "rook/kubectl-rook-ceph!!?as=kubectl-rook-ceph&type=script" \
-    "rook/kubectx/kubens!!?as=kubectx/kubens&type=script"
+    "kubectx/kubens!!?as=kubectx/kubens&type=script"  \
+    "kastenhq/kubestr!!?as=kubestr&type=script"
 
 do
     echo "=== Installing ${app} ==="
