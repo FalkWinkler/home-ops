@@ -11,7 +11,7 @@ spec:
   virtualRouters:
     - localASN: 64513
       neighbors:
-        - peerAddress: "192.168.10.1/32"
+        - peerAddress: "10.11.0.1/32"
           peerASN: 64512
           peerPort: 179
       serviceSelector:
@@ -25,4 +25,4 @@ metadata:
 spec:
   allowFirstLastIPs: "Yes"
   blocks:
-    - cidr: "192.168.10.0/24"
+    - cidr: "10.11.0.0/16"

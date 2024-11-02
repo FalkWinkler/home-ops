@@ -6,22 +6,23 @@ talosVersion: v1.7.5
 kubernetesVersion: v1.30.2
 
 clusterName: &cluster home-kubernetes
-endpoint: https://192.168.10.30:6443
+endpoint: https://10.11.0.14:6443
 clusterPodNets:
   - "10.69.0.0/16"
 clusterSvcNets:
   - "10.96.0.0/16"
 additionalApiServerCertSans: &sans
-  - "192.168.10.30"
-  - 127.0.0.1 # KubePrism
+  - "10.11.0.15"
   - "home-cluster.f-wi.com"
+  - 127.0.0.1 # KubePrism
+
 additionalMachineCertSans: *sans
 cniConfig:
   name: none
 
 nodes:
   - hostname: "node1"
-    ipAddress: "192.168.10.31"
+    ipAddress: "10.11.0.16"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer-secureboot/34fc0531ffc9a0aab35eddabde2a6910696e898082c0c8154d9dbb92e958c33e
     controlPlane: true
@@ -29,17 +30,17 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "192.168.10.31/24"
+          - "10.11.0.16/16"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "192.168.10.1"
+            gateway: "10.11.0.1"
         vip:
-          ip: "192.168.10.30"
+          ip: "10.11.0.14"
     patches:
       - "@./patches/node_node1.yaml"
   - hostname: "node2"
-    ipAddress: "192.168.10.32"
+    ipAddress: "10.11.0.17"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer-secureboot/34fc0531ffc9a0aab35eddabde2a6910696e898082c0c8154d9dbb92e958c33e
     controlPlane: true
@@ -47,17 +48,17 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "192.168.10.32/24"
+          - "10.11.0.17/16"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "192.168.10.1"
+            gateway: "10.11.0.1"
         vip:
-          ip: "192.168.10.30"
+          ip: "10.11.0.14"
     patches:
       - "@./patches/node_node2.yaml"
   - hostname: "node3"
-    ipAddress: "192.168.10.33"
+    ipAddress: "10.11.0.18"
     installDisk: "/dev/sda"
     talosImageURL: ffactory.talos.dev/installer-secureboot/34fc0531ffc9a0aab35eddabde2a6910696e898082c0c8154d9dbb92e958c33e
     controlPlane: true
@@ -65,13 +66,13 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "192.168.10.33/24"
+          - "10.11.0.18/16"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "192.168.10.1"
+            gateway: "10.11.0.1"
         vip:
-          ip: "192.168.10.30"
+          ip: "10.11.0.14"
     patches:
       - "@./patches/node_node3.yaml"
 
@@ -117,14 +118,14 @@ patches:
           rotate-server-certificates: true
         nodeIP:
           validSubnets:
-            - "192.168.10.0/24"
+            - "10.11.0.0/16"
 
   # Force nameserver
   - |-
     machine:
       network:
         nameservers:
-          - 192.168.10.1
+          - 10.11.0.1
 
   # Configure NTP
   - |-
@@ -187,7 +188,7 @@ controlPlane:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
           advertisedSubnets:
-            - "192.168.10.0/24"
+            - "10.11.0.0/16"
 
     # Disable default API server admission plugins.
     - |-
