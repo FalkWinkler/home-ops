@@ -42,8 +42,8 @@ spec:
       - --rfc2136-tsig-axfr
     policy: upsert-only
     sources: ["crd", "ingress","service"]
-    txtPrefix: k8s.
-    txtOwnerId: default
+    txtPrefix: external-dns-
+    txtOwnerId: k8s
     domainFilters: ["${SECRET_DOMAIN}"]
     serviceMonitor:
       enabled: true
