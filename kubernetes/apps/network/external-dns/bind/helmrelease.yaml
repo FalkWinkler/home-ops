@@ -31,14 +31,14 @@ spec:
         valueFrom:
           secretKeyRef:
             name: externaldns-bind
-            key: externaldns-key
+            key: externaldns-secret
     extraArgs:
       - --ingress-class=internal
       - --rfc2136-host=10.11.0.2
       - --rfc2136-port=53
       - --rfc2136-zone=k8s.f-wi.com
       - --rfc2136-tsig-secret-alg=hmac-sha256
-      # - --rfc2136-tsig-keyname=externaldns-key
+      - --rfc2136-tsig-keyname=externaldns-key
       - --rfc2136-tsig-axfr
     policy: sync
     sources: ["crd", "ingress","service"]
