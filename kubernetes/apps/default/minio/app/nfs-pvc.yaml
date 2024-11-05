@@ -8,7 +8,7 @@ spec:
     storage: 1Mi
   accessModes:
     - ReadWriteMany
-  storageClassName: mnfs
+  storageClassName: minio-nfs
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: "${LOCAL_LAN_TRUENAS}"
@@ -27,7 +27,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: nfs
+  storageClassName: minio-nfs
   resources:
     requests:
       storage: 1Mi
