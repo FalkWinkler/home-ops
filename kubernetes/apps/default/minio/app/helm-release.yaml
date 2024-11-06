@@ -49,4 +49,9 @@ spec:
       enabled: true
       flavor: cilium
 
-    mountPath: "/data"
+    securityContext:
+      enabled: true
+      runAsUser: 3001 # User 'k8s'
+      runAsGroup: 3001 # Group 'k8s'
+      fsGroup: 3001
+      
