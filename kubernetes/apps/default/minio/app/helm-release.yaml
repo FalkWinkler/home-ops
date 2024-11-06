@@ -50,7 +50,7 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: "internal"     
+      ingressClassName: "internal"
       hosts:
         - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
       tls:
