@@ -29,4 +29,5 @@ resources:
   - ./crunchydata.yaml 
   - ./bitnami.yaml
   - ./zalando-postgres-operator.yaml
+  - ./minio.yaml
 
