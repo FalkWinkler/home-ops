@@ -49,3 +49,4 @@ spec:
       enabled: true
       flavor: cilium
 
+    mountPath: "/data"
