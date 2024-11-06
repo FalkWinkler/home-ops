@@ -56,8 +56,10 @@ spec:
       hosts:
         - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
       tls:
-        hosts:
-          - *host-console
+        - secretName: *host-console
+          hosts:
+            - *host-console
+    
 
     consoleIngress:
       enabled: true
@@ -65,8 +67,9 @@ spec:
       hosts:
         - &host-api "s3.${SECRET_DOMAIN}"
       tls:
-        hosts:
-          - *host-api
+        - secretName: *host-api
+          hosts:
+            - *host-api
     
     existingSecret: minio-secret
 
