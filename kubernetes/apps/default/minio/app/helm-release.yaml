@@ -51,6 +51,9 @@ spec:
     ingress:
       enabled: true
       ingressClassName: "internal"
+      labels: {}
+      annotations:
+        hajimari.io/icon: "progress-upload"
       hosts:
         - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
       tls:
