@@ -48,30 +48,30 @@ spec:
       annotations:
         io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
 
-    ingress:
-      enabled: true
-      ingressClassName: "internal"
-      labels: {}
-      annotations:
-        hajimari.io/icon: "progress-upload"
-      hosts:
-        - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
-      tls:
-        - secretName: *host-console
-          hosts:
-            - *host-console    
+    # ingress:
+    #   enabled: true
+    #   ingressClassName: "internal"
+    #   labels: {}
+    #   annotations:
+    #     hajimari.io/icon: "progress-upload"
+    #   hosts:
+    #     - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
+    #   tls:
+    #     - secretName: *host-console
+    #       hosts:
+    #         - *host-console    
 
-    consoleIngress:
-      enabled: true
-      ingressClassName: "internal"
-      labels: {}
-        # node-role.kubernetes.io/ingress: platform
-      hosts:
-        - &host-api "s3.${SECRET_DOMAIN}"
-      tls:
-        - secretName: *host-api
-          hosts:
-            - *host-api
+    # consoleIngress:
+    #   enabled: true
+    #   ingressClassName: "internal"
+    #   labels: {}
+    #     # node-role.kubernetes.io/ingress: platform
+    #   hosts:
+    #     - &host-api "s3.${SECRET_DOMAIN}"
+    #   tls:
+    #     - secretName: *host-api
+    #       hosts:
+    #         - *host-api
     
     existingSecret: minio-secret
 
