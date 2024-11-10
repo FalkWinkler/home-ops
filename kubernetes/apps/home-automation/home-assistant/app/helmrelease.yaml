@@ -135,7 +135,7 @@ spec:
       config:
         existingClaim: home-assistant-config
         advancedMounts:
-          main:
+          home-assistant:
             home-assistant:
               - path: /config
             code:
