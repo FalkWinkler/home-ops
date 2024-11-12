@@ -10,29 +10,23 @@ spec:
   chart:
     spec:
       chart: volsync
-      version: 0.10.0
+      version: 0.11.0
       sourceRef:
         kind: HelmRepository
         name: backube
         namespace: flux-system
       interval: 30m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     manageCRDs: true
     metrics:
       disableAuth: true
-
-  # TODO: Refactor if/when https://github.com/backube/volsync/pull/1054 gets merged
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              version: v1
-              kind: Deployment
-              name: volsync
-            patch: |
-              - op: add
-                path: /spec/template/metadata/labels/egress.home.arpa~1apiserver
-                value: allow
-              - op: add
-                path: /spec/template/metadata/labels/egress.home.arpa~1kubedns
-                value: allow
