@@ -61,6 +61,8 @@ spec:
       ingressClassName: "internal"
       annotations:
         hajimari.io/icon: "progress-upload"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hajimari.io/enable: "true"
       hosts:
         - &host-console "minio.${SECRET_DOMAIN}"
       tls:
@@ -71,6 +73,10 @@ spec:
     consoleIngress:
       enabled: true
       ingressClassName: "internal"
+      annotations:
+        hajimari.io/icon: "progress-upload"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hajimari.io/enable: "true"
       hosts:
         - &host-api "s3.${SECRET_DOMAIN}"
       tls:
@@ -79,6 +85,7 @@ spec:
             - *host-api
 
     service:
+      type: LoadBalancer
       annotations:
         io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
       
