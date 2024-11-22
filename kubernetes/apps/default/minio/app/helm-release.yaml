@@ -26,10 +26,10 @@ spec:
     nameOverride: *app
     image:
       repository: quay.io/minio/minio
-      tag: RELEASE.2024-10-29T16-01-48Z
+      tag: RELEASE.2024-11-07T00-52-20Z
     mcImage:
       repository: quay.io/minio/mc
-      tag: RELEASE.2024-10-29T15-34-59Z
+      tag: RELEASE.2024-11-17T19-35-25Z
     mode: standalone
 
     ## Enable persistence using Persistent Volume Claims
@@ -54,4 +54,34 @@ spec:
       runAsUser: 3001 # User 'k8s'
       runAsGroup: 3001 # Group 'k8s'
       fsGroup: 3001
+
+
+    ingress:
+      enabled: true
+      ingressClassName: "internal"
+      labels: {}
+      annotations:
+        hajimari.io/icon: "progress-upload"
+      hosts:
+        - &host-console "{{ .Release.Name }}.${SECRET_DOMAIN}"
+      tls:
+        - secretName: *host-console
+          hosts:
+            - *host-console    
+
+    consoleIngress:
+      enabled: true
+      ingressClassName: "internal"
+      labels: {}
+        # node-role.kubernetes.io/ingress: platform
+      hosts:
+        - &host-api "s3.${SECRET_DOMAIN}"
+      tls:
+        - secretName: *host-api
+          hosts:
+            - *host-api
+
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
       
