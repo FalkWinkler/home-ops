@@ -58,8 +58,7 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: "internal"
-      labels: {}
+      ingressClassName: "internal"   
       annotations:
         hajimari.io/icon: "progress-upload"
       hosts:
@@ -72,8 +71,6 @@ spec:
     consoleIngress:
       enabled: true
       ingressClassName: "internal"
-      labels: {}
-        # node-role.kubernetes.io/ingress: platform
       hosts:
         - &host-api "s3.${SECRET_DOMAIN}"
       tls:
