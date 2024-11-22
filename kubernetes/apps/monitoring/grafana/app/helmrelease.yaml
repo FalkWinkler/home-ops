@@ -132,11 +132,6 @@ spec:
             - name: DS_PROMETHEUS
               value: Prometheus
 
-        zfs:
-          # renovate: dashboardName="ZFS"
-          gnetId: 7845
-          revision: 4
-          datasource: Prometheus
 
       ceph:
         ceph-cluster:
@@ -154,6 +149,25 @@ spec:
           gnetId: 5342
           revision: 9
           datasource: Prometheus
+      data:
+        cloudnative-pg:
+          url: https://raw.githubusercontent.com/cloudnative-pg/grafana-dashboards/main/charts/cluster/grafana-dashboard.json
+          datasource: Prometheus
+        # dragonfly:
+        #   url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dashboard.json
+        #   datasource: Prometheus
+        minio:
+          # renovate: dashboardName="MinIO Dashboard"
+          gnetId: 13502
+          revision: 26
+          datasource:
+            - name: "DS_PROMETHEUS"
+              value: Prometheus
+        redis-sentinel:
+          # renovate: dashboardName="Redis"
+          gnetId: 12776
+          revision: 2
+          datasource: Redis
 
       flux:
         flux-cluster:
