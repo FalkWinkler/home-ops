@@ -49,7 +49,7 @@ spec:
 
     serviceMonitor:
       app:
-        controller: omada-exporter
+        serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
         enabled: true
         endpoints:
           - port: http
