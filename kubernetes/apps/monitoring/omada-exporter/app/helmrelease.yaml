@@ -39,6 +39,13 @@ spec:
                     name: omada-exporter-secret
                     key: omada_exporter_password
               OMADA_SITE: FALK-OMADA1
+            
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
 
     service:
       app:
@@ -58,9 +65,4 @@ spec:
             interval: 2m # Unifi API only polls at 2m intervals
             scrapeTimeout: 5s
 
-        resources:
-          requests:
-            cpu: 10m
-            memory: 100Mi
-          limits:
-            memory: 500Mi
+
