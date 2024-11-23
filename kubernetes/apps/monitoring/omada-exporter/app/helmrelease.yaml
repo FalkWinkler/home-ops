@@ -30,7 +30,7 @@ spec:
           secretKeyRef:
             name: omada-exporter-secret
             key: omada_exporter_password
-      OMADA_SITE: Standard
+      OMADA_SITE: FALK-OMADA1
 
     service:
       main:
