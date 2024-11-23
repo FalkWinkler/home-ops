@@ -33,14 +33,14 @@ spec:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-          - name: default
-            orgId: 1
-            folder: ""
-            type: file
+          - name: "default"
             disableDeletion: false
             editable: true
+            folder: ""
             options:
               path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
           - name: ceph
             orgId: 1
             folder: Ceph
@@ -49,6 +49,22 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/ceph
+          - name: "cilium"
+            orgId: 1
+            folder: "Cilium"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/cilium
+          - name: "data"
+            orgId: 1
+            folder: "Data"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/data
           - name: flux
             orgId: 1
             folder: Flux
@@ -159,6 +175,16 @@ spec:
           gnetId: 5342
           revision: 9
           datasource: Prometheus
+      cilium:
+        cilium-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.4/install/kubernetes/cilium/files/cilium-agent/dashboards/cilium-dashboard.json
+          datasource: Prometheus
+        cilium-operator-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.4/install/kubernetes/cilium/files/cilium-operator/dashboards/cilium-operator-dashboard.json
+          datasource: Prometheus
+        hubble-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.16.4/install/kubernetes/cilium/files/hubble/dashboards/hubble-dashboard.json
+          datasource: Prometheus
       data:
         cloudnative-pg:
           url: https://raw.githubusercontent.com/cloudnative-pg/grafana-dashboards/main/charts/cluster/grafana-dashboard.json
@@ -191,32 +217,37 @@ spec:
           datasource: Prometheus
 
       kubernetes:
-        k8s-system-api-server:
+        api-server:
           # renovate: dashboardName="Kubernetes / System / API Server"
           gnetId: 15761
-          revision: 16
+          revision: 18
           datasource: Prometheus
-        k8s-views-global:
+        coredns:
+          # renovate: dashboardName="Kubernetes / System / CoreDNS"
+          gnetId: 15762
+          revision: 18
+          datasource: Prometheus
+        global:
           # renovate: dashboardName="Kubernetes / Views / Global"
           gnetId: 15757
-          revision: 37
+          revision: 42
           datasource: Prometheus
-        k8s-views-nodes:
-          # renovate: dashboardName="Kubernetes / Views / Nodes"
-          gnetId: 15759
-          revision: 29
-          datasource: Prometheus
-        k8s-views-namespaces:
+        namespaces:
           # renovate: dashboardName="Kubernetes / Views / Namespaces"
           gnetId: 15758
-          revision: 34
+          revision: 40
           datasource: Prometheus
-        k8s-views-pods:
+        nodes:
+          # renovate: dashboardName="Kubernetes / Views / Nodes"
+          gnetId: 15759
+          revision: 32
+          datasource: Prometheus
+        pods:
           # renovate: dashboardName="Kubernetes / Views / Pods"
           gnetId: 15760
-          revision: 26
+          revision: 32
           datasource: Prometheus
-        k8s-volumes:
+        volumes:
           # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
           gnetId: 11454
           revision: 14
@@ -273,6 +304,15 @@ spec:
           datasource:
             - name: "DS_PROMETHEUS"
               value: Prometheus
+        volsync:
+          # renovate: dashboardName="VolSync Dashboard"
+          gnetId: 21356
+          revision: 3
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+            - name: VAR_REPLICATIONDESTNAME
+              value: ".*-bootstrap"
 
     datasources:
       datasources.yaml:
