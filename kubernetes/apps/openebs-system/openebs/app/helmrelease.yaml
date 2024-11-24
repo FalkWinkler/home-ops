@@ -13,13 +13,6 @@ spec:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     engines:
       local:
@@ -33,11 +26,24 @@ spec:
     openebs-crds:
       csi:
         volumeSnapshots:
-          enabled: false
+          enabled: false          
+          keep: false
+
+    zfs-localpv:
+      enabled: false
+
+    lvm-localpv:
+      enabled: false
+
+    mayastor:
+      enabled: false
     localpv-provisioner:
+      rbac:
+        create: true
       localpv:
         image:
           registry: quay.io/
+          repository: openebs/provisioner-localpv
       hostpathClass:
         enabled: true
         name: openebs-hostpath
