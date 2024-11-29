@@ -3,7 +3,6 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: zigbee2mqtt
-
 spec:
   sourcePVC: zigbee2mqtt-data
   trigger:
@@ -38,7 +37,7 @@ spec:
     copyMethod: Snapshot
     repository: zigbee2mqtt-restic-secret
     cacheStorageClassName: openebs-hostpath
-    cacheCapacity: 1Gi
+    cacheCapacity: 8Gi
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
@@ -47,5 +46,4 @@ spec:
       fsGroup: 2000
     accessModes:
       - ReadWriteOnce
-    capacity: 1Gi
-
+    capacity: 512Mi
