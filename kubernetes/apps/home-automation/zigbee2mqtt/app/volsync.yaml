@@ -34,10 +34,10 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    copyMethod: Direct
+    copyMethod: Snapshot
     repository: zigbee2mqtt-restic-secret
-    cacheStorageClassName: openebs-hostpath
-    cacheCapacity: 8Gi
+    # cacheStorageClassName: openebs-hostpath
+    # cacheCapacity: 8Gi
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
