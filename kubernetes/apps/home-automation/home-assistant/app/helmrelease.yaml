@@ -140,3 +140,5 @@ spec:
               - path: /config
             code:
               - path: /config
+      tmp:
+        type: emptyDir
