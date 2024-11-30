@@ -37,13 +37,13 @@ spec:
               - --model
               - small
 
-          resources:
-            limits:
-              cpu: 12000m
-              memory: 2Gi
-            requests:
-              cpu: 100m
-              memory: 1Gi
+            resources:
+              limits:
+                cpu: 12000m
+                memory: 2Gi
+              requests:
+                cpu: 100m
+                memory: 1Gi
 
     service:
       app:
