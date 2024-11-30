@@ -51,23 +51,20 @@ spec:
         ports:
           http:
             port: 10300
-          metrics:
-            enabled: true
-            port: 10300
 
-    ingress:
-      app:
-        className: "internal"
-        hosts:
-          - host: &hostName "whisper.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *hostName
+    # ingress:
+    #   app:
+    #     className: "internal"
+    #     hosts:
+    #       - host: &hostName "whisper.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *hostName
 
     persistence:
       data:
