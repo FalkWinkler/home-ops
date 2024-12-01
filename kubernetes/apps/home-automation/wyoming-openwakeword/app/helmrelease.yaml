@@ -35,7 +35,7 @@ spec:
               repository: rhasspy/wyoming-openwakeword
               tag: 1.10.0
             args:
-              - --preload-model 'ok_nabu'
+              --preload-model 'ok_nabu'
 
             resources:
               limits:
