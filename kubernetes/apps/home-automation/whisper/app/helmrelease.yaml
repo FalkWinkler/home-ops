@@ -31,11 +31,11 @@ spec:
         containers:
           app:
             image:
-              repository: rhasspy/wyoming-whisper
+              repository: homeassistant/amd64-addon-whisper
               tag: 2.2.0 
-            args:
-              - --model
-              - small
+            # args:
+            #   - --model
+            #   - small
 
             resources:
               limits:
