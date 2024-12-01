@@ -35,9 +35,10 @@ spec:
               repository: rhasspy/wyoming-whisper
               tag: 2.2.0 
             args:
-              - --model
+              - --model 
               - small-int8
-              - --language de
+              - --language
+              - de
 
             resources:
               limits:
