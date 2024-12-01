@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: whisper
+  name: wyoming-piper
 spec:
   interval: 30m
   chart:
@@ -18,7 +18,7 @@ spec:
 
   values:
     controllers:
-      whisper:
+      wyoming-piper:
         annotations:
           reloader.stakater.com/auto: "true"
         
@@ -31,13 +31,11 @@ spec:
         containers:
           app:
             image:
-              repository: homeassistant/amd64-addon-whisper
-              tag: 2.2.0 
+              repository: rhasspy/wyoming-piper
+              tag: 1.5.1
             args:
-              - --model
-              - small-int8
-              - --language de
-
+              - --voice de_DE-kerstin-low
+             
             resources:
               limits:
                 cpu: 12000m
@@ -48,16 +46,16 @@ spec:
 
     service:
       app:
-        controller: whisper
+        controller: wyoming-piper
         ports:
           http:
-            port: 10300
+            port: 10200
 
     # ingress:
     #   app:
     #     className: "internal"
     #     hosts:
-    #       - host: &hostName "whisper.${SECRET_DOMAIN}"
+    #       - host: &hostName "wyoming-piper.${SECRET_DOMAIN}"
     #         paths:
     #           - path: /
     #             service:
@@ -69,8 +67,8 @@ spec:
 
     persistence:
       data:
-        existingClaim: whisper-data
+        existingClaim: wyoming-piper-data
         advancedMounts:
-          whisper:
+          wyoming-piper:
             app:
               - path: /data

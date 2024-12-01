@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: whisper
+  name: wyoming-openwakeword
 spec:
   interval: 30m
   chart:
@@ -18,7 +18,7 @@ spec:
 
   values:
     controllers:
-      whisper:
+      wyoming-openwakeword:
         annotations:
           reloader.stakater.com/auto: "true"
         
@@ -31,12 +31,10 @@ spec:
         containers:
           app:
             image:
-              repository: homeassistant/amd64-addon-whisper
-              tag: 2.2.0 
+              repository: rhasspy/wyoming-openwakeword
+              tag: 1.10.0
             args:
-              - --model
-              - small-int8
-              - --language de
+              - --preload-model 'ok_nabu'
 
             resources:
               limits:
@@ -48,16 +46,16 @@ spec:
 
     service:
       app:
-        controller: whisper
+        controller: wyoming-openwakeword
         ports:
           http:
-            port: 10300
+            port: 10400
 
     # ingress:
     #   app:
     #     className: "internal"
     #     hosts:
-    #       - host: &hostName "whisper.${SECRET_DOMAIN}"
+    #       - host: &hostName "wyoming-openwakeword.${SECRET_DOMAIN}"
     #         paths:
     #           - path: /
     #             service:
@@ -69,8 +67,8 @@ spec:
 
     persistence:
       data:
-        existingClaim: whisper-data
+        existingClaim: wyoming-openwakeword-data
         advancedMounts:
-          whisper:
+          wyoming-openwakeword:
             app:
               - path: /data
