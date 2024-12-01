@@ -10,5 +10,6 @@ resources:
   - ./zigbee2mqtt/ks.yaml
   - ./ser2sock/ks.yaml
   - ./whisper/ks.yaml
+  - ./faster-whisper-server/ks.yaml
   # - ./multiprotocol/ks.yaml
 
