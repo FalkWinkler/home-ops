@@ -19,6 +19,7 @@ spec:
   values:
     controllers:
       wyoming-piper:
+        type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
         
