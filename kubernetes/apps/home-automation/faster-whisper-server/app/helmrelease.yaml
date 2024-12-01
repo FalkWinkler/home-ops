@@ -70,6 +70,6 @@ spec:
       data:
         existingClaim: faster-whisper-server-data
         advancedMounts:
-          whisper:
+          faster-whisper-server:
             app:
               - path: /data
