@@ -32,10 +32,7 @@ spec:
           app:
             image:
               repository: fedirz/faster-whisper-server
-              tag: 0.5.0-cpu
-            args:
-              - --model
-              - small
+              tag: 0.5.0-cpu  
 
             resources:
               limits:
