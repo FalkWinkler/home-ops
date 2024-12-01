@@ -32,7 +32,7 @@ spec:
         containers:
           app:
             image:
-              repository: homeassistant/amd64-addon-whisper
+              repository: rhasspy/wyoming-whisper
               tag: 2.2.0 
             args:
               - --model
