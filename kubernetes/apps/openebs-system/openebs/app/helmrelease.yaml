@@ -28,6 +28,9 @@ spec:
         volumeSnapshots:
           enabled: false
     localpv-provisioner:
+      rbac:
+        create: true
+
       localpv:
         image:
           registry: quay.io/
