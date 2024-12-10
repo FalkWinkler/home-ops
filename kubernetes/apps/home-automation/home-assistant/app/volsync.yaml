@@ -12,7 +12,7 @@ spec:
     repository: home-assistant-restic-secret
     cacheStorageClassName: "openebs-hostpath"
     cacheAccessModes: [ReadWriteOnce]
-    cacheCapacity: "1Gi"
+    cacheCapacity: "8Gi"
     storageClassName: "ceph-block"
     volumeSnapshotClassName: "csi-ceph-blockpool"
     moverSecurityContext:
@@ -37,7 +37,7 @@ spec:
     copyMethod: Snapshot
     repository: home-assistant-restic-secret
     cacheStorageClassName: openebs-hostpath
-    cacheCapacity: 1Gi
+    cacheCapacity: 8Gi
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
