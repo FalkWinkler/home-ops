@@ -13,7 +13,7 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
-  bootstrap:
+  # bootstrap:
     #Alternative bootstrap method: start from a backup
     # recovery:
     #   source: postgres-backup
