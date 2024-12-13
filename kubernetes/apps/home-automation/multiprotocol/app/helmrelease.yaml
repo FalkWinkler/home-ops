@@ -78,8 +78,8 @@ spec:
       app:
         controller: multiprotocol
         ports:
-          http:
-            enabled: false
+          # http:
+          #   enabled: false
           server:
             enabled: true
             protocol: TCP
