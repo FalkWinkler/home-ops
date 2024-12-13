@@ -12,5 +12,5 @@ resources:
   # - ./whisper/ks.yaml 
   # - ./wyoming-piper/ks.yaml 
   # - ./wyoming-openwakeword/ks.yaml 
-  # - ./multiprotocol/ks.yaml
+  - ./multiprotocol/ks.yaml
 
