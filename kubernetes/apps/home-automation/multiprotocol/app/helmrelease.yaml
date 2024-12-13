@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 3.5.1
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -17,32 +17,64 @@ spec:
         namespace: flux-system
 
   values:
-    image:
-      repository: homeassistant/amd64-addon-silabs-multiprotocol
-      tag: 2.4.5
-    env:
-      # # -- Port where ser2sock listens
-      # LISTENER_PORT: 10000
-      # # -- Path to the serial device
-      DEVICE: "/dev/ttyACM0"
-      # # -- Serial device baud rate
-      BAUDRATE: "460800"
-      OTBR_LOG_LEVEL: "debug"
-      OTBR_ENABLE: "true"
-      OTB_FIREWALL: "true"
-      OTBR_REST_LISTEN_PORT: "8081"
-      OTBR_WEB_PORT: "8086"
+    controllers:
+      multiprotocol:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        
+        pod:              # -- Affinity constraint rules to place the Pod on a specific node.
+          # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: google.feature.node.kubernetes.io/multiprotocol-usb
+                    operator: In
+                    values:
+                    - "true"
 
-      # ZIGBEED environment variables
-      EZSP_LISTEN_PORT: "20108"
+        containers:
+          app:
+            image:
+              repository: homeassistant/amd64-addon-silabs-multiprotocol
+              tag: 2.4.5
+            env:
+              # # -- Port where ser2sock listens
+              # LISTENER_PORT: 10000
+              # # -- Path to the serial device
+              DEVICE: "/dev/ttyACM0"
+              # # -- Serial device baud rate
+              BAUDRATE: "460800"
+              OTBR_LOG_LEVEL: "debug"
+              OTBR_ENABLE: "true"
+              OTB_FIREWALL: "true"
+              OTBR_REST_LISTEN_PORT: "8081"
+              OTBR_WEB_PORT: "8086"
 
-      BACKBONE_IF: "eth0"
-      FLOW_CONTROL: "false"
-      NETWORK_DEVICE: ""
-      AUTOFLASH_FIRMWARE: "false"
-      FIRMWARE: ""
+              # ZIGBEED environment variables
+              EZSP_LISTEN_PORT: "20108"
+
+              BACKBONE_IF: "eth0"
+              FLOW_CONTROL: "false"
+              NETWORK_DEVICE: ""
+              AUTOFLASH_FIRMWARE: "false"
+              FIRMWARE: ""
+            
+            securityContext:
+              # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+              privileged:  true
+              capabilities:
+                add:
+                - IPC_LOCK
+                - NET_ADMIN
+                - ALL
+
+            hostNetwork: true
+
     service:
-      main:
+      app:
+        controller: multiprotocol
         ports:
           http:
             enabled: false
@@ -52,7 +84,7 @@ spec:
             port: 10000
 
     ingress:
-      main:
+      app:
         enabled: false
 
     probes:
@@ -70,26 +102,15 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /dev/ttyACM0
+        hostPath: /dev/
+      dev-bus-usb:
+        type: hostPath
+        hostPath: /dev/bus/usb
+        hostPathType: Directory
+      sys-bus-usb:
+        type: hostPath
+        hostPath: /sys/bus/usb
+        hostPathType: Directory
 
-    securityContext:
-      # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-      privileged:  true
-      capabilities:
-        add:
-        - IPC_LOCK
-        - NET_ADMIN
 
-    hostNetwork: true
 
-    # -- Affinity constraint rules to place the Pod on a specific node.
-    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: google.feature.node.kubernetes.io/multiprotocol-usb
-              operator: In
-              values:
-              - "true"
