@@ -46,7 +46,7 @@ spec:
               # # -- Port where ser2sock listens
               # LISTENER_PORT: 10000
               # # -- Path to the serial device
-              DEVICE: "/dev/ttyACM0"
+              DEVICE: "/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00" # "/dev/ttyACM0"
               # # -- Serial device baud rate
               BAUDRATE: "460800"
               OTBR_LOG_LEVEL: "debug"
@@ -106,11 +106,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/
-      dev-bus-usb:
+      serial-by-id:
         type: hostPath
-        hostPath: /dev/bus/usb
-        hostPathType: Directory
-      sys-bus-usb:
-        type: hostPath
-        hostPath: /sys/bus/usb
+        hostPath: serial/by-id
         hostPathType: Directory
