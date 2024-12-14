@@ -104,4 +104,4 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /serial/by-id/ # /dev/ttyACM0
+        hostPath: /serial # /dev/ttyACM0
