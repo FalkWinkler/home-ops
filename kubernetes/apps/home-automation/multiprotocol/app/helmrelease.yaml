@@ -104,4 +104,4 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00 # /dev/ttyACM0
+        hostPath: /serial/by-id/ # /dev/ttyACM0
