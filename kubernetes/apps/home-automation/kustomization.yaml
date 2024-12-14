@@ -13,4 +13,5 @@ resources:
   # - ./wyoming-piper/ks.yaml 
   # - ./wyoming-openwakeword/ks.yaml 
   - ./multiprotocol/ks.yaml
+  - ./ser2sock2/ks.yaml
 
