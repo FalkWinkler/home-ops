@@ -30,4 +30,5 @@ resources:
   - ./bitnami.yaml
   - ./zalando-postgres-operator.yaml
   - ./minio.yaml
+  - ./akri.yaml
 
