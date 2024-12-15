@@ -1,0 +1,12 @@
+apiVersion: akri.sh/v0
+kind: Configuration
+metadata:
+  name: akri-zonof-zigbee-e
+spec:
+  capacity: 1
+  discoveryHandler:
+    discoveryDetails: |
+      groupRecursive: true # Recommended unless using very exact udev rules
+      udevRules:
+      - ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4"
+    name: udev
