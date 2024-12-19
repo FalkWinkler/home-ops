@@ -56,7 +56,7 @@ spec:
             dependsOn: app
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.95.1@sha256:d9bc7797d997e1b199e333676732e075bac4bae276dc0fe1baece2e313edfa09
+              tag: 4.96.1@sha256:2dbf436d68564dfda13b4d4eeb8324704b6b4120f25ca57feaf230228c3d70da
             args:
               - --auth
               - "none"
