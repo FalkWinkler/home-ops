@@ -9,4 +9,3 @@ resources:
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugins/ks.yaml
   - ./volsync/ks.yaml
-  - ./akri/ks.yaml
