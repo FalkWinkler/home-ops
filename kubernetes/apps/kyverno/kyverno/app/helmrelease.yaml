@@ -40,9 +40,9 @@ spec:
         clusterRole:
           extraResources:
             - apiGroups:
-                - ""
+                - "*"
               resources:
-                - pods
+                - '*'
               verbs:
                 - create
                 - update
@@ -50,10 +50,31 @@ spec:
                 - delete
                 - get
                 - list
+                - watch
     cleanupController:
+      clusterRole:
+        extraResources:
+          - apiGroups:
+              - '*'
+            resources:
+              - '*'
+            verbs:
+              - get
+              - list
+              - watch
       serviceMonitor:
         enabled: true
     reportsController:
+      clusterRole:
+        extraResources:
+          - apiGroups:
+              - '*'
+            resources:
+              - '*'
+            verbs:
+              - get
+              - list
+              - watch
       serviceMonitor:
         enabled: true
     admissionController:
@@ -64,13 +85,16 @@ spec:
         clusterRole:
           extraResources:
             - apiGroups:
-                - ""
+                - "*"
               resources:
-                - pods
+                - '*'
               verbs:
                 - create
                 - update
                 - delete
+                - get
+                - list
+                - watch
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
