@@ -140,7 +140,7 @@ spec:
           home-assistant:
             app:
               - path: /config
-            code:
+            code-server:
               - path: /config
       tmpfs:
         type: emptyDir
