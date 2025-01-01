@@ -145,8 +145,8 @@ spec:
       tmpfs:
         type: emptyDir
         advancedMounts:
-          main:
-            main:
+          home-assistant:
+            app:
               - path: /tmp
                 subPath: hass-tmp
             code-server:
