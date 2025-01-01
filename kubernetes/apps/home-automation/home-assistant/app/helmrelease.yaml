@@ -73,16 +73,16 @@ spec:
               tag: 4.96.2@sha256:6b8c0e944caec80057e71d2c2f352cee38fe00ae4b7515fc4458eb300844f699
             args:
               - --auth
-              - "none"
+              - none
               - --disable-telemetry
               - --disable-update-check
               - --user-data-dir
-              - "/config/.vscode"
+              - /config/.vscode
               - --extensions-dir
-              - "/config/.vscode"
+              - /config/.vscode
               - --port
-              - "8081"
-              - "/config"
+              - "12321"
+              - /config
             env:
               HASS_SERVER: http://localhost:8123
             resources:
@@ -105,8 +105,8 @@ spec:
         type: ClusterIP
         controller: home-assistant
         ports:
-          http:
-            port: 8081
+          code:
+            port: 12321
 
     ingress:
       app:
@@ -114,6 +114,7 @@ spec:
         className: internal
         annotations:
           hajimari.io/icon: mdi:home-assistant
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
         #   external-dns.alpha.kubernetes.io/target: ingress-ext.bjw-s.dev
         hosts:
           - host: &hostName "domo.${SECRET_DOMAIN}"
@@ -125,7 +126,7 @@ spec:
               - path: /code/(.*)
                 service:
                   identifier: code
-                  port: http
+                  port: code
         tls:
           - hosts:          
               - *hostName
