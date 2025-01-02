@@ -127,13 +127,13 @@ spec:
         enabled: true
         type: secret
         name: home-assistant-ssh
-        items:
-          - key: id_ed25519
-            path: id_ed25519
-        globalMounts:
-          - path: /root/.ssh
-            readOnly: true
-        defaultMode: 256
+        defaultMode: 0600
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /root/.ssh
+                subPath: .ssh
+                readOnly: true
       config:
         existingClaim: home-assistant-config
         advancedMounts:
