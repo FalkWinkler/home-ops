@@ -61,18 +61,20 @@ spec:
                 enabled: false
       # Configure the code-server sidecar
           code-server:
+            dependsOn: app
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.96.2@sha256:6b8c0e944caec80057e71d2c2f352cee38fe00ae4b7515fc4458eb300844f699
-            args: [
-              "--auth", "none",
-              "--disable-telemetry", "--disable-update-check",
-              "--user-data-dir", "/config/.vscode",
-              "--extensions-dir", "/config/.vscode",
-              "--port", "8080",
-              "/config"
-            ]
-
+              tag: 4.95.1@sha256:d9bc7797d997e1b199e333676732e075bac4bae276dc0fe1baece2e313edfa09
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8080"
+              - "/config"
     service:
       app:
         controller: home-assistant
@@ -147,9 +149,9 @@ spec:
             app:
               - path: /tmp
                 subPath: hass-tmp
-            # code-server:
-            #   - path: /tmp
-            #     subPath: code-server-tmp
-            #   - path: /nonexistent
-            #     subPath: nonexistent
+            code-server:
+              - path: /tmp
+                subPath: code-server-tmp
+              - path: /nonexistent
+                subPath: nonexistent
         
