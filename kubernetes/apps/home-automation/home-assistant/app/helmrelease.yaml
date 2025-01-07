@@ -37,13 +37,13 @@ spec:
       home-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          securityContext:
-            runAsUser: 65534
-            runAsGroup: 65533
-            runAsNonRoot: true
-            fsGroup: 65533
-            fsGroupChangePolicy: OnRootMismatch
+        # pod:
+        #   securityContext:
+        #     runAsUser: 65534
+        #     runAsGroup: 65533
+        #     runAsNonRoot: true
+        #     fsGroup: 65533
+        #     fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
