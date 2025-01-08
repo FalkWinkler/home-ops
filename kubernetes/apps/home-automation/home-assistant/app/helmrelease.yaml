@@ -41,14 +41,15 @@ spec:
           securityContext:
             runAsUser: 65534
             runAsGroup: 65533
-            runAsNonRoot: true
             fsGroup: 65533
             fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2025.1.0@sha256:a3e6b1301107c5ca4dd3e1e7fa25edd0618acc9f812c75674cce7481fb05c759
+              tag: 2025.1.1@sha256:927198fc12979546cb68cf10a742255b6d5cf0f462958192182df86488ab1fe9
+            env:
+              VENV_FOLDER: /venv
             resources:
               requests:
                 cpu: 47m
@@ -144,6 +145,13 @@ spec:
               - path: /config
             code-server:
               - path: /config
+      hass-cache:
+        existingClaim: hass-cache
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /venv
+                subPath: hass-venv
       tmpfs:
         type: emptyDir
         advancedMounts:
