@@ -5,15 +5,14 @@ metadata:
   name: cluster-apps-rook-ceph
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 30m
+  timeout: 5m
   path: "./kubernetes/apps/rook-ceph/rook-ceph/operator"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
-  dependsOn:
-    - name: cluster-apps-minio
+  wait: false
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -22,15 +21,14 @@ metadata:
   name: cluster-apps-rook-ceph-cluster
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 30m
+  timeout: 5m
   path: "./kubernetes/apps/rook-ceph/rook-ceph/cluster"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
-  dependsOn:
-    - name: cluster-apps-rook-ceph
+  wait: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -38,7 +36,8 @@ metadata:
   name: cluster-apps-rook-ceph-addons
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 30m
+  timeout: 5m
   path: "./kubernetes/apps/rook-ceph/rook-ceph/add-ons"
   prune: true
   sourceRef:
