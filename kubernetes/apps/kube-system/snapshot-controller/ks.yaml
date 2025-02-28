@@ -5,11 +5,11 @@ metadata:
   name: cluster-apps-snapshot-controller
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 30m
   path: "./kubernetes/apps/kube-system/snapshot-controller/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
-  timeout: 2m
+  wait: false
+  timeout: 5m
