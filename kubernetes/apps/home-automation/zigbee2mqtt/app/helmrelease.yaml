@@ -73,10 +73,12 @@ spec:
                   secretKeyRef:
                     name: zigbee2mqtt-secret
                     key: mqtt_password
-              ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://ser2sock.home-automation.svc.cluster.local:10000
-              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
-              ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
+              # ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+              # ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://ser2sock.home-automation.svc.cluster.local:10000
+              # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+              # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyUSB0
             resources:
               requests:
                 cpu: 50m
@@ -149,3 +151,23 @@ spec:
               - path: /data
             code-server:
               - path: /data
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyUSB0
+
+    securityContext:
+      # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
+      privileged:  true
+
+    # -- Affinity constraint rules to place the Pod on a specific node.
+    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
+              operator: In
+              values:
+              - "true"
