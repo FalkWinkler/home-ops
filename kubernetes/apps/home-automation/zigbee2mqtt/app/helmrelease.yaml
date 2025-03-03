@@ -86,11 +86,7 @@ spec:
               limits:
                 memory: 384Mi
             securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              privileged: true
           code-server:
             image:
               repository: ghcr.io/coder/code-server
@@ -141,6 +137,7 @@ spec:
                 service:
                   identifier: app
                   port: code-server
+                
 
     persistence:
       data:
