@@ -23,16 +23,10 @@ spec:
       zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
-
-        pod:
-          securityContext:
-            runAsUser: 2000
-            runAsGroup: 2000
-            fsGroup: 2000
-            fsGroupChangePolicy: OnRootMismatch
-
         containers:
           app:
+            securityContext:
+              privileged: true
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.1.1
@@ -85,8 +79,7 @@ spec:
                 memory: 384Mi
               limits:
                 memory: 384Mi
-            securityContext:
-              privileged: true
+ 
           code-server:
             image:
               repository: ghcr.io/coder/code-server
