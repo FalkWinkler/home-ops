@@ -19,5 +19,5 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
     - name: volsync
-    - name: ser2sock
     - name: mosquitto
+    # - name: ser2sock
