@@ -105,7 +105,9 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 512Mi
+                memory: 512M
+            securityContext:
+              privileged: true
 
     service:
       app:
