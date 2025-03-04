@@ -128,16 +128,16 @@ spec:
     ingress:
       app:
         className: internal
-        annotations:
-          nginx.ingress.kubernetes.io/rewrite-target: /$1
+        # annotations:
+        #   nginx.ingress.kubernetes.io/rewrite-target: /$1
         hosts:
           - host: zigbee2mqtt.${SECRET_DOMAIN}
             paths:
-              - path: /(.*)
+              - path: /
                 service:
                   identifier: app
                   port: http
-              - path: /code/(.*)
+              - path: /code/
                 service:
                   identifier: app
                   port: code-server
@@ -154,7 +154,8 @@ spec:
               - path: /data
       usb:
         enabled: true
-        type: hostPath      
+        type: hostPath    
+        hostPathType: CharDevice  
         hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
         advancedMounts:
           zigbee2mqtt:
