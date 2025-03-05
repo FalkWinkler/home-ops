@@ -24,6 +24,13 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        # pod:
+        #   securityContext:
+        #     runAsUser: 2000
+        #     runAsGroup: 2000
+        #     fsGroup: 2000
+        #     fsGroupChangePolicy: OnRootMismatch
+
         containers:
           app:
             image:
@@ -108,6 +115,10 @@ spec:
                 memory: 512M
             securityContext:
               privileged: true
+              runAsUser: 2000
+              runAsGroup: 2000
+              fsGroup: 2000
+              fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
