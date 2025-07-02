@@ -58,7 +58,6 @@ spec:
     name: home-kubernetes
   dependsOn:
     - name: cilium
-      namespace: kube-system
     - name: cert-manager
       namespace: cert-manager
   prune: true
