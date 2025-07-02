@@ -15,8 +15,19 @@ cni:
   exclusive: false
 # NOTE: devices might need to be set if you have more than one active NIC on your hosts
 # devices: eno+ eth+
+dashboards:
+  enabled: true
+  annotations:
+    grafana_folder: Cilium
 endpointRoutes:
   enabled: true
+envoy:
+  enabled: true
+  rollOutPods: true
+gatewayAPI:
+  enabled: true
+  enableAlpn: true
+  xffNumTrustedHops: 1
 hubble:
   enabled: false
 ipam:
