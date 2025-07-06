@@ -2,39 +2,42 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app externaldns-external
-  namespace: flux-system
+  name: &appname externaldns-cloudflare
+  namespace: &namespace network
 spec:
-  targetNamespace: network
+  targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/network/external-dns/external
+      app.kubernetes.io/name: *appname
+  interval: 30m
+  timeout: 5m
+  path: "./kubernetes/apps/network/external-dns/cloudflare"
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app externaldns-bind
-  namespace: flux-system
+  name: &appname external-dns-opnsense
+  namespace: &namespace network
 spec:
-  targetNamespace: network
+  targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/network/external-dns/bind
-  prune: true
+      app.kubernetes.io/name: *appname
+  path: ./kubernetes/talos-flux/apps/networking/external-dns/opnsense
+  prune: false
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+
