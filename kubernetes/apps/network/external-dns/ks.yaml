@@ -31,7 +31,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/apps/networking/external-dns/opnsense
+  path: ./kubernetes/apps/network/external-dns/opnsense
   prune: false
   sourceRef:
     kind: GitRepository
