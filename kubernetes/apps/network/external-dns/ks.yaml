@@ -31,7 +31,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./kubernetes/talos-flux/apps/networking/external-dns/opnsense
+  path: ./kubernetes/apps/networking/external-dns/opnsense
   prune: false
   sourceRef:
     kind: GitRepository
@@ -41,4 +41,3 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-
