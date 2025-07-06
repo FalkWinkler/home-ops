@@ -11,4 +11,4 @@ spec:
   interval: 30m
   valuesFrom:
     - kind: ConfigMap
-      name: flux-operator-helm-values
+      name: flux-operator-values
