@@ -7,5 +7,7 @@ resources:
   - ./weave-gitops/ks.yaml
 components:
   - ../../components/namespace
+  - ../../components/flux/globals
+  - ../../components/flux/sops
   # - ../../components/flux/alerts
 
