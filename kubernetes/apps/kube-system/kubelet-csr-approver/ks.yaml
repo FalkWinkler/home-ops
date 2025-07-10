@@ -4,6 +4,9 @@ kind: Kustomization
 metadata:
   name: &app kubelet-csr-approver
   namespace: flux-system
+  labels:
+    substitution.flux.home.arpa/disabled: "true"
+    sops.flux.home.arpa/disabled: "true"
 spec:
   targetNamespace: kube-system
   commonMetadata:
@@ -13,8 +16,9 @@ spec:
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: false
+    name: flux-system
+    namespace: flux-system
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
