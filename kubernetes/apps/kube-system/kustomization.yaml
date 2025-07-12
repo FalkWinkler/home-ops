@@ -7,6 +7,6 @@ resources:
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
 components:
-  - ../../components/flux/globals
+  # - ../../components/flux/globals
   - ../../components/flux/alerts
   - ../../components/flux/sops
