@@ -12,5 +12,5 @@ resources:
   - ./reloader/ks.yaml
 components:
   # - ../../components/flux/globals
-  - ../../components/flux/alerts
+  # - ../../components/flux/alerts
   - ../../components/flux/sops
