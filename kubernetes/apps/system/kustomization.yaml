@@ -10,7 +10,7 @@ resources:
   - ./intel-device-plugins/ks.yaml
   - ./volsync/ks.yaml
   - ./reloader/ks.yaml
-components:
+# components:
   # - ../../components/flux/globals
   # - ../../components/flux/alerts
-  - ../../components/flux/sops
+  # - ../../components/flux/sops
