@@ -3,11 +3,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: network
 components:
-  # - ../../components/flux/alerts
+  - ../../components/flux/alerts
   - ../../components/flux/globals 
-  # - ../../components/flux/sops
+  - ../../components/flux/sops
   - ../../components/repos/app-template
 resources:
   - ./cloudflared/ks.yaml
   - ./external-dns/ks.yaml
+  - ./gatewa-api/ks.yaml
   
