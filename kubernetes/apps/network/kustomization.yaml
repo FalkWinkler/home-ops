@@ -10,5 +10,5 @@ components:
 resources:
   - ./cloudflared/ks.yaml
   - ./external-dns/ks.yaml
-  - ./gatewa-api/ks.yaml
+  - ./gateway-api/ks.yaml
   
