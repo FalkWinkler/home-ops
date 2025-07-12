@@ -11,6 +11,6 @@ resources:
   - ./volsync/ks.yaml
   - ./reloader/ks.yaml
 components:
-  - ../../components/flux/globals
+  # - ../../components/flux/globals
   - ../../components/flux/alerts
   - ../../components/flux/sops
