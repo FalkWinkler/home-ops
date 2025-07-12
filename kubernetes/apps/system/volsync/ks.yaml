@@ -1,21 +1,24 @@
 ---
+# yaml-language-server: $schema=https://homelab-schemas-epg.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname volsync
-  namespace: flux-system
+  name: &app volsync
+  namespace: &namespace system
 spec:
-  targetNamespace: system
+  targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
-  interval: 10m
-  path: "./kubernetes/apps/system/volsync/app"
-  prune: true
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/main/apps/system/volsync/app
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   dependsOn:
     - name: snapshot-controller
-  wait: false # no flux ks dependents
-  timeout: 2m
+      namespace: system
+  prune: true
+  wait: true
+  interval: 30m
+  timeout: 5m

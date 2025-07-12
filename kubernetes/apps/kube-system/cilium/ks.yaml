@@ -34,6 +34,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cilium
+      namespace: kube-system
   path: ./kubernetes/apps/kube-system/cilium/config
   prune: true 
   sourceRef:
@@ -62,8 +63,12 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
+    - name: gateway-api-crd
+      namespace: networking
     - name: cilium
+      namespace: kube-system
     - name: cert-manager
+      namespace: cert-manager
   prune: true
   wait: true
   interval: 1h

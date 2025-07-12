@@ -9,3 +9,8 @@ resources:
   - ./node-feature-discovery/ks.yaml
   - ./intel-device-plugins/ks.yaml
   - ./volsync/ks.yaml
+  - ./reloader/ks.yaml
+components:
+  - ../../components/flux/globals
+  - ../../components/flux/alerts
+  - ../../components/flux/sops

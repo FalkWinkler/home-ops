@@ -13,12 +13,6 @@ cluster:
   name: "home-kubernetes"
 cni:
   exclusive: false
-# NOTE: devices might need to be set if you have more than one active NIC on your hosts
-# devices: eno+ eth+
-dashboards:
-  enabled: true
-  annotations:
-    grafana_folder: Cilium
 endpointRoutes:
   enabled: true
 envoy:
@@ -48,9 +42,28 @@ localRedirectPolicy: true
 operator:
   replicas: 1
   rollOutPods: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: false
+    annotations:
+      grafana_folder: Cilium
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+dashboards:
+  enabled: false
+  annotations:
+    grafana_folder: Cilium
+
 rollOutCiliumPods: true
 routingMode: native
 securityContext:
+  privileged: true
   capabilities:
     ciliumAgent:
       - CHOWN

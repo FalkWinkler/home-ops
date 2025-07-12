@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: network
 components:
   # - ../../components/flux/alerts
-  - ../../components/flux/sops
+  - ../../components/flux/globals 
+  # - ../../components/flux/sops
   - ../../components/repos/app-template
 resources:
   - ./cloudflared/ks.yaml
