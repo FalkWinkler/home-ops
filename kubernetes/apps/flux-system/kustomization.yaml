@@ -5,8 +5,7 @@ namespace: flux-system
 resources:
   - ./flux-operator/ks.yaml
   - ./weave-gitops/ks.yaml
-components: 
-  - ../../components/flux/globals
+components:
   - ../../components/flux/sops
   - ../../components/flux/alerts
 

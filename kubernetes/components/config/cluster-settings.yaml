@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: cluster-settings
   namespace: flux-system
+  labels:
+    kustomize.toolkit.fluxcd.io/prune: disabled
 data:
   TIMEZONE: "Europe/Berlin"
   CLUSTER_CIDR: "10.69.0.0/16"
