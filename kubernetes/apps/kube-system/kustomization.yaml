@@ -6,7 +6,7 @@ resources:
   - ./cilium/ks.yaml
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
-components:
+# components:
   # - ../../components/flux/globals
-  - ../../components/flux/alerts
-  - ../../components/flux/sops
+  # - ../../components/flux/alerts
+  # - ../../components/flux/sops
