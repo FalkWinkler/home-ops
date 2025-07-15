@@ -8,7 +8,7 @@ resources:
   - ./flux-operator/ks.yaml
   - ./weave-gitops/ks.yaml
 components:
-  - ../../components/flux/sops
   - ../../components/flux/globals
+  - ../../components/flux/sops
 #   - ../../components/flux/alerts
 

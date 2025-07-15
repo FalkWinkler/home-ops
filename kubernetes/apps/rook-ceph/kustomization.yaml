@@ -7,5 +7,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./rook-ceph/ks.yaml
-# components:
+components:
+  - ../../components/flux/globals
+  - ../../components/flux/sops
 #   - ../../components/flux/alerts
