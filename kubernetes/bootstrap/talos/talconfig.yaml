@@ -12,7 +12,7 @@ clusterPodNets:
 clusterSvcNets:
   - "10.96.0.0/16"
 additionalApiServerCertSans: &sans
-  - "10.11.0.15"
+  - &talosControlPlaneVip 10.11.0.15
   - "home-cluster.f-wi.com"
   - "k8s.f-wi.com"
   - 127.0.0.1 # KubePrism
@@ -37,7 +37,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.15"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node1.yaml"
   - hostname: "node2"
@@ -55,7 +55,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.15"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node2.yaml"
   - hostname: "node3"
@@ -73,7 +73,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.15"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node3.yaml"
 
@@ -127,11 +127,7 @@ patches:
   # Configure kubelet
   - |-
     machine:
-      kubelet:
-        extraArgs:
-          image-gc-low-threshold: 50
-          image-gc-high-threshold: 55
-          rotate-server-certificates: true
+      kubelet: 
         nodeIP:
           validSubnets:
             - "10.11.0.0/16"
