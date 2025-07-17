@@ -11,6 +11,7 @@ resources:
   # - ./intel-device-plugins/ks.yaml
   - ./volsync/ks.yaml
   - ./reloader/ks.yaml
+  - ./snapshot-controller/ks.yaml
 components:
   - ../../components/flux/globals
   - ../../components/flux/sops
