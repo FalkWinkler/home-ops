@@ -8,8 +8,7 @@ components:
 #   - ../../components/flux/alerts
 #   - ../../components/repos/app-template
 resources:
-  - ./namespace.yaml
-  - ./cloudflared/ks.yaml
+  - ./namespace.yaml  
   - ./external-dns/ks.yaml
   - ./gateway-api/ks.yaml
   
