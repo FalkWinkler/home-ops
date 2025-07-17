@@ -26,6 +26,8 @@ spec:
     fullnameOverride: external-dns-opnsense
     logLevel: info
     interval: 2m
+    podAnnotations:
+      secret.reloader.stakater.com/reload:  &secret external-dns-opnsense-credentials
     provider:
       name: webhook
       managedRecordTypes:
@@ -39,7 +41,7 @@ spec:
           - name: OPNSENSE_SECRET
             valueFrom:
               secretKeyRef:
-                name: &secret external-dns-opnsense-credentials
+                name: *secret
                 key: OPNSENSE_API_SECRET
           - name: OPNSENSE_KEY
             valueFrom:
@@ -70,16 +72,14 @@ spec:
       - --webhook-provider-url=http://localhost:8800
     policy: sync
     sources:
-      - ingress
+      - gateway-httproute
       - service
-      - crd
     registry: noop
     domainFilters:
       - techtales.io
     txtPrefix: k8s.talos-flux.
-    txtOwnerId: talos-flux
+    txtOwnerId: k8s
     serviceMonitor:
       enabled: true
-    podAnnotations:
-      secret.reloader.stakater.com/reload: *secret
+
 
