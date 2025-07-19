@@ -6,9 +6,10 @@ components:
   - ../../components/flux/globals
   - ../../components/flux/sops
 #   - ../../components/flux/alerts
-#   - ../../components/repos/app-template
+  - ../../components/repos/app-template
 resources:
   - ./namespace.yaml  
   - ./external-dns/ks.yaml
+  - ./cloudflare-tunnel/ks.yaml
   - ./gateway-api/ks.yaml
   

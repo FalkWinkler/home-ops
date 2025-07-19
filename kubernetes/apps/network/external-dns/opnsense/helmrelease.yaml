@@ -37,6 +37,9 @@ spec:
         image:
           repository: ghcr.io/jobs62/opnsense_unbound_external-dns_webhook
           tag: v0.4.5@sha256:22d3bd25bacaa0a8445a746d6541a8994bcb54e6047f5a079574adc792f88034
+        securityContext:
+          runAsNonRoot: false  # Allow running as root
+          runAsUser: 0    
         env:
           - name: OPNSENSE_SECRET
             valueFrom:
