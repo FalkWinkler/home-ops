@@ -30,33 +30,27 @@ spec:
       secret.reloader.stakater.com/reload:  &secret external-dns-opnsense-credentials
     provider:
       name: webhook
-      managedRecordTypes:
-        - A
-        - AAAA
       webhook:
         image:
-          repository: ghcr.io/jobs62/opnsense_unbound_external-dns_webhook
-          tag: v0.4.5@sha256:22d3bd25bacaa0a8445a746d6541a8994bcb54e6047f5a079574adc792f88034
-        securityContext:
-          runAsNonRoot: false  # Allow running as root
-          runAsUser: 0    
+          repository: ghcr.io/crutonjohn/external-dns-opnsense-webhook
+          tag: main # replace with a versioned release tag
         env:
-          - name: OPNSENSE_SECRET
+          - name: OPNSENSE_API_SECRET
             valueFrom:
               secretKeyRef:
                 name: *secret
                 key: OPNSENSE_API_SECRET
-          - name: OPNSENSE_KEY
+          - name: OPNSENSE_API_KEY
             valueFrom:
               secretKeyRef:
                 name: *secret
-                key: OPNSENSE_API_KEY
-          - name: OPNSENSE_BASE
-            value: http://gateway.f-wi.com
-          - name: OPNSENSE_ALLOW_INVALID_CERTS
-            value: "false"
-          - name: OPNSENSE_DOMAIN_FILTERS
-            value: '[".f-wi.com"]'
+                key: OPNSENSE_API_KEY                
+          - name: OPNSENSE_HOST
+            value: http://gateway.f-wi.com # replace with the address to your OPNsense router
+          - name: OPNSENSE_SKIP_TLS_VERIFY
+            value: "true" # optional depending on your environment
+          - name: LOG_LEVEL
+            value: debug
         livenessProbe:
           httpGet:
             path: /healthz
@@ -71,8 +65,6 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
-      - --annotation-filter=external-dns/opnsense in (true)
-      - --webhook-provider-url=http://localhost:8800
     policy: sync
     sources:
       - gateway-httproute
