@@ -6,7 +6,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./rook-ceph/ks.yaml
+  # - ./rook-ceph/ks.yaml
 components:
   - ../../components/flux/globals
   - ../../components/flux/sops
