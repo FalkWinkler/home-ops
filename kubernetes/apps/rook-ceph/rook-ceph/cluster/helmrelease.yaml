@@ -93,13 +93,13 @@ spec:
         nodes:
           - name: "node1"          
             devices:
-              - name: "/dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F94"
+              - name: "/dev/sdb"
           - name: "node2"
             devices:
-              - name: "/dev/disk/by-id/ata-CT500MX500SSD1_2314E6C44636"
+              - name: "/dev/sdb"
           - name: "node3"
             devices:
-              - name: "/dev/disk/by-id/ata-CT500MX500SSD1_2324E6E25F90"
+              - name: "/dev/sdb"
     cephBlockPools:
       - name: ceph-blockpool
         spec:
