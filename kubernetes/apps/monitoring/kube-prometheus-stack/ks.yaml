@@ -15,8 +15,6 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: prometheus-operator-crds
-    # - name: cluster-apps-alertmanager
     - name: rook-ceph-cluster
   prune: true
   wait: true
