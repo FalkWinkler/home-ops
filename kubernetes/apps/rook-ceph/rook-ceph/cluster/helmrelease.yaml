@@ -30,21 +30,27 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    configOverride: |
-      [global]
-      bdev_enable_discard = true
-      bdev_async_discard = true
-      osd_class_update_on_start = false
+
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v19.2.2@sha256:8214ebff6133ac27d20659038df6962dbf9d77da21c9438a296b2e2059a56af6
+
+      cephConfig:
+        global:
+          bdev_enable_discard: "true" # quote
+          bdev_async_discard_threads: "1" # quote
+          osd_class_update_on_start: "false" # quote
+          device_failure_prediction_mode: local # requires mgr module 
+
       crashCollector:
         disable: false
+
       dashboard:
         enabled: true
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+
       mgr:
         modules:
           - name: diskprediction_local
@@ -55,10 +61,12 @@ spec:
             enabled: true
           - name: rook
             enabled: true
-      network:
-        provider: host
-        connections:
-          requireMsgr2: true
+
+      # network:
+      #   provider: host
+      #   connections:
+      #     requireMsgr2: true
+    
       resources:
         mgr:
           requests:
@@ -93,13 +101,13 @@ spec:
         nodes:
           - name: "node1"          
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
           - name: "node2"
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
           - name: "node3"
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
     cephBlockPools:
       - name: ceph-blockpool
         spec:
