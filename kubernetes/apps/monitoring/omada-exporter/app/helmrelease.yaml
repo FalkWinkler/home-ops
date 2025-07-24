@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.2.0/charts/library/common/values.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: omada-exporter
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+
+  values:
+    controllers:
+      omada-exporter:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/charlie-haley/omada_exporter
+              tag: 0.13.1
+
+            env:
+              OMADA_HOST: "https://${LOCAL_LAN_OMADA}:8043"
+              OMADA_USER: exporter
+              OMADA_INSECURE: "true"
+              OMADA_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: omada-exporter-secret
+                    key: omada_exporter_password
+              OMADA_SITE: FALK-OMADA1
+            
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+
+    service:
+      app:
+        controller: omada-exporter
+        ports:
+          http:
+            port: 9202
+
+    serviceMonitor:
+      app:
+        serviceName: omada-exporter
+        enabled: true
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 2m # Unifi API only polls at 2m intervals
+            scrapeTimeout: 5s
+
+
