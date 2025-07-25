@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: home-automation
+resources:
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  # Flux-Kustomizations
+  - ./home-assistant/ks.yaml
+  - ./mosquitto/ks.yaml  
+  - ./zigbee2mqtt/ks.yaml
+  #- ./ser2sock/ks.yaml
+  # - ./whisper/ks.yaml 
+  # - ./wyoming-piper/ks.yaml 
+  # - ./wyoming-openwakeword/ks.yaml
+  #- ./multiprotocol/ks.yaml
+components:
+  - ../../components/flux/globals
+  - ../../components/flux/sops
+  - ../../components/flux/alerts
+  - ../../components/repos/app-template
+
