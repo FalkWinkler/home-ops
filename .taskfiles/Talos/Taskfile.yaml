@@ -26,8 +26,7 @@ tasks:
       - talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
       - talhelper gencommand apply --config-file {{.TALHELPER_CONFIG_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} --extra-flags="--insecure" | bash
       - until talhelper gencommand bootstrap --config-file {{.TALHELPER_CONFIG_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}} | bash; do sleep 10; done
-      - task: fetch-kubeconfig
-      - task: install-helm-apps
+      - until talhelper gencommand kubeconfig --extra-flags="{{.ROOT_DIR}} --force" | bash; do sleep 10; done
       - talosctl health --server=false
     preconditions:
       - msg: Missing talhelper config file
@@ -45,16 +44,17 @@ tasks:
       - msg: Missing talhelper config file
         sh: test -f {{.TALHELPER_CONFIG_FILE}}
 
-  install-helm-apps:
+  apps:
     desc: Bootstrap core apps needed for Talos
     dir: "{{.KUBERNETES_DIR}}/bootstrap/talos"
-    cmds:
-      - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --for=condition=Ready=False nodes --all --timeout=600s; do sleep 10; done
-      - helmfile --kubeconfig {{.KUBECONFIG_FILE}} --file {{.HELMFILE_FILE}} apply --skip-diff-on-install --suppress-diff
-      - until kubectl --kubeconfig {{.KUBECONFIG_FILE}} wait --for=condition=Ready nodes --all --timeout=600s; do sleep 10; done
+    env:
+      KUBERNETES_DIR: "{{.KUBERNETES_DIR}}"
+    cmd: bash {{.SCRIPTS_DIR}}/bootstrap-apps.sh
     preconditions:
       - msg: Missing kubeconfig
         sh: test -f {{.KUBECONFIG_FILE}}
+      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - test -f {{.SCRIPTS_DIR}}/bootstrap-apps.sh
       - msg: Missing helmfile
         sh: test -f {{.HELMFILE_FILE}}
 

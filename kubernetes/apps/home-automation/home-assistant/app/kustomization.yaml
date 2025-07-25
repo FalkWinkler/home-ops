@@ -5,7 +5,7 @@ namespace: home-automation
 resources:
   - ./pvc.yaml
   - ./volsync.yaml
-  - ./postgres-secret.sops.yaml
+  #- ./postgres-secret.sops.yaml
   - ./ssh.secret.sops.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml

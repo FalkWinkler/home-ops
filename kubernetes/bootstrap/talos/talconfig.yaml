@@ -1,19 +1,20 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.8.0
+talosVersion: v1.10.5
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.30.2
+kubernetesVersion: v1.33.3
 
 clusterName: &cluster home-kubernetes
-endpoint: https://10.11.0.14:6443
+endpoint: https://10.11.0.15:6443
 clusterPodNets:
   - "10.69.0.0/16"
 clusterSvcNets:
   - "10.96.0.0/16"
 additionalApiServerCertSans: &sans
-  - "10.11.0.15"
+  - &talosControlPlaneVip 10.11.0.15
   - "home-cluster.f-wi.com"
+  - "k8s.f-wi.com"
   - 127.0.0.1 # KubePrism
 
 additionalMachineCertSans: *sans
@@ -36,7 +37,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.14"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node1.yaml"
   - hostname: "node2"
@@ -54,7 +55,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.14"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node2.yaml"
   - hostname: "node3"
@@ -72,7 +73,7 @@ nodes:
           - network: 0.0.0.0/0
             gateway: "10.11.0.1"
         vip:
-          ip: "10.11.0.14"
+          ip: *talosControlPlaneVip
     patches:
       - "@./patches/node_node3.yaml"
 
@@ -84,9 +85,10 @@ patches:
         - op: create
           path: /etc/cri/conf.d/20-customization.part
           content: |-
-            [plugins."io.containerd.grpc.v1.cri"]
-              enable_unprivileged_ports = true
-              enable_unprivileged_icmp = true
+            [plugins]
+              [plugins."io.containerd.grpc.v1.cri"]
+                enable_unprivileged_ports = true
+                enable_unprivileged_icmp = true
             [plugins."io.containerd.grpc.v1.cri".containerd]
               discard_unpacked_layers = false
             [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
@@ -98,24 +100,34 @@ patches:
       network:
         disableSearchDomain: true
 
+  # Cluster configuration
+  - |-
+    cluster:
+      coreDNS:
+          disabled: true
+      proxy:
+        disabled: true
+      controllerManager:
+        extraArgs:
+          bind-address: 0.0.0.0
+      scheduler:
+        extraArgs:
+          bind-address: 0.0.0.0
+
   # Enable cluster discovery
   - |-
     cluster:
       discovery:
         registries:
           kubernetes:
-            disabled: false
+            disabled: true
           service:
             disabled: false
 
   # Configure kubelet
   - |-
     machine:
-      kubelet:
-        extraArgs:
-          image-gc-low-threshold: 50
-          image-gc-high-threshold: 55
-          rotate-server-certificates: true
+      kubelet: 
         nodeIP:
           validSubnets:
             - "10.11.0.0/16"
@@ -167,6 +179,21 @@ patches:
   - "@./patches/global.yaml"
 
 controlPlane:
+  schematic:
+    customization:      
+      extraKernelArgs:
+        - -selinux # Disable selinux
+        - apparmor=0 # Less security, more speed
+        #- i915.enable_guc=3 # Meteor Lake CPU / iGPU
+        - init_on_alloc=0 # Less security, more speed
+        - init_on_free=0 # Less security, more speed
+       # - intel_iommu=on # PCI Passthrough
+        - iommu=pt # PCI Passthrough
+        - mitigations=off # Less security, more speed
+        - net.ifnames=0 # Enable predictable NIC naming
+        - security=none # Less security, more speed
+        #- sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+        - talos.auditd.disabled=1 # Less security, faster puter
   patches:
     # Cluster configuration
     - |-

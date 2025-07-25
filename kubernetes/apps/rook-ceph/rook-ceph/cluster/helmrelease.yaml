@@ -1,31 +1,28 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: rook-ceph-cluster
-      version: v1.16.5
-      sourceRef:
-        kind: HelmRepository
-        name: rook-ceph
-        namespace: flux-system
+  interval: 1h
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: rook-ceph-cluster
   maxHistory: 3
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   upgrade:
-    cleanupOnFail: true
     remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+      retries: 5
+  dependsOn:
+    - name: rook-ceph-operator
+      namespace: rook-ceph
+    - name: snapshot-controller
+      namespace: system
   values:
     toolbox:
       enabled: true
@@ -33,36 +30,43 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    ingress:
-      dashboard:
-        ingressClassName: "internal"
-        host:
-          name: &host rook.${SECRET_DOMAIN}
-          path: "/"
-        tls:
-          - hosts:
-              - *host
-    configOverride: |
-      [global]
-      bdev_enable_discard = true
-      bdev_async_discard = true
-      osd_class_update_on_start = false
+
     cephClusterSpec:
+      cephVersion:
+        image: quay.io/ceph/ceph:v19.2.2@sha256:8214ebff6133ac27d20659038df6962dbf9d77da21c9438a296b2e2059a56af6
+
+      cephConfig:
+        global:
+          bdev_enable_discard: "true" # quote
+          bdev_async_discard_threads: "1" # quote
+          osd_class_update_on_start: "false" # quote
+          device_failure_prediction_mode: local # requires mgr module 
+
       crashCollector:
         disable: false
+
       dashboard:
         enabled: true
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+
       mgr:
         modules:
+          - name: diskprediction_local
+            enabled: true
+          - name: insights
+            enabled: true
           - name: pg_autoscaler
             enabled: true
-      network:
-        provider: host
-        connections:
-          requireMsgr2: true
+          - name: rook
+            enabled: true
+
+      # network:
+      #   provider: host
+      #   connections:
+      #     requireMsgr2: true
+    
       resources:
         mgr:
           requests:
@@ -97,13 +101,13 @@ spec:
         nodes:
           - name: "node1"          
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
           - name: "node2"
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
           - name: "node3"
             devices:
-              - name: "/dev/sdb"
+              - name: "sdb"
     cephBlockPools:
       - name: ceph-blockpool
         spec:

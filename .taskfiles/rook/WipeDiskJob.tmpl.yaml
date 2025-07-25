@@ -13,14 +13,15 @@ spec:
       nodeName: ${node}
       containers:
         - name: disk-wipe
-          image: ghcr.io/onedr0p/alpine:3.17.3@sha256:999384960b6114496a5e4036e945141c205d064ce23b87326bd3f8d878c5a9d4
+          image: ghcr.io/linuxcontainers/alpine:latest
           securityContext:
             privileged: true
           resources: {}
           command: ["/bin/sh", "-c"]
           args:
-            - apk add --no-cache sgdisk util-linux parted;
-              sgdisk --zap-all ${ceph_disk};
+            - apk add --no-cache sgdisk util-linux parted;      
+              clear;    
+              sgdisk --zap-all ${ceph_disk};              
+              dd if=/dev/zero bs=1k count=10000 oflag=direct seek=0 of=${ceph_disk};
               blkdiscard ${ceph_disk};
-              dd if=/dev/zero bs=1M count=10000 oflag=direct of=${ceph_disk};
               partprobe ${ceph_disk};
