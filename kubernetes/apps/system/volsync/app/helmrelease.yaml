@@ -9,16 +9,11 @@ spec:
   chartRef:
     kind: OCIRepository
     name: volsync
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+  dependsOn:
+    - name: openebs
+      namespace: system
+    - name: snapshot-controller
+      namespace: system
   values:
     manageCRDs: true
     metrics:
