@@ -7,8 +7,3 @@ resources:
   - ./volsync.yaml
   - ./pvc.yaml
   - ./helmrelease.yaml
-
-
-commonLabels:
-  app.kubernetes.io/name: zigbee2mqtt
-  app.kubernetes.io/instance: zigbee2mqtt
