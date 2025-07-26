@@ -28,6 +28,13 @@ spec:
       replicated:
         mayastor:
           enabled: false
+    loki:
+      enabled: false
+    minio:
+      enabled: false
+    alloy:
+      enabled: false
+      
     openebs-crds:
       csi:
         volumeSnapshots:
@@ -39,6 +46,7 @@ spec:
       localpv:
         image:
           registry: quay.io/
+          basePath: &basePath /var/openebs/local
       helperPod:
         image:
           registry: quay.io/
@@ -46,4 +54,4 @@ spec:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: /var/openebs/local
+        basePath: *basePath
