@@ -1,21 +1,18 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: alertmanager
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
     controllers:
       main:
@@ -33,10 +30,20 @@ spec:
                 - path: /alertmanager
 
         containers:
-          main:
+          alertmanager:
             image:
               repository: quay.io/prometheus/alertmanager
               tag: v0.28.1
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             ports:
               - name: http
                 containerPort: 9093
@@ -48,27 +55,10 @@ spec:
                 memory: 99M
 
     service:
-      main:
+      app:
         ports:
           http:
             port: 9093
-
-    ingress:
-      main:
-        enabled: true
-        className: internal
-        annotations:
-          hajimari.io/icon: mdi:bell-circle-outline
-        hosts:
-          - host: &host alertmanager.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
 
     persistence:
       config:
@@ -82,3 +72,12 @@ spec:
         name: alertmanager-secret
         globalMounts:
           - path: /etc/secrets
+
+    route:
+      app:
+        hostnames:
+          - alertmanager.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
