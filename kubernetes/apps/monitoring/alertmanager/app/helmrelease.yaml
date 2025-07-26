@@ -63,7 +63,7 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: alertmanager-configmap
+        name: alertmanager
         globalMounts:
           - path: /etc/alertmanager
       secrets:
