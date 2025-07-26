@@ -15,3 +15,4 @@ resources:
 components:
   - ../../components/flux/globals
   - ../../components/flux/sops
+  - ../../components/repos/app-template
