@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: home-automation
 resources:
   - ./secret.sops.yaml
-  - ./volsync.yaml
+  # - ./volsync.yaml
   - ./pvc.yaml
   - ./helmrelease.yaml
