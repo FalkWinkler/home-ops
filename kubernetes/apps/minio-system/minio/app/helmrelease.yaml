@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app minio
+  namespace: minio-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minio
+      version: 5.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: minio
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    nameOverride: *app
+    image:
+      repository: quay.io/minio/minio
+      tag: RELEASE.2025-07-18T21-56-31Z@sha256:da0fe26595711d0fb93dd28e24552520f68897195f4a23f5a17ffa9924ec3fac
+    mcImage:
+      repository: quay.io/minio/mc
+      tag: RELEASE.2025-07-18T21-56-31Z@sha256:da0fe26595711d0fb93dd28e24552520f68897195f4a23f5a17ffa9924ec3fac
+    mode: standalone
+
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    persistence:
+      enabled: true  
+
+      ## A manually managed Persistent Volume and Claim
+      ## Requires persistence.enabled: true
+      ## If defined, PVC must be created manually before volume will be bound
+      existingClaim: "minio-nfs"
+    
+    existingSecret: minio-secret
+
+    networkPolicy:
+      enabled: true
+      flavor: cilium
+
+    securityContext:
+      enabled: true
+      runAsUser: 3001 # User 'k8s'
+      runAsGroup: 3001 # Group 'k8s'
+      fsGroup: 3001
+
+
+    ingress:
+      enabled: true
+      ingressClassName: "internal"
+      # annotations:
+      #   hajimari.io/icon: "progress-upload"
+      #   cert-manager.io/cluster-issuer: "letsencrypt-production"
+      #   hajimari.io/enable: "true"
+      hosts:
+        - &host-console "minio.${SECRET_DOMAIN}"
+      tls:
+        - secretName: *host-console
+          hosts:
+            - *host-console    
+
+    consoleIngress:
+      enabled: true
+      ingressClassName: "internal"
+      annotations:
+        hajimari.io/icon: "progress-upload"
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+        hajimari.io/enable: "true"
+      hosts:
+        - &host-api "s3.${SECRET_DOMAIN}"
+      tls:
+        - secretName: *host-api
+          hosts:
+            - *host-api
+
+    service:
+      type: LoadBalancer
+      annotations:
+        io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
+      
