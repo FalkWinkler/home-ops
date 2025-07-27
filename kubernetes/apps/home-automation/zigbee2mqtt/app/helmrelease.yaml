@@ -160,7 +160,7 @@ spec:
         enabled: true
         type: hostPath    
         hostPathType: CharDevice  
-        hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
+        hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00
         advancedMounts:
           zigbee2mqtt:
             app:
