@@ -27,7 +27,7 @@ spec:
       tag: RELEASE.2025-07-18T21-56-31Z@sha256:da0fe26595711d0fb93dd28e24552520f68897195f4a23f5a17ffa9924ec3fac
     mcImage:
       repository: quay.io/minio/mc
-      tag: RELEASE.2025-07-18T21-56-31Z@sha256:da0fe26595711d0fb93dd28e24552520f68897195f4a23f5a17ffa9924ec3fac
+      tag: RELEASE.2024-11-17T19-35-25Z
     mode: standalone
 
     ## Enable persistence using Persistent Volume Claims
