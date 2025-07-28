@@ -6,3 +6,4 @@ resources:
   - ./secret.sops.yaml
   - ./nfs-pvc.yaml
   - ./helmrelease.yaml
+  - ./httproute.yaml
