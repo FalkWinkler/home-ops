@@ -18,7 +18,7 @@ spec:
     controllers:
       zigbee2mqtt:
         annotations:
-          reloader.stakater.com/auto: "true"
+          reloader.stakater.com/auto: ""true""
 
         # pod:
         #   securityContext:
@@ -35,33 +35,33 @@ spec:
             env:
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /data
-              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
-              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
-              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: false
-              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: false
-              # ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_ENTITY_ATTRIBUTES: false
-            #  ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_TRIGGERS: false
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
+              # ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_ENTITY_ATTRIBUTES: "false"
+            #  ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_TRIGGERS: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]' 
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
               ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
-              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: false
-              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
-              ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
+              ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
+              ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &httpPort 8080
               ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.${SECRET_DOMAIN}
-              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: "true"
+              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: ""true""
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: true
-              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: true
-              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: true
+              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: "true"
+              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
+              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: "true"
             #  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
               ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
-              ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
+              ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
-              ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: true
+              ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mosquitto.home-automation.svc.cluster.local"
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
@@ -74,10 +74,10 @@ spec:
                   secretKeyRef:
                     name: zigbee2mqtt-secret
                     key: mqtt_password
-              # ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
+              # ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: ""false""
               # ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://ser2sock.home-automation.svc.cluster.local:10000
               # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
-              # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: false
+              # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyUSB0
             resources:
@@ -87,7 +87,7 @@ spec:
               limits:
                 memory: 384Mi
             securityContext:
-              privileged: true
+              privileged: "true"
               capabilities:
                 add: ["SYS_ADMIN"]
           code-server:
@@ -112,7 +112,7 @@ spec:
               limits:
                 memory: 512M
             securityContext:
-              privileged: true
+              privileged: "true"
               runAsUser: 2000
               runAsGroup: 2000
               fsGroup: 2000
@@ -122,7 +122,7 @@ spec:
       app:
         ports:
           http:
-            primary: true
+            primary: "true"
             port: *httpPort
           metrics:
             port: 9000
@@ -157,7 +157,7 @@ spec:
             code-server:
               - path: /data
       usb:
-        enabled: true
+        enabled: "true"
         type: hostPath    
         hostPathType: CharDevice  
         hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00
@@ -168,7 +168,7 @@ spec:
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-      privileged:  true
+      privileged:  "true"
 
     # -- Affinity constraint rules to place the Pod on a specific node.
     # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
@@ -180,7 +180,7 @@ spec:
             - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
               operator: In
               values:
-              - "true"
+              - ""true""
           
     route:
       app:
