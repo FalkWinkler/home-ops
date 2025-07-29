@@ -10,3 +10,5 @@ components:
   - ../../components/flux/globals
   - ../../components/flux/alerts
   - ../../components/flux/sops
+  - ../../components/repos/app-template
+
