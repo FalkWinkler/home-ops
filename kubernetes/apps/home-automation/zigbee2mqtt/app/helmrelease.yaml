@@ -87,7 +87,7 @@ spec:
               limits:
                 memory: 384Mi
             securityContext:
-              privileged: "true"
+              privileged: true
               capabilities:
                 add: ["SYS_ADMIN"]
           code-server:
@@ -112,7 +112,7 @@ spec:
               limits:
                 memory: 512M
             securityContext:
-              privileged: "true"
+              privileged: true
               runAsUser: 2000
               runAsGroup: 2000
               fsGroup: 2000
@@ -122,7 +122,7 @@ spec:
       app:
         ports:
           http:
-            primary: "true"
+            primary: true
             port: *httpPort
           metrics:
             port: 9000
@@ -157,7 +157,7 @@ spec:
             code-server:
               - path: /data
       usb:
-        enabled: "true"
+        enabled: true
         type: hostPath    
         hostPathType: CharDevice  
         hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00
@@ -168,7 +168,7 @@ spec:
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
-      privileged:  "true"
+      privileged:  true
 
     # -- Affinity constraint rules to place the Pod on a specific node.
     # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
@@ -180,7 +180,7 @@ spec:
             - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
               operator: In
               values:
-              - ""true""
+              - true
           
     route:
       app:
