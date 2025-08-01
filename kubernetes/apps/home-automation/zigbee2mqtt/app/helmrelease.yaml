@@ -20,13 +20,6 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        # pod:
-        #   securityContext:
-        #     runAsUser: 2000
-        #     runAsGroup: 2000
-        #     fsGroup: 2000
-        #     fsGroupChangePolicy: OnRootMismatch
-
         containers:
           app:
             image:
@@ -84,12 +77,8 @@ spec:
                 memory: 384Mi
               limits:
                 memory: 384Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                - ALL
+   
+
           code-server:
             image:
               repository: ghcr.io/coder/code-server
@@ -111,12 +100,6 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512M
-            securityContext:
-              privileged: true
-              runAsUser: 2000
-              runAsGroup: 2000
-              fsGroup: 2000
-              fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -127,25 +110,7 @@ spec:
           metrics:
             port: 9000
           code-server:
-            port: 12321
-
-    # ingress:
-    #   app:
-    #     className: internal
-    #     # annotations:
-    #     #   nginx.ingress.kubernetes.io/rewrite-target: /$1
-    #     hosts:
-    #       - host: zigbee2mqtt.${SECRET_DOMAIN}
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #           - path: /code/
-    #             service:
-    #               identifier: app
-    #               port: code-server
-                
+            port: 12321                
 
     persistence:
       data:
