@@ -54,10 +54,8 @@ spec:
       usb:
         enabled: true
         type: hostPath   
-        advancedMounts:
-          ser2sock:
-            app:
-              - path: /dev/ttyUSB0
+        hostPath: /dev/ttyUSB0
+     
 
     securityContext:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
