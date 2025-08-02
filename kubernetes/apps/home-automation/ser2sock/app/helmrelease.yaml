@@ -9,16 +9,25 @@ spec:
     kind: OCIRepository
     name: app-template
   values:
-    image:
-      repository: tenstartups/ser2sock
-      tag: latest
-    env:
-      # -- Port where ser2sock listens
-      LISTENER_PORT: 10000
-      # -- Path to the serial device
-      SERIAL_DEVICE: /dev/ttyUSB0
-      # -- Serial device baud rate
-      BAUD_RATE: 115200
+    controllers:
+      ser2sock:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            nameOverride: ser2sock
+            # -- Image repository and tag for the ser2sock application.
+            # @default -- See values.yaml
+            image:
+              repository: tenstartups/ser2sock
+              tag: latest
+            env:
+              # -- Port where ser2sock listens
+              LISTENER_PORT: 10000
+              # -- Path to the serial device
+              SERIAL_DEVICE: /dev/ttyUSB0
+              # -- Serial device baud rate
+              BAUD_RATE: 115200
     service:
       main:
         ports:
@@ -29,11 +38,6 @@ spec:
             enabled: true
             protocol: TCP
             port: 10000
-
-    ingress:
-      main:
-        enabled: false
-
     probes:
       liveness:
         enabled: false
@@ -41,6 +45,7 @@ spec:
         enabled: false
       startup:
         enabled: false
+        
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
     persistence:
