@@ -29,7 +29,7 @@ spec:
               # -- Serial device baud rate
               BAUD_RATE: 115200
     service:
-      main:
+      app:
         ports:
           http:
             enabled: false
@@ -45,7 +45,7 @@ spec:
         enabled: false
       startup:
         enabled: false
-        
+
     # -- Configure persistence settings for the chart under this key.
     # @default -- See values.yaml
     persistence:
@@ -57,7 +57,7 @@ spec:
         hostPathType: CharDevice  
         hostPath: /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20231120161348-if00
         advancedMounts:
-          zigbee2mqtt:
+          ser2sock:
             app:
               - path: /dev/ttyUSB0
 
