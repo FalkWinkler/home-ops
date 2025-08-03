@@ -121,7 +121,7 @@ spec:
     route:
       app:
         hostnames:
-          - hass.bjw-s.dev
+          - hass.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: kube-system
