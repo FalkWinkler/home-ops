@@ -107,7 +107,7 @@ spec:
 
     service:
       app:
-        controller: ser2sock
+        controller: zigbee2mqtt
         ports:
           http:
             primary: true
