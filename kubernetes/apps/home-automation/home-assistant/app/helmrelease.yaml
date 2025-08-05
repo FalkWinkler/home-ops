@@ -69,13 +69,10 @@ spec:
     service:
       app:
         primary: true
-        type: LoadBalancer
-        sessionAffinity: ClientIP
-        annotations:
-          io.cilium/lb-ipam-ips: "${LB_HOMEASSISTANT_IP}"
+        type: ClusterIP
         ports:
           http:
-            port: 8123          
+            port: &appPort 8123          
       code-server:
         ports:
           code-server:
@@ -142,7 +139,7 @@ spec:
                 port: 12321
           - backendRefs:
               - identifier: app
-                port: 8123
+                port: *appPort
 
     persistence:
       ssh:
