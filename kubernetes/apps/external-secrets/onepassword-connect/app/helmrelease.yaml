@@ -15,7 +15,7 @@ spec:
         strategy: RollingUpdate
         replicas: 1
         annotations:
-          secret.reloader.stakater.com: onepassword-connect-secret
+          secret.reloader.stakater.com: onepassword-secret
         containers:
           api:
             image:
