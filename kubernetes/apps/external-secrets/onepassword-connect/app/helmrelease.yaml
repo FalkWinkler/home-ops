@@ -13,15 +13,17 @@ spec:
     controllers:
       onepassword-connect:
         strategy: RollingUpdate
+        replicas: 1
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com: onepassword-connect-secret
         containers:
           api:
             image:
               repository: docker.io/1password/connect-api
-              tag: 1.7.3
+              tag: 1.7.4
             env:
               XDG_DATA_HOME: &configDir /config
+              # OP_LOG_LEVEL: debug
               OP_HTTP_PORT: &apiPort 8080
               OP_BUS_PORT: 11220
               OP_BUS_PEERS: localhost:11221
@@ -63,9 +65,10 @@ spec:
           sync:
             image:
               repository: docker.io/1password/connect-sync
-              tag: 1.7.3
+              tag: 1.7.4
             env:
               XDG_DATA_HOME: *configDir
+              # OP_LOG_LEVEL: debug
               OP_HTTP_PORT: &syncPort 8081
               OP_BUS_PORT: 11221
               OP_BUS_PEERS: localhost:11220
@@ -107,6 +110,15 @@ spec:
         ports:
           http:
             port: *apiPort
+    route:
+      app:
+        hostnames: ["onepassword-connect.f-wi.com"]
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs: [{}]
     persistence:
       config:
         type: emptyDir
