@@ -25,10 +25,13 @@ spec:
       namespace: system
     - name: mosquitto
       namespace: home-automation
-    # - name: ser2sock
-  # components:
-  #   - ../../../../components/volsync
-  # postBuild:
-  #   substitute:
-  #     APP: *appname
-  #     VOLSYNC_CLAIM: zigbee2mqtt-data
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: volsync
+      namespace: system
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: *appname
+      VOLSYNC_CLAIM: zigbee2mqtt-data
