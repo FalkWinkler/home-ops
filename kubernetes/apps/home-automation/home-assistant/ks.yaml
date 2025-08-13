@@ -23,15 +23,17 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: system
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: volsync
+      namespace: system
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: *appname
+      VOLSYNC_CLAIM: home-assistant-config
+      VOLSYNC_CAPACITY: 8Gi
 
-  # components:
-  #   - ../../../../components/volsync
-  # postBuild:
-  #   substitute:
-  #     APP: *appname
-  #     APP_UID: "65534"
-  #     APP_GID: "65533"
-  #     VOLSYNC_CLAIM: home-assistant-config
-  #     VOLSYNC_CAPACITY: 8Gi
 
 
