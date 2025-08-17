@@ -32,10 +32,6 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   dependsOn:
     - name: flux-repositories
       namespace: flux-system 
@@ -58,18 +54,4 @@ spec:
         version: v1
         kind: Kustomization
         labelSelector: substitution.flux.home.arpa/disabled notin (true)
-    - patch: |-
-        apiVersion: kustomize.toolkit.fluxcd.io/v1
-        kind: Kustomization
-        metadata:
-          name: not-used
-        spec:
-          decryption:
-            provider: sops
-            secretRef:
-              name: sops-age
-      target:
-        group: kustomize.toolkit.fluxcd.io
-        version: v1
-        kind: Kustomization
-        labelSelector: sops.flux.home.arpa/disabled notin (true)
+

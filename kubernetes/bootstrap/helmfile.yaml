@@ -8,8 +8,6 @@ helmDefaults:
   force: true
 
 repositories:
-  - name: postfinance
-    url: https://postfinance.github.io/kubelet-csr-approver
   - name: cilium
     url: https://helm.cilium.io
 
