@@ -5,7 +5,7 @@ namespace: monitoring
 resources:
   - ./namespace.yaml
   - ./kube-prometheus-stack/ks.yaml
-  - ./alertmanager/ks.yaml
+  #- ./alertmanager/ks.yaml
   # - ./grafana/ks.yaml
   # - ./prometheus-operator-crds/ks.yaml
   # - ./kube-prometheus-stack/ks.yaml
@@ -13,6 +13,5 @@ resources:
   # - ./node-exporter/ks.yaml
   # - ./omada-exporter/ks.yaml
 components:
-  - ../../components/flux/globals
-  - ../../components/flux/sops
+  - ../../components/flux/globals 
   - ../../components/repos/app-template

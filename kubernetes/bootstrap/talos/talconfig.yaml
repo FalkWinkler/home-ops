@@ -131,6 +131,14 @@ patches:
         nodeIP:
           validSubnets:
             - "10.11.0.0/16"
+  
+  # Enable MutatingAdmissionPolicy
+  - |-
+    cluster:
+      apiServer:
+        extraArgs:
+          runtime-config: admissionregistration.k8s.io/v1alpha1=true
+          feature-gates: MutatingAdmissionPolicy=true
 
   # Force nameserver
   - |-

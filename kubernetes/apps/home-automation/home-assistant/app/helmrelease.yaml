@@ -99,7 +99,7 @@ spec:
     route:
       app:
         hostnames:
-          - hass.${SECRET_DOMAIN}
+          - hass.f-wi.com
         parentRefs:
           - name: internal
             namespace: kube-system

@@ -46,7 +46,7 @@ spec:
       enabled: true
       ingress:
         enabled: true
-        hostname: &host "thanos.${SECRET_DOMAIN}"
+        hostname: &host "thanos.f-wi.com"
         ingressClassName: "internal"
       annotations:
         hajimari.io/icon: "table-search"

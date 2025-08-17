@@ -375,7 +375,7 @@ spec:
         allow_embedding: true
         cookie_samesite: grafana
       server:
-        root_url: "https://grafana.${SECRET_DOMAIN}"
+        root_url: "https://grafana.f-wi.com"
 
     imageRenderer:
       enabled: true
@@ -401,7 +401,7 @@ spec:
       annotations:
         hajimari.io/icon: simple-icons:grafana
       hosts:
-        - &host "grafana.${SECRET_DOMAIN}"
+        - &host "grafana.f-wi.com"
       tls:
         - hosts:
             - *host
