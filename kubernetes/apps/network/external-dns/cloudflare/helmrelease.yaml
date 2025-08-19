@@ -29,7 +29,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: &secret external-dns-cloudflare-secret
-            key: api-token
+            key: cloudflare_api_token
     extraArgs:
       - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
