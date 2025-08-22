@@ -36,6 +36,10 @@ spec:
     - name: flux-repositories
       namespace: flux-system 
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
   patches:
   - patch: |-
       apiVersion: kustomize.toolkit.fluxcd.io/v1
