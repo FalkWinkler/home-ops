@@ -55,6 +55,6 @@ spec:
 
     service:
       type: LoadBalancer
-      annotations:
-        io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
+      # annotations:
+      #   io.cilium/lb-ipam-ips: "${LB_MINIO_IP}"
       
