@@ -11,7 +11,7 @@ spec:
   storageClassName: minio-nfs
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: "${LOCAL_LAN_TRUENAS}"
+    server: 10.11.0.10
     path: /mnt/Volume1/minio
   mountOptions:
     - nfsvers=4.1
