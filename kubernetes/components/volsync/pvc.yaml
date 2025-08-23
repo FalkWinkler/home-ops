@@ -6,11 +6,11 @@ metadata:
 spec:
   accessModes:
     - "${VOLSYNC_ACCESSMODES:=ReadWriteOnce}"
-  dataSourceRef:
-    kind: ReplicationDestination
-    apiGroup: volsync.backube
-    name: "${APP}-bootstrap"
-  resources:
-    requests:
-      storage: "${VOLSYNC_CAPACITY:=1Gi}"
-  storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
+  # dataSourceRef:
+  #   kind: ReplicationDestination
+  #   apiGroup: volsync.backube
+  #   name: "${APP}-bootstrap"
+  # resources:
+  #   requests:
+  #     storage: "${VOLSYNC_CAPACITY:=1Gi}"
+  # storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
