@@ -17,6 +17,8 @@ spec:
   values:
     controllers:
       zigbee2mqtt:
+        nodeSelector:
+          feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -129,7 +131,7 @@ spec:
       usb:
         enabled: true
         type: hostPath    
-        hostPathType: CharDevice  
+        hostPathType: CharDevice                                      
         hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
         advancedMounts:
           zigbee2mqtt:
