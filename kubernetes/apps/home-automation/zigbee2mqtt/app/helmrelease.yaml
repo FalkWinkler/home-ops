@@ -17,8 +17,9 @@ spec:
   values:
     controllers:
       zigbee2mqtt:
-        nodeSelector:
-          feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
+        pod:
+          nodeSelector:
+            feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -52,7 +53,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.f-wi.com          
               # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
               # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: true
-              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
+              # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: falsetask 
               # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: false
               # ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
               #ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
