@@ -143,17 +143,6 @@ spec:
       # -- (bool) Privileged securityContext may be required if USB controller is accessed directly through the host machine
       privileged:  true
 
-    #-- Affinity constraint rules to place the Pod on a specific node.
-    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: feature.node.kubernetes.io/usb-ff_10c4_ea60.present
-              operator: In
-              values:
-              - true
           
     route:
       app:
@@ -175,7 +164,7 @@ spec:
                 type: ReplacePrefixMatch
                 replacePrefixMatch: /
           backendRefs:
-          - identifier: app
+          - identifier: code-server
             port: 12321
         - backendRefs:
           - identifier: app
