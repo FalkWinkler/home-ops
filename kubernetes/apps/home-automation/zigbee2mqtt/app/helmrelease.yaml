@@ -117,8 +117,10 @@ spec:
             port: *httpPort
           metrics:
             port: 9000
+      code-server:
+        ports:
           code-server:
-            port: 12321                
+            port: 12321          
 
     persistence:
       data:
