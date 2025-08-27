@@ -116,9 +116,7 @@ spec:
             primary: true
             port: *httpPort
           metrics:
-            port: 9000
-      code-server:
-        ports:
+            port: 9000     
           code-server:
             port: 12321          
 
