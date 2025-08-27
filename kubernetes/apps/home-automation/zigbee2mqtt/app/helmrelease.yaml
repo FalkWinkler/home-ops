@@ -164,7 +164,7 @@ spec:
                 type: ReplacePrefixMatch
                 replacePrefixMatch: /
           backendRefs:
-          - identifier: code-server
+          - identifier: app
             port: 12321
         - backendRefs:
           - identifier: app
