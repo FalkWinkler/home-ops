@@ -31,7 +31,7 @@ spec:
               privileged: true
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 2.2.0
+              tag: 2.6.2
             env:
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /data
