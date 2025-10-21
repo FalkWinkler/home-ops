@@ -12,4 +12,5 @@ resources:
   - ./cloudflare-tunnel/ks.yaml
   - ./gateway-api/ks.yaml
   - ./k8s-gateway/ks.yaml
+  - ./echo-server/ks.yaml
   

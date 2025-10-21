@@ -49,10 +49,13 @@ spec:
             port: *port
 
     route:
-      app:
+      external:
+        annotations:
+          external-dns/is-public: "true"
+          external-dns.alpha.kubernetes.io/target:  echo-server.f-wi.com
         hostnames:
           - echo-server.f-wi.com
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
