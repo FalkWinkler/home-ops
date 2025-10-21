@@ -1,19 +1,19 @@
 ---
-# yaml-language-server: $schema=https://homelab-schemas-epg.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+# yaml-language-server: $schema=https://github.com/datreeio/CRDs-catalog/raw/refs/heads/main/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.f-wi.com
+    external-dns.alpha.kubernetes.io/target: "internal.f-wi.com"
 spec:
   gatewayClassName: cilium
   addresses:
     - type: IPAddress
-      value: 10.11.0.101
+      value: "10.11.0.201"
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.alpha.kubernetes.io/hostname: "internal.f-wi.com"
   listeners:
     - name: http
       protocol: HTTP
@@ -21,7 +21,7 @@ spec:
       hostname: "*.f-wi.com"
       allowedRoutes:
         namespaces:
-          from: All
+          from: Same
     - name: https
       protocol: HTTPS
       port: 443
@@ -32,4 +32,4 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: wildcard-tls
+            name: f-wi-com-production-tls
