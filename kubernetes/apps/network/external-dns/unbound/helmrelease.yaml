@@ -71,8 +71,7 @@ spec:
       - crd
       - gateway-httproute
       - service
-    extraArgs:
-      - --gateway-name=envoy-internal
+
     triggerLoopOnEvent: true
     txtOwnerId: main
     txtPrefix: "k8s."
