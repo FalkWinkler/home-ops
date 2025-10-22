@@ -22,6 +22,10 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: unbound-certificates
     policy: sync
+    extraArgs:
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --gateway-name=envoy-external
     provider:
       name: webhook
       webhook:
