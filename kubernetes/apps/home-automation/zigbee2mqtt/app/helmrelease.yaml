@@ -149,9 +149,9 @@ spec:
         hostnames:
         -  zigbee2mqtt.f-wi.com
         parentRefs:
-        - name: internal
-          namespace: kube-system
-          sectionName: https
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
         rules:
         - matches:
           - path:

@@ -6,9 +6,10 @@ metadata:
   name: rook-ceph-dashboard
 spec:
   hostnames: ["rook.f-wi.com"]
+
   parentRefs:
-    - name: internal
-      namespace: kube-system
+    - name: envoy-internal
+      namespace: network
       sectionName: https
   rules:
     - backendRefs:
