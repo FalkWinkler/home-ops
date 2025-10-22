@@ -31,11 +31,6 @@ spec:
         env:
         - name: LOG_LEVEL
           value: *logLevel
-        # - name: UNIFI_API_KEY
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: external-dns-unifi-secret
-        #       key: external_dns_api_key
         - name: UNBOUND_HOST
           value: tcp://10.11.0.1:953
         - name: UNBOUND_CA_PEM_PATH
@@ -64,8 +59,6 @@ spec:
       secret:
         secretName: unbound-certificates
 
-
-
     resources:
       requests:
         cpu: 16m
@@ -78,6 +71,8 @@ spec:
       - crd
       - gateway-httproute
       - service
+    extraArgs:
+      - --gateway-name=envoy-internal
     triggerLoopOnEvent: true
     txtOwnerId: main
     txtPrefix: "k8s."

@@ -4,12 +4,12 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: internal.f-wi.com
+    external-dns.alpha.kubernetes.io/target: &hostname internal.f-wi.com
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: internal.f-wi.com
+      external-dns.alpha.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: "10.11.0.201"
   listeners:
     - name: http
@@ -27,4 +27,4 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: f-wi-com-production-tls
+            name: f-wi-com-tls
