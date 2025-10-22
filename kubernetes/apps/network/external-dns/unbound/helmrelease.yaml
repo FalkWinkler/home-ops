@@ -22,10 +22,6 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: unbound-certificates
     policy: sync
-    extraArgs:
-      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-      - --crd-source-kind=DNSEndpoint
-      - --gateway-name=envoy-external
     provider:
       name: webhook
       webhook:
@@ -62,20 +58,12 @@ spec:
     - name: unbound-certificates
       secret:
         secretName: unbound-certificates
-
-    resources:
-      requests:
-        cpu: 16m
-        memory: 90M
-      limits:
-        memory: 90M
+    extraArgs:
+      - --ignore-ingress-tls-spec
     serviceMonitor:
       enabled: true
-    sources:
-      - crd
+    sources:      
       - gateway-httproute
       - service
-
-    triggerLoopOnEvent: true
-    txtOwnerId: main
-    txtPrefix: "k8s."
+    txtOwnerId: k8s
+    txtPrefix: k8s.external-dns.unbound
