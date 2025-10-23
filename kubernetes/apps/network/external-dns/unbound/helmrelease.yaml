@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: 1.19.0
+      version: 1.19.2
       sourceRef:
         kind: HelmRepository
         name: external-dns-unbound
@@ -41,13 +41,13 @@ spec:
           value: /usr/local/etc/unbound/client.key
         livenessProbe:
           httpGet:
-            path: /health
+            path: /healthz
             port: http-webhook
           initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
-            path: /ready
+            path: /readyz
             port: http-webhook
           initialDelaySeconds: 10
           timeoutSeconds: 5
