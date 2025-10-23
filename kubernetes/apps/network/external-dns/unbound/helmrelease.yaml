@@ -9,14 +9,14 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: 1.19.2
+      version: 1.19.0
       sourceRef:
         kind: HelmRepository
         name: external-dns-unbound
   interval: 30m
   values:
     fullnameOverride: externaldns-unbound
-    logLevel: &logLevel debug
+    #logLevel: debug
     domainFilters:
       - f-wi.com
     podAnnotations:
@@ -30,7 +30,7 @@ spec:
           tag: v0.1.3
         env:
         - name: LOG_LEVEL
-          value: *logLevel
+          value: debug
         - name: UNBOUND_HOST
           value: tcp://10.11.0.1:953
         - name: UNBOUND_CA_PEM_PATH
@@ -58,12 +58,11 @@ spec:
     - name: unbound-certificates
       secret:
         secretName: unbound-certificates
-    extraArgs:
-      - --ignore-ingress-tls-spec
     serviceMonitor:
       enabled: true
     sources:      
       - gateway-httproute
       - service
-    txtOwnerId: k8s
-    txtPrefix: k8s.external-dns.unbound
+    triggerLoopOnEvent: true
+    txtOwnerId: unbound
+    txtPrefix: k8s.unbound
