@@ -31,17 +31,17 @@ spec:
       - name: ADGUARD_URL
         valueFrom:
           secretKeyRef:
-            name: adguard-configuration
+            name: &secret adguard-configuration
             key: url
       - name: ADGUARD_USER
         valueFrom:
           secretKeyRef:
-            name: adguard-configuration
+            name: *secret
             key: user
       - name: ADGUARD_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: adguard-configuration
+            name: *secret
             key: password
       - name: LOG_LEVEL
         value: debug
