@@ -32,16 +32,18 @@ spec:
               name: &secret external-dns-adguardhome-secret
           - name: LOG_LEVEL
             value: debug
+        service:
+          port: 8888
         livenessProbe:
           httpGet:
             path: /healthz
-            port: http-webhook
+            port: 8080
           initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /healthz
-            port: http-webhook
+            port: 8080
           initialDelaySeconds: 10
           timeoutSeconds: 5
     triggerLoopOnEvent: true
