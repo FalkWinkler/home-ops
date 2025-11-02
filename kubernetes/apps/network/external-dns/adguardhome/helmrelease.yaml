@@ -27,26 +27,26 @@ spec:
         image:
           repository: ghcr.io/muhlba91/external-dns-provider-adguard
           tag: v9.1.0@sha256:888b77f42d9d3436f01f942b399c7ef4ff331a9fc67bd5e7b3485cc1b8ee1a9b
-    env:
-      - name: ADGUARD_URL
-        valueFrom:
-          secretKeyRef:
-            name: &secret adguard-configuration
-            key: url
-      - name: ADGUARD_USER
-        valueFrom:
-          secretKeyRef:
-            name: *secret
-            key: user
-      - name: ADGUARD_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: *secret
-            key: password
-      - name: LOG_LEVEL
-        value: debug
-      - name: DRY_RUN
-        value: "false"
+        env:
+          - name: ADGUARD_URL
+            valueFrom:
+              secretKeyRef:
+                name: &secret adguard-configuration
+                key: url
+          - name: ADGUARD_USER
+            valueFrom:
+              secretKeyRef:
+                name: *secret
+                key: user
+          - name: ADGUARD_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: *secret
+                key: password
+          - name: LOG_LEVEL
+            value: debug
+          - name: DRY_RUN
+            value: "false"
 
         service:
           port: 8888
