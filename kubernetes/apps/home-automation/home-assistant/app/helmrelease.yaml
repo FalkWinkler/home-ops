@@ -56,11 +56,13 @@ spec:
               repository: ghcr.io/coder/code-server
               tag: 4.102.2@sha256:8c2aaafb74a2978f48d193135eb3ea6fc0e24563dd59c028b9f1808cefd0fa33
             args:
-              - --auth
+              - "--auth"
               - "none"
-              - --user-data-dir
+              - "--disable-telemetry"
+              - "--disable-update-check"
+              - "--user-data-dir"
               - "/config/.vscode"
-              - --extensions-dir
+              - "--extensions-dir"
               - "/config/.vscode"
               - --port
               - "12321"
@@ -84,7 +86,7 @@ spec:
       code-server:
         ports:
           code-server:
-            port: 12321
+            port: &codePort 12321
     
     serviceMonitor:
       app:
@@ -107,22 +109,20 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /code/
-            filters:
-              - type: URLRewrite
-                urlRewrite:
-                  path:
-                    type: ReplacePrefixMatch
-                    replacePrefixMatch: /
-            backendRefs:
-              - identifier: code-server
-                port: 12321
           - backendRefs:
               - identifier: app
                 port: *appPort
+  
+      code-server:
+        hostnames: ["ha-code.f-wi.com"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *codePort
 
     persistence:
       config:
