@@ -51,9 +51,9 @@ spec:
                 enabled: false
 
             securityContext:
-              allowPrivilegeEscalation: false
+             # allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              privileged: true  
+              privileged: true 
               capabilities:
                 drop:
                   - ALL
