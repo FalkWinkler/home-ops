@@ -30,7 +30,15 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2025.8.1
+              tag: 2025.10.2
+            env:
+              VENV_FOLDER: /venv
+            resources:
+              requests:
+                cpu: 100m
+                memory: 2Gi
+              limits:
+                memory: 2Gi
             envFrom:
               - secretRef:
                   name: home-assistant-secret
