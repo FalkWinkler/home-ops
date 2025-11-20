@@ -133,8 +133,8 @@ spec:
       usb:
         enabled: true
         type: hostPath    
-        hostPathType: CharDevice                              
-        hostPath: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_a4759dffb01c3ef118133eab08048b910-if00-port0
+        hostPathType: CharDevice                                    
+        hostPath: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_a4759dfb01c3ef118133eab08048b910-if00-port0
         advancedMounts:
           zigbee2mqtt:
             app:
