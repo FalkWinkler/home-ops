@@ -74,9 +74,10 @@ spec:
                     key: mqtt_password
               # ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
               # ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://ser2sock.home-automation.svc.cluster.local:10000
-              # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
+              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
               # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: zstack
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+              ZIGBEE2MQTT_CONFIG_SERIAL_RTSCTS: false
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyUSB0
             resources:
               requests:
@@ -132,8 +133,8 @@ spec:
       usb:
         enabled: true
         type: hostPath    
-        hostPathType: CharDevice                                      
-        hostPath: /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0
+        hostPathType: CharDevice                              
+        hostPath: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_a4759dffb01c3ef118133eab08048b910-if00-port0
         advancedMounts:
           zigbee2mqtt:
             app:
