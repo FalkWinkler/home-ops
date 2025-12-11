@@ -17,9 +17,9 @@ spec:
   values:
     controllers:
       zigbee2mqtt:
-        pod:
-          nodeSelector:
-            feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
+      #  pod:
+         # nodeSelector:
+        #    feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
         annotations:
           reloader.stakater.com/auto: "true"
 
