@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -8,7 +7,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: flux-operator
-  interval: 30m
-  valuesFrom:
-    - kind: ConfigMap
-      name: flux-operator-values
+  interval: 1h
+  values:
+    serviceMonitor:
+      create: true

@@ -11,6 +11,5 @@ resources:
   - ./external-dns/ks.yaml
   - ./cloudflare-tunnel/ks.yaml
   - ./envoy-gateway/ks.yaml
-  - ./echo-server/ks.yaml
   - ./k8s-gateway/ks.yaml
   
