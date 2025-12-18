@@ -7,6 +7,7 @@
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
+		"python": "latest",
 		"ghcr.io/meaningful-ooo/devcontainer-features/fish:2": {},
     	"ghcr.io/devcontainers-extra/features/mise:1": {}
 	},

@@ -17,6 +17,9 @@ if ! grep -q "venv /workspaces/" .venv/pyvenv.cfg; then
     rm -rf .venv
 fi
 #task workstation:venv
+echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
+echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 
 mise trust
+pip install pipx
 mise install
