@@ -4,18 +4,18 @@ kind: Kustomization
 metadata:
   name: flux-instance
 spec:
-  dependsOn:
-    - name: flux-operator
-  interval: 1h
   path: ./kubernetes/apps/flux-system/flux-instance/app
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
-  prune: true
+  targetNamespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: flux-system
-  wait: false
+  dependsOn:
+    - name: flux-operator
+      namespace: flux-system
+    - name: external-secrets
+      namespace: external-secrets
+  wait: true
+  prune: true
+  interval: 30m
+  timeout: 5m
