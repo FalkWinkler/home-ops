@@ -60,7 +60,7 @@ function apply_sops_secrets() {
     local -r secrets=(
         "${ROOT_DIR}/bootstrap/github-deploy-key.sops.yaml"
         "${ROOT_DIR}/bootstrap/sops-age.sops.yaml"
-        "${ROOT_DIR}/kubernetes/components/sops/cluster-secrets.sops.yaml"
+        #"${ROOT_DIR}/kubernetes/components/sops/cluster-secrets.sops.yaml"
     )
 
     for secret in "${secrets[@]}"; do
@@ -127,6 +127,39 @@ function sync_helm_releases() {
     log info "Helm releases synced successfully"
 }
 
+
+# Disks in use by rook-ceph must be wiped before Rook is installed
+function wipe_rook_disks() {
+    log debug "Wiping Rook disks"
+
+    # Skip disk wipe if Rook is detected running in the cluster
+    if kubectl --namespace rook-ceph get kustomization rook-ceph &>/dev/null; then
+        log warn "Rook is detected running in the cluster, skipping disk wipe"
+        return
+    fi
+
+    # Wipe disks on each node that match the ROOK_DISK environment variable
+    for node in $(talosctl config info --output json | jq --raw-output '.nodes | .[]'); do
+        disk=$(
+            talosctl --nodes "${node}" get disks --output json |
+                jq --raw-output 'select(.spec.dev_path == "/dev/sdb") | .metadata.id' |
+                xargs
+        )
+
+        if [[ -n "${disk}" ]]; then
+            log debug "Discovered Talos node and disk" node "${node}" disk "${disk}"
+
+            if talosctl --nodes "${node}" wipe disk "${disk}" &>/dev/null; then
+                log info "Disk wiped" node "${node}" disk "${disk}"
+            else
+                log error "Failed to wipe disk" node "${node}" disk "${disk}"
+            fi
+        else
+            log warn "No disks found" node "${node}" model "${ROOK_DISK:-}"
+        fi
+    done
+}
+
 function main() {
     check_env KUBECONFIG TALOSCONFIG
     check_cli helmfile kubectl kustomize sops talhelper yq
@@ -137,7 +170,7 @@ function main() {
     apply_sops_secrets
     apply_crds
     sync_helm_releases
-
+    wipe_rook_disks
     log info "Congrats! The cluster is bootstrapped and Flux is syncing the Git repository"
 }
 
