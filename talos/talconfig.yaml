@@ -37,6 +37,15 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.11.0.15"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:5a:03:ff"
+        dhcp: false
+        vlans:
+          - # IOT 
+            vlanId: 98
+            dhcp: false
+            mtu: 1500
+
     patches:
       - # Encrypt system disk with TPM
         |-
@@ -71,6 +80,14 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.11.0.15"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:76:3b:96"
+        dhcp: false
+        vlans:
+          - # IOT 
+            vlanId: 98
+            dhcp: false
+            mtu: 1500
     patches:
       - # Encrypt system disk with TPM
         |-
@@ -105,6 +122,14 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.11.0.15"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:76:3b:72"
+        dhcp: false
+        vlans:
+          - # IOT 
+            vlanId: 98
+            dhcp: false
+            mtu: 1500
     patches:
       - # Encrypt system disk with TPM
         |-
