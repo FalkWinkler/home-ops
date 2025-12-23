@@ -226,21 +226,22 @@ spec:
               resources:
                 requests:
                   storage: 50Gi
-        thanos:
-          image: quay.io/thanos/thanos:v0.39.2
-          objectStorageConfig:
-            existingSecret:
-              name: kube-prometheus-stack-secret
-              key: objstore.yml
-          # renovate: depName=quay.io/thanos/thanos datasource=docker
-          version: "0.39.2"
-        walCompression: true
+      #   thanos:
+      #     enabled: false
+      #     image: quay.io/thanos/thanos:v0.39.2
+      #     objectStorageConfig:
+      #       existingSecret:
+      #         name: kube-prometheus-stack-secret
+      #         key: objstore.yml
+      #     # renovate: depName=quay.io/thanos/thanos datasource=docker
+      #     version: "0.39.2"
+      #   walCompression: true
 
-      thanosService:
-        enabled: true
+      # thanosService:
+      #   enabled: true
 
-      thanosServiceMonitor:
-        enabled: true
+      # thanosServiceMonitor:
+      #   enabled: true
 
   postRenderers:
     - kustomize:
