@@ -12,6 +12,7 @@ resources:
   # - ./thanos/ks.yaml
   # - ./node-exporter/ks.yaml
   # - ./omada-exporter/ks.yaml
+  - ./gatus/ks.yaml
 components:
   - ../../components/flux/globals 
   - ../../components/repos/app-template
