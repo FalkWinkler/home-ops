@@ -20,6 +20,14 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |-
+              [{
+                "name": "iot",
+                "namespace": "network",
+                "ips": ["192.168.98.16/24"],
+                "mac": "de:ca:ff:a8:01:98"
+              }]
           securityContext:
             runAsUser: 65534
             runAsGroup: 65533
