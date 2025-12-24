@@ -46,9 +46,9 @@ spec:
       create: true
       tls:
         enabled: false
-        secretName: "k10.${SECRET_DOMAIN}"
+        secretName: "k10.f-wi.com"
       class: "internal" #Ingress controller type
-      host: "k10.${SECRET_DOMAIN}"
+      host: "k10.f-wi.com"
       pathType: Prefix
 
 
