@@ -68,6 +68,7 @@ spec:
       - gateway-httproute
       - gateway-tlsroute
       - service
+      - crd
     txtOwnerId: main
     txtPrefix: k8s.main.
     domainFilters:
