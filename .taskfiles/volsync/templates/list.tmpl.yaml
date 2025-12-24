@@ -15,9 +15,17 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: list
-          image: docker.io/restic/restic:0.16.2
+          image: docker.io/restic/restic:0.18.1
           args:
             - snapshots
           envFrom:
             - secretRef:
-                name: "${app}-restic-secret"
+                name: "${app}-volsync-secret"
+          volumeMounts:
+            - mountPath: /repository
+              name: repository
+      volumes:
+        - name: repository
+          nfs:
+            server: "10.11.0.10"
+            path: "/mnt/Volume1/Backup/Volsync"
