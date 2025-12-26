@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: system-upgrade
 resources:
   - ./namespace.yaml
-  - ./system-upgrade-controller/ks.yaml
+  - ./system-upgrade/ks.yaml
 components:
   - ../../components/flux/globals
   - ../../components/flux/alerts
