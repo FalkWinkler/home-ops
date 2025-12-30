@@ -69,3 +69,14 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+      appinternal:
+        hostnames: ["{{ .Release.Name }}-internal.f-wi.com"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+      
