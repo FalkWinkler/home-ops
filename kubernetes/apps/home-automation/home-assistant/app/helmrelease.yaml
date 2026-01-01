@@ -39,7 +39,7 @@ spec:
             image:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2025.12.3
-        
+
             resources:
               requests:
                 cpu: 100m
@@ -85,7 +85,7 @@ spec:
               - "/config"
             env:
               HASS_SERVER: http://localhost:8123
-              TZ: Europa/Berlin
+              TZ: Europe/Berlin
             resources:
               requests:
                 cpu: 10m
@@ -157,7 +157,13 @@ spec:
               - path: /config
             code-server:
               - path: /config
-
+      hass-cache:
+        existingClaim: hass-cache
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /venv
+                subPath: hass-venv
       tmpfs:
         type: emptyDir
         advancedMounts:
