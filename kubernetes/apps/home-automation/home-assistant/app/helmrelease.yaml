@@ -25,7 +25,7 @@ spec:
               [{
                 "name": "iot",
                 "namespace": "network",
-                "ips": ["192.168.98.16/24"],
+                "ips": ["192.168.98.160/24"],
                 "mac": "de:ca:ff:a8:01:98"
               }]
           securityContext:
