@@ -93,6 +93,13 @@ spec:
       internal:
         annotations:
           gatus.home-operations.com/enabled: "false"
+          external-dns/cloudflare: "true"
+          external-dns/adguard: "true"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: Uptime Monitoring
+          gethomepage.dev/group: Status
+          gethomepage.dev/icon: *app
+          gethomepage.dev/name: Gatus
         hostnames: ["status.f-wi.com"]
         parentRefs:
           - name: envoy-internal
