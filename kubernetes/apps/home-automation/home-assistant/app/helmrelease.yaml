@@ -38,9 +38,8 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2025.10.2
-            env:
-              VENV_FOLDER: /venv
+              tag: 2025.12.3
+        
             resources:
               requests:
                 cpu: 100m
@@ -158,13 +157,7 @@ spec:
               - path: /config
             code-server:
               - path: /config
-      hass-cache:
-        existingClaim: hass-cache
-        advancedMounts:
-          home-assistant:
-            app:
-              - path: /venv
-                subPath: hass-venv
+
       tmpfs:
         type: emptyDir
         advancedMounts:
