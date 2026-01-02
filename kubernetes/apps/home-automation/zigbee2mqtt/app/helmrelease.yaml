@@ -9,38 +9,35 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  dependsOn:
-  - name: mosquitto
-    namespace: home-automation
-  - name: rook-ceph-cluster
-    namespace: rook-ceph
   values:
     controllers:
       zigbee2mqtt:
-      #  pod:
-         # nodeSelector:
-        #    feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
-
-
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+        # nodeSelector:
+        #    feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true"
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            fsGroup: 2000
+            fsGroupChangePolicy: OnRootMismatch
+
 
         containers:
           app:
-            nameOverride: *app
-            # required to open USB device
-            securityContext:
-              privileged: true
+            nameOverride: *app 
 
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.7.2@sha256:60a295b40f4e7fb7ab4d995932369e50f2529837272fa4979e986ec1ffdb7fce
             env:
+              TZ: Europe/Berlin
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /data
               ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
               ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "true"
-              #ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
+              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: "20"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
@@ -63,7 +60,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
-              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mosquitto.home-automation.svc.cluster.local"
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mosquitto.home-automation.svc.cluster.local:1883"
               #ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
                 valueFrom:
