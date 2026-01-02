@@ -49,6 +49,9 @@ spec:
             envFrom:
               - secretRef:
                   name: home-assistant-secret
+            env:
+              VENV_FOLDER: /venv
+              
             probes:
               liveness:
                 enabled: false
@@ -67,22 +70,22 @@ spec:
 
       # Configure the code-server sidecar
           code-server:
-            dependsOn: app
+   
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.102.2@sha256:8c2aaafb74a2978f48d193135eb3ea6fc0e24563dd59c028b9f1808cefd0fa33
+              tag: 4.107.0@sha256:4b622c4cd1b0f559fec0df67fcf09042d63e9ce84c575102066afd9511695627
             args:
-              - "--auth"
-              - "none"
-              - "--disable-telemetry"
-              - "--disable-update-check"
-              - "--user-data-dir"
-              - "/config/.vscode"
-              - "--extensions-dir"
-              - "/config/.vscode"
+              - --auth
+              - none
+              - --disable-telemetry
+              - --disable-update-check
+              - --user-data-dir
+              - /config/.code-server
+              - --extensions-dir
+              - /config/.code-server
               - --port
               - "12321"
-              - "/config"
+              - /config
             env:
               HASS_SERVER: http://localhost:8123
               TZ: Europe/Berlin
@@ -145,7 +148,8 @@ spec:
                     replacePrefixMatch: /
             backendRefs:
               - identifier: code-server
-                port: 12321
+                port: *codePort
+
           - backendRefs:
               - identifier: app
                 port: *appPort
