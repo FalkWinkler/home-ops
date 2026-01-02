@@ -31,19 +31,16 @@ spec:
             # required to open USB device
             securityContext:
               privileged: true
-              fsGroup: 2000
-              runAsGroup: 2000
-              runAsUser: 2000
 
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 2.6.3
+              tag: 2.7.2@sha256:60a295b40f4e7fb7ab4d995932369e50f2529837272fa4979e986ec1ffdb7fce
             env:
               Z2M_WATCHDOG: default
               ZIGBEE2MQTT_DATA: /data
-              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "false"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "false"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_TRIGGERS: "true"
+              #ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
@@ -67,7 +64,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mosquitto.home-automation.svc.cluster.local"
-              ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+              #ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
                 valueFrom:
                   secretKeyRef:
@@ -145,6 +142,12 @@ spec:
           
     route:
       app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: Get rid of your proprietary Zigbee bridges
+          gethomepage.dev/group: Home Automation
+          gethomepage.dev/icon: zigbee2mqtt
+          gethomepage.dev/name: Zigbee2MQTT
         hostnames:
         -  zigbee2mqtt.f-wi.com
         parentRefs:
