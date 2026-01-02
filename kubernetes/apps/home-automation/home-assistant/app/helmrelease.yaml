@@ -133,20 +133,23 @@ spec:
             namespace: network
             sectionName: https
         rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /code/
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplacePrefixMatch
+                    replacePrefixMatch: /
+            backendRefs:
+              - identifier: code-server
+                port: 12321
           - backendRefs:
               - identifier: app
                 port: *appPort
-  
-      code-server:
-        hostnames: ["ha-code.f-wi.com"]
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *codePort
+
 
     persistence:
       config:
