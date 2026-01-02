@@ -23,9 +23,9 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: system
-  # components:
-  #   - ../../../../components/volsync
-  # postBuild:
-  #   substitute:
-  #     APP: *appname
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: *appname
   #     VOLSYNC_CLAIM: zigbee2mqtt-data
