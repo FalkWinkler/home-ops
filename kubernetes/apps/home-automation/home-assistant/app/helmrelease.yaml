@@ -191,4 +191,13 @@ spec:
         globalMounts:
           - path: /root/.ssh
             readOnly: true
+      deploy-key:
+        type: secret
+        name: hassconfig-deploykey
+        defaultMode: 256
+        advancedMounts:
+          code-server:
+            code-server:
+              - path: /home/coder/.ssh/id_ed25519
+                subPath: id_ed25519
         
