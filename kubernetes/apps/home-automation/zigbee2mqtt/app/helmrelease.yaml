@@ -140,6 +140,8 @@ spec:
     route:
       app:
         annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 200"]
           gethomepage.dev/enabled: "true"
           gethomepage.dev/description: Get rid of your proprietary Zigbee bridges
           gethomepage.dev/group: Home Automation
