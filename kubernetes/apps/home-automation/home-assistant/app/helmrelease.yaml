@@ -106,7 +106,7 @@ spec:
       code-server:
         ports:
           code-server:
-            port: &codePort 12321
+            port: &codePort 8080
     
     serviceMonitor:
       app:
