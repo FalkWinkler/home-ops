@@ -185,8 +185,8 @@ spec:
         type: secret
         name: home-assistant-secret
         items:
-          - key: id_rsa
-            path: id_rsa
+          - key: GH_DEPLOY_KEY
+            path: id_ed25519
         defaultMode: 256
         globalMounts:
           - path: /root/.ssh
