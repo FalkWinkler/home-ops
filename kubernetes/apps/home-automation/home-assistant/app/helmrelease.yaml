@@ -61,9 +61,8 @@ spec:
                 enabled: false
 
             securityContext:
-             # allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              privileged: true 
               capabilities:
                 drop:
                   - ALL
@@ -75,17 +74,19 @@ spec:
               repository: ghcr.io/coder/code-server
               tag: 4.107.0@sha256:4b622c4cd1b0f559fec0df67fcf09042d63e9ce84c575102066afd9511695627
             args:
-              - --auth
-              - none
-              - --disable-telemetry
-              - --disable-update-check
-              - --user-data-dir
-              - /config/.code-server
-              - --extensions-dir
-              - /config/.code-server
-              - --port
-              - "12321"
-              - /config
+              [
+                "--auth",
+                "none",
+                "--disable-telemetry",
+                "--disable-update-check",
+                "--user-data-dir",
+                "/config/.vscode",
+                "--extensions-dir",
+                "/config/.vscode",
+                "--port",
+                "8080",
+                "/config"
+              ]
             env:
               HASS_SERVER: http://localhost:8123
               TZ: Europe/Berlin
@@ -122,7 +123,8 @@ spec:
     route:
       app:
         annotations:
-          external-dns/unifi: "true"
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 200"]         
           gethomepage.dev/enabled: "true"
           gethomepage.dev/description: Home Automation That Puts Local Control
           gethomepage.dev/group: Home Automation
@@ -136,24 +138,19 @@ spec:
             namespace: network
             sectionName: https
         rules:
-          - matches:
-              - path:
-                  type: PathPrefix
-                  value: /code/
-            filters:
-              - type: URLRewrite
-                urlRewrite:
-                  path:
-                    type: ReplacePrefixMatch
-                    replacePrefixMatch: /
-            backendRefs:
-              - identifier: code-server
-                port: *codePort
-
           - backendRefs:
               - identifier: app
                 port: *appPort
 
+      code-server:
+        hostnames: ["ha-code.f-wi.com"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *codePort
 
     persistence:
       config:
