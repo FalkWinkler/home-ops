@@ -57,7 +57,7 @@ spec:
         name: mosquitto
         advancedMounts:
           mosquitto:
-            main:
+            app:
               - path: /mosquitto/config/mosquitto.conf
                 subPath: mosquitto.conf
                 readOnly: true
