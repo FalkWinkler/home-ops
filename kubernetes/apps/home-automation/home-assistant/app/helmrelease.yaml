@@ -199,7 +199,7 @@ spec:
         name: hassconfig-deploykey
         defaultMode: 256
         advancedMounts:
-          code-server:
+          home-assistant:
             code-server:
               - path: /home/coder/.ssh/id_ed25519
                 subPath: id_ed25519
