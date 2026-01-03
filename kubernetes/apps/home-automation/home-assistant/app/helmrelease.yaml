@@ -161,7 +161,8 @@ spec:
               - path: /config
             code-server:
               - path: /config
-              
+              - path: /mnt/code-server
+                subPath: code-server
       hass-cache:
         existingClaim: hass-cache
         advancedMounts:
