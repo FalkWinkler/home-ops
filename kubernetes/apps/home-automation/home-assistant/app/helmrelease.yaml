@@ -80,9 +80,9 @@ spec:
                 "--disable-telemetry",
                 "--disable-update-check",
                 "--user-data-dir",
-                "/config/.vscode",
+                "/mnt/code-server",
                 "--extensions-dir",
-                "/config/.vscode",
+                "/mnt/code-server",
                 "--port",
                 "8080",
                 "/config"
