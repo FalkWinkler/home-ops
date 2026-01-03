@@ -80,9 +80,9 @@ spec:
                 "--disable-telemetry",
                 "--disable-update-check",
                 "--user-data-dir",
-                "/mnt/code-server",
+                "/config/.vscode",
                 "--extensions-dir",
-                "/mnt/code-server",
+                "/config/.vscode",
                 "--port",
                 "8080",
                 "/config"
@@ -161,9 +161,7 @@ spec:
               - path: /config
             code-server:
               - path: /config
-                subPath: config
-              - path: /mnt/code-server
-                subPath: code-server              
+              
       hass-cache:
         existingClaim: hass-cache
         advancedMounts:
