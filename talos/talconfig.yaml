@@ -44,7 +44,8 @@ nodes:
           - # IOT 
             vlanId: 98
             dhcp: false
-            mtu: 1500
+            addresses:
+              - "192.168.98.16/24"
 
     patches:
       - # Encrypt system disk with TPM
@@ -80,14 +81,17 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.11.0.15"
-      - deviceSelector:
-          hardwareAddr: "bc:24:11:76:3b:96"
-        dhcp: false
-        vlans:
-          - # IOT 
-            vlanId: 98
-            dhcp: false
-            mtu: 1500
+      # - deviceSelector:
+      #     hardwareAddr: "bc:24:11:76:3b:96"
+      #   dhcp: false
+      #   vlans:
+      #     - # IOT 
+      #       vlanId: 98
+      #       dhcp: false
+      #       mtu: 1500
+      #       routes:
+      #         - network: "192.168.98.0/24"
+      #           metric: 2048            
     patches:
       - # Encrypt system disk with TPM
         |-
@@ -122,14 +126,17 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.11.0.15"
-      - deviceSelector:
-          hardwareAddr: "bc:24:11:76:3b:72"
-        dhcp: false
-        vlans:
-          - # IOT 
-            vlanId: 98
-            dhcp: false
-            mtu: 1500
+      # - deviceSelector:
+      #     hardwareAddr: "bc:24:11:76:3b:72"
+      #   dhcp: false
+      #   vlans:
+      #     - # IOT 
+      #       vlanId: 98
+      #       dhcp: false
+      #       mtu: 1500
+      #       routes:
+      #         - network: "192.168.98.0/24"
+      #           metric: 2048
     patches:
       - # Encrypt system disk with TPM
         |-
