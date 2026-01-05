@@ -143,13 +143,22 @@ spec:
                 port: *appPort
 
       code-server:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            conditions: ["[STATUS] == 200"]
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: Home Automation vscode
+          gethomepage.dev/group: Home Automation Code
+          gethomepage.dev/icon: code-server
+          gethomepage.dev/name: Home Assistant Code
+          gethomepage.dev/href: https://ha-code.f-wi.com
         hostnames: ["ha-code.f-wi.com"]
         parentRefs:
           - name: envoy-internal
             namespace: network
         rules:
           - backendRefs:
-              - identifier: app
+              - identifier: code-server
                 port: *codePort
 
     persistence:
