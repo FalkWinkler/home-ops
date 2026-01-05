@@ -80,7 +80,7 @@ spec:
         hostnames:
           - home.f-wi.com
         parentRefs:
-          - name: cilium
+          - name: envoy-internal
             namespace: kube-system
             sectionName: https
 
