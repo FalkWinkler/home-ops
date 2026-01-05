@@ -37,7 +37,7 @@ spec:
             seccompProfile:
               type: RuntimeDefault
         containers:
-          main:
+          app:
             env:
               LOG_TARGETS: stdout
               HOMEPAGE_ALLOWED_HOSTS: home.f-wi.com
@@ -66,7 +66,7 @@ spec:
               # readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
     service:
-      main:
+      app:
         controller: homepage
         ports:
           http:
@@ -80,6 +80,10 @@ spec:
           - name: envoy-internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
 
     persistence:
       config:
