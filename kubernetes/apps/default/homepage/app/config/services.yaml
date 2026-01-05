@@ -91,14 +91,14 @@
         ping: homecluster.grafana.net
     - Prometheus kube-nas:
         icon: prometheus
-        href: https://prometheus.kube-nas.techtales.io
+        href: https://prometheus.f-wi.com
         description: Monitoring and Alerting Toolkit
-        siteMonitor: https://prometheus.kube-nas.techtales.io
+        siteMonitor: https://prometheus.f-wi.com
     - Alertmanager kube-nas:
         icon: alertmanager
-        href: https://alertmanager.kube-nas.techtales.io
+        href: https://alertmanager.f-wi.com
         description: Alerting system that works with Prometheus
-        siteMonitor: https://alertmanager.kube-nas.techtales.io
+        siteMonitor: https://alertmanager.f-wi.com
 - Productivity:
     - Gmail:
         icon: gmail
