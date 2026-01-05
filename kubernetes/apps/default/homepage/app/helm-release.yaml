@@ -74,9 +74,6 @@ spec:
 
     route:
       app:
-        annotations:         
-          external-dns/cloudflare: "false"
-          external-dns/adguard: "true"
         hostnames:
           - home.f-wi.com
         parentRefs:
