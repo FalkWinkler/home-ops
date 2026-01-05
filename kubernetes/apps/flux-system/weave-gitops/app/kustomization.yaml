@@ -4,5 +4,5 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ./externalsecret.yaml
-  - ./helmrepository.yaml
+  - ./ocirepository.yaml
   - ./helmrelease.yaml

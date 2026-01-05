@@ -5,23 +5,9 @@ metadata:
   name: weave-gitops
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: weave-gitops
-      sourceRef:
-        kind: HelmRepository
-        name: weave-gitops
-
-  maxHistory: 2
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: weave-gitops
   values:
     image:
       # FIXME check the app name
