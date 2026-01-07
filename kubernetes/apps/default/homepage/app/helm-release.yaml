@@ -78,7 +78,7 @@ spec:
           - home.f-wi.com
         parentRefs:
           - name: envoy-internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
         rules:
           - backendRefs:
