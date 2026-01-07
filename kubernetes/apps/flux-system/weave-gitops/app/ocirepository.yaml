@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 4.0.36 #v0.39.0-rc.2
+    tag: 4.0.36
   url: oci://ghcr.io/weaveworks/charts

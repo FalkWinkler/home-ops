@@ -5,9 +5,14 @@ metadata:
   name: weave-gitops
 spec:
   interval: 30m
-  chartRef:
-    kind: OCIRepository
-    name: weave-gitops
+  chart:
+    spec:
+      chart: weave-gitops
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: weave-gitops
+      interval: 12h
   values:
     image:
       # FIXME check the app name
