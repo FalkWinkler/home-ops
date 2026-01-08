@@ -73,28 +73,28 @@
         siteMonitor: https://nas.techtales.io
     - Minio:
         icon: minio-light
-        href: https://minio.techtales.io
+        href: https://minio.f-wi.com
         description: Minio Object Storage
         # ping: minio.techtales.io
-        siteMonitor: https://minio.techtales.io
+        siteMonitor: https://minio.f-wi.com
     - Harbor:
         icon: harbor
-        href: https://harbor.tyriis.dev
+        href: https://harbor.f-wi.com
         description: Harbor Container Registry
         # ping: harbor.tyriis.dev
-        siteMonitor: https://harbor.tyriis.dev
+        siteMonitor: https://harbor.f-wi.com
 - Observability:
-    - Grafana Cloud:
+    - Grafana :
         icon: grafana
-        href: https://homecluster.grafana.net
-        description: Grafana Cloud Monitoring
-        ping: homecluster.grafana.net
-    - Prometheus kube-nas:
+        href: https://grafana.f-wi.com
+        description: Grafana Monitoring
+        ping: grafana.f-wi.com
+    - Prometheus kube:
         icon: prometheus
         href: https://prometheus.f-wi.com
         description: Monitoring and Alerting Toolkit
         siteMonitor: https://prometheus.f-wi.com
-    - Alertmanager kube-nas:
+    - Alertmanager kube:
         icon: alertmanager
         href: https://alertmanager.f-wi.com
         description: Alerting system that works with Prometheus
