@@ -15,7 +15,7 @@ spec:
     cacheAccessModes: [ReadWriteOnce]
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
-    volumeSnapshotClassName: "csi-ceph-blockpool"
+    volumeSnapshotClassName: "ceph-block"
     moverSecurityContext:
       runAsUser: 1003
       runAsGroup: 1003
@@ -40,7 +40,7 @@ spec:
     cacheStorageClassName: openebs-hostpath
     cacheCapacity: 8Gi
     storageClassName: ceph-block
-    volumeSnapshotClassName: csi-ceph-blockpool
+    volumeSnapshotClassName: ceph-block
     moverSecurityContext:
       runAsUser: 1003
       runAsGroup: 1003
