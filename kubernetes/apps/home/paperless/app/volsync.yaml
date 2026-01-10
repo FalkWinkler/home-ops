@@ -11,7 +11,7 @@ spec:
   restic:
     copyMethod: Snapshot 
     repository: paperless-restic-secret
-    cacheStorageClassName: "openebs-hostpath"
+    cacheStorageClassName: "ceph-block"
     cacheAccessModes: [ReadWriteOnce]
     cacheCapacity: "1Gi"
     storageClassName: "ceph-block"
