@@ -13,7 +13,7 @@ spec:
     repository: paperless-restic-secret
     cacheStorageClassName: "ceph-block"
     cacheAccessModes: [ReadWriteOnce]
-    cacheCapacity: "1Gi"
+    cacheCapacity: 15Gi
     storageClassName: "ceph-block"
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
@@ -38,7 +38,7 @@ spec:
     copyMethod: Snapshot
     repository: paperless-restic-secret
     cacheStorageClassName: ceph-block
-    cacheCapacity: 8Gi
+    cacheCapacity: 15Gi
     storageClassName: ceph-block
     volumeSnapshotClassName: csi-ceph-blockpool
     moverSecurityContext:
