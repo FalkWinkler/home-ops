@@ -144,18 +144,12 @@ spec:
             app:
               - path: /data/local
 
-      nas-consume:
+      nas:
         enabled: true       
         type: nfs
         server: "10.11.0.10"
         path: /mnt/SSD/scan
-        globalMounts:
-          - path: /data/nas/consume
-
-      nas-export:
-        enabled: true      
-        type: nfs
-        server: "10.11.0.10"
-        path: /mnt/Volume1/document/export
-        globalMounts:
-          - path: /data/nas/export
+        advancedMounts:
+          paperless:
+            app:
+              - path: /data/nas
