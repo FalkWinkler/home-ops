@@ -86,8 +86,8 @@ spec:
             subPath: repository.config
       repository:
         type: nfs
-        path: /mnt/tank/backup/volsync
-        server: gladius.bjw-s.internal
+        path: /mnt/Volume1/Backup/Volsync
+        server: 10.11.0.10
         globalMounts:
           - path: /repository
       tmpfs:

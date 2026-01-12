@@ -18,9 +18,6 @@ spec:
       namespace: system
   interval: 1h
   path: "./kubernetes/apps/system/kopia/app"
-  postBuild:
-    substitute:
-      APP: kopia
   prune: true
   sourceRef:
     kind: GitRepository
