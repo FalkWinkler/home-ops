@@ -86,7 +86,7 @@ spec:
             subPath: repository.config
       repository:
         type: nfs
-        path: /mnt/Volume1/Backup/Volsync
+        path: /mnt/Volume1/Backup/Volsync/kopia
         server: 10.11.0.10
         globalMounts:
           - path: /repository
