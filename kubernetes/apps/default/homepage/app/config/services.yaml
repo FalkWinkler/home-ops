@@ -60,9 +60,9 @@
     #     # siteMonitor: https://dash.cloudflare.com
     - HP LaserJet:
         icon: hp
-        href: https://192.168.1.8/sws/index.html
+        href: https://10.20.0.22
         description: HP LaserJet Printer Management
-        ping: 192.168.1.8
+        ping: 10.20.0.22
         # siteMonitor: https://192.168.1.8/
 - Storage:
     - Synology NAS:
