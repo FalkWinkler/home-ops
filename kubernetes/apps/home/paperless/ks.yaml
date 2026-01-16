@@ -23,6 +23,7 @@ spec:
       namespace: rook-ceph
   components:
     - ../../../../components/volsync
+    - ../../../../components/keda/nas-nfs-scaler
   postBuild:
     substitute:
       APP: *appname
