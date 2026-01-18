@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &name external-service-truenas
-  namespace: networking-system
+  namespace: network
 spec:
   interval: 1h
   retryInterval: 2m
@@ -13,7 +13,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *name
-  path: ./cluster/apps/network/external-services/truenas
+  path: ./apps/network/external-services/truenas
   sourceRef:
     kind: GitRepository
     name: flux-system
