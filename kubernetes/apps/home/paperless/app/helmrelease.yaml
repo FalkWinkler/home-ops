@@ -68,7 +68,7 @@ spec:
               # USERMAP_GID: "1003" # truenas user group id
             envFrom:
               - secretRef:
-                  name: *app
+                  name: paperless-secret
             probes:
               liveness:
                 enabled: true
