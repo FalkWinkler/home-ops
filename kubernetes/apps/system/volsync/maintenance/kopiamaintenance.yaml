@@ -57,7 +57,7 @@ spec:
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
                   server: "10.11.0.10",
-                  path: /mnt/Volume1/Backup/Volsync    
+                  path: "/mnt/Volume1/Backup/Volsync"
                 }
               }
             },
