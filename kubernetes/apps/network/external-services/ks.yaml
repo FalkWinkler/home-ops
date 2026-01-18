@@ -13,12 +13,12 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *name
-  path: ./apps/network/external-services/truenas
+  path: ./kubernetes/apps/network/external-services/truenas
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: envoy-gateway    
+    - name: envoy-gateway  
       namespace: network
