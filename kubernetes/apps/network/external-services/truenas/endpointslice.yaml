@@ -1,0 +1,18 @@
+---
+apiVersion: discovery.k8s.io/v1beta1
+kind: EndpointSlice
+addressType: IPv4
+endpoints:
+- addresses:
+  - 10.11.0.10
+  conditions:
+    ready: true
+metadata:
+  name: external-service-truenas
+  namespace: network
+  labels:
+    kubernetes.io/service-name: external-service-truenas
+ports:
+- port: 80
+  protocol: TCP
+
