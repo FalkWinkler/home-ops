@@ -1,0 +1,13 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: BackendTLSPolicy
+metadata:
+  name: truenas-backend-tls
+  namespace: network
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: external-service-truenas
+  tls:
+    mode: SIMPLE
+    sni: "truenas.f-wi.com"

@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: network
 resources:
   - ./endpointslice.yaml
+  - ./backendtlspolicy.yaml
   - ./service.yaml
   - ./httproute.yaml
