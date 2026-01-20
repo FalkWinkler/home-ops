@@ -13,6 +13,11 @@ spec:
       namespace: network
       sectionName: https
   rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
     - backendRefs:
         - name: external-service-truenas
-          port: 443
+          port: 80
+
