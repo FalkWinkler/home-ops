@@ -9,5 +9,5 @@ spec:
       kind: Service
       name: external-service-truenas
   tls:
-    mode: SIMPLE
-    sni: "truenas.f-wi.com"
+    validation:
+      skip: true
