@@ -6,7 +6,7 @@ metadata:
   name: external-service-truenas
 spec:
   ports:
-    - name: https
+    - name: http
       protocol: TCP
-      port: 443      
+      port: 80
   type: ClusterIP
