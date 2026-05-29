@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-set -e
-set -o noglob
+set -euo pipefail
 
 # Setup fisher plugin manager for fish and install plugins
 /usr/bin/fish -c "
@@ -16,9 +15,17 @@ fisher install PatrickF1/fzf.fish
 if ! grep -q "venv /workspaces/" .venv/pyvenv.cfg; then
     rm -rf .venv
 fi
-#task workstation:venv
-echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
-echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+
+# Mise-Aktivierung nur einmalig hinzufügen (idempotent)
+if ! grep -q 'mise activate fish' ~/.config/fish/config.fish; then
+    echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
+fi
+if ! grep -q 'mise activate bash' ~/.bashrc; then
+    echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+fi
+
+# Shims für dieses Script verfügbar machen
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 mise trust
 pip install pipx
