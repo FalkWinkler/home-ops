@@ -46,7 +46,7 @@ spec:
             #       name: homepage-env
             image:
               repository: ghcr.io/gethomepage/homepage
-              tag: v1.8.0@sha256:7dc099d5c6ec7fc945d858218565925b01ff8a60bcbfda990fc680a8b5cd0b6e
+              tag: v1.13.1@sha256:d8d784e5090111b6e4c56dfd90e272d2953a2094e87349f647165df0fa6c4401
             probes:
               startup:
                 enabled: true
