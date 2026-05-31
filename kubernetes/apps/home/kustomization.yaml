@@ -7,6 +7,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./paperless/ks.yaml
+  - ./paperless-ai/ks.yaml
 components:
   - ../../components/flux/globals
   - ../../components/flux/alerts
