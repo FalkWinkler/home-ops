@@ -24,7 +24,7 @@ spec:
               PUID: "1000"
               PGID: "1000"
               PAPERLESS_AI_PORT: "3000"
-              PAPERLESS_API_URL: "http://paperless.home.svc.cluster.local:8000/api"
+              PAPERLESS_API_URL: "http://paperless-app.home.svc.cluster.local:8000/api"
               RAG_SERVICE_ENABLED: "false"
               CUSTOM_BASE_URL: "https://openrouter.ai/api/v1"
               CUSTOM_MODEL: "anthropic/claude-3-5-haiku"
