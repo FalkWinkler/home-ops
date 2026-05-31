@@ -74,7 +74,7 @@ spec:
             namespace: network
         rules:
           - backendRefs:
-              - identifier: app
+              - identifier: paperless-ai
                 port: *port
 
     persistence:
