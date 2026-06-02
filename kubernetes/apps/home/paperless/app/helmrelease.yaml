@@ -18,6 +18,9 @@ spec:
       paperless:       
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            app.kubernetes.io/component: application
         replicas: 1
         # pod:
         #   securityContext:
@@ -28,7 +31,8 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7
+              tag: 2.20.15
+
             env:
               # Configure application
               PAPERLESS_URL: https://paperless.f-wi.com
@@ -79,7 +83,13 @@ spec:
                 enabled: true
                 spec:
                   failureThreshold: 30
-                  periodSeconds: 5
+                  periodSeconds: 10
+            resources:
+              requests:
+                cpu: 25m
+                memory: 2Gi
+              limits:
+                memory: 6Gi
           # gotenburg: 
           #   image:
           #     repository: ghcr.io/mchestr/gotenberg
