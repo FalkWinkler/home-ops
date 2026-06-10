@@ -39,7 +39,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: http
+                    port: &port 3000
                   initialDelaySeconds: 30
                   periodSeconds: 30
               readiness:
@@ -48,7 +48,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: http
+                    port: *port
                   initialDelaySeconds: 15
                   periodSeconds: 10
             resources:
@@ -64,7 +64,7 @@ spec:
         controller: paperless-ai
         ports:
           http:
-            port: &port 3000
+            port: *port
 
     route:
       app:
