@@ -81,7 +81,7 @@ spec:
               privileged: true
             image:
               repository: ghcr.io/coder/code-server
-              tag:  4.101.2@sha256:5f654c1137f8d87c8cf44253318bf94b85f6f9129e426a9956da46eb602dcc5a
+              tag:  4.126.0@sha256:e1f03b5faaefd63ba6c7173a5290c6ec0526ac907f23acfe6bc949dd965279e4
             args:
               - --auth
               - none
