@@ -17,14 +17,14 @@ releases:
     namespace: kube-system
     atomic: true
     chart: cilium/cilium
-    version: 1.19.4
+    version: 1.19.5
     values: ['../apps/kube-system/cilium/app/values.yaml']
 
   - name: coredns
     namespace: kube-system
     atomic: true
     chart: oci://ghcr.io/coredns/charts/coredns
-    version: 1.45.2
+    version: 1.46.0
     values: ['../apps/kube-system/coredns/app/values.yaml']
     needs:
       - kube-system/cilium
@@ -33,7 +33,7 @@ releases:
     namespace: flux-system
     atomic: true
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.38.1
+    version: 0.53.0
     values: ['../apps/flux-system/flux-operator/app/values.yaml']
     needs:
       - kube-system/coredns
@@ -42,7 +42,7 @@ releases:
     namespace: flux-system
     atomic: true
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.38.1
+    version: 0.53.0
     wait: false
     values: ['../apps/flux-system/flux-operator/instance/values.yaml']
     needs:
