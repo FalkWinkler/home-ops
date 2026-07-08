@@ -2,6 +2,7 @@
 image:
   repository: ghcr.io/external-secrets/external-secrets
 installCRDs: true
+leaderElect: false
 serviceMonitor:
   enabled: true
   interval: 1m
