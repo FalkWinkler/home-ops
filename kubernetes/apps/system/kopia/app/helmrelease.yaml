@@ -41,6 +41,17 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 3
+                  failureThreshold: 30   # 150s Kulanzzeit, bevor Liveness/Readiness übernehmen
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
