@@ -29,3 +29,4 @@ spec:
     substitute:
       APP: *appname
       VOLSYNC_CLAIM: mosquitto
+      VOLSYNC_CAPACITY: 5Gi
