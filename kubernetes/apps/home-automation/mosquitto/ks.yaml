@@ -28,4 +28,4 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      VOLSYNC_CLAIM: mosquitto-data
+      VOLSYNC_CLAIM: mosquitto
