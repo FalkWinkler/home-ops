@@ -6,7 +6,8 @@ namespace: ai
 components:
   - ../../components/flux/globals
   - ../../components/flux/alerts
-resources:  
+resources: 
+  - ./namespace.yaml
   - ./ha-mcp/ks.yaml
   - ./litellm-operator/ks.yaml
 
