@@ -2,6 +2,10 @@ machine:
   kubelet:
     extraConfig:
       serializeImagePulls: false
+      # Reclaim the containerd image cache before Ceph's mon_data_avail_warn (30% free) trips.
+      # discard_unpacked_layers=false (machine-files.yaml, needed by spegel) makes /var grow fast.
+      imageGCHighThresholdPercent: 60
+      imageGCLowThresholdPercent: 50
     nodeIP:
       validSubnets:
         - 10.11.0.0/24
