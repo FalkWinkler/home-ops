@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app paperless-ai
+  name: &app zettelrobbe
 spec:
   interval: 30m
   chartRef:
@@ -11,27 +11,36 @@ spec:
     name: app-template
   values:
     controllers:
-      paperless-ai:
+      zettelrobbe:
         annotations:
           reloader.stakater.com/auto: "true"
         replicas: 1
         containers:
           app:
             image:
-              repository: clusterzx/paperless-ai
-              tag: "3.0.9"
+              repository: docker.io/admonstrator/zettelrobbe
+              tag: v2026.08.03
             env:
               PUID: "1000"
               PGID: "1000"
               PAPERLESS_AI_PORT: "3000"
+              LOG_LEVEL: info
+              # Setup wizard is reached over the network, not from localhost
+              ALLOW_REMOTE_SETUP: "yes"
               PAPERLESS_API_URL: "http://paperless-app.home.svc.cluster.local:8000"
-              RAG_SERVICE_ENABLED: "false"
+              # Exactly one proxy hop (envoy-internal) in front of the app
+              TRUST_PROXY: "1"
+              # Runtime config (set in the UI) takes precedence over these defaults
+              AI_PROVIDER: custom
               CUSTOM_BASE_URL: "https://openrouter.ai/api/v1"
               CUSTOM_MODEL: "anthropic/claude-3-5-haiku"
-              AI_PROVIDER: "custom"
             envFrom:
               - secretRef:
-                  name: paperless-ai-secret
+                  name: zettelrobbe-secret
+            # Deliberately TCP, not HTTP /health: with HEALTHCHECK_STRICT
+            # (default yes) /health returns 503 once Paperless is unreachable,
+            # which would restart the pod or pull the UI out of the route
+            # exactly when it is needed to fix things.
             probes:
               liveness:
                 enabled: true
@@ -45,13 +54,13 @@ spec:
             resources:
               requests:
                 cpu: 25m
+                memory: 512Mi
+              limits:
                 memory: 2Gi
-              limits:                
-                memory: 6Gi
 
     service:
       app:
-        controller: paperless-ai
+        controller: zettelrobbe
         ports:
           http:
             port: &port 3000
@@ -59,18 +68,18 @@ spec:
     route:
       app:
         hostnames:
-          - paperless-ai.f-wi.com
+          - zettelrobbe.f-wi.com
         parentRefs:
           - name: envoy-internal
             namespace: network
         rules:
           - backendRefs:
-              - identifier: paperless-ai
+              - identifier: app
                 port: *port
 
     persistence:
       data:
         enabled: true
-        existingClaim: paperless-ai-data
+        existingClaim: zettelrobbe-data
         globalMounts:
           - path: /app/data
