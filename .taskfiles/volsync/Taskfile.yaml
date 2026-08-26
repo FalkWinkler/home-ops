@@ -87,6 +87,9 @@ tasks:
       - kubectl  -n {{.ns}} patch replicationsources {{.app}} --type merge -p '{"spec":{"trigger":{"manual":"{{.ts}}"}}}'
       - bash {{.scriptsDir}}/wait-for-k8s-job.sh volsync-src-{{.app}} {{.ns}}
       - kubectl  -n {{.ns}} wait job/volsync-src-{{.app}} --for condition=complete --timeout=120m
+      # Clear the manual trigger again; while it matches status.lastManualSync,
+      # volsync waits for a new manual trigger and ignores spec.trigger.schedule
+      - kubectl  -n {{.ns}} patch replicationsources {{.app}} --type json -p '[{"op":"remove","path":"/spec/trigger/manual"}]'
     vars:
      
       app: '{{ or .app (fail "Argument (app) is required") }}'
