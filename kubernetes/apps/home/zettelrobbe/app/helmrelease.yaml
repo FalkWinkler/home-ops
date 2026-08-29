@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: docker.io/admonstrator/zettelrobbe
-              tag: v2026.08.03
+              tag: v2026.08.05
             env:
               PUID: "1000"
               PGID: "1000"
