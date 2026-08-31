@@ -36,6 +36,15 @@
       overrideDepName: "{{packageName}}",
     },
     {
+      // Ceph versioning: x.0.z are development releases, x.1.z are release
+      // candidates, only x.2.z are stable. v21.1.0 was proposed as a major
+      // update and left the cluster stuck in a rollback loop for weeks.
+      description: "Ceph: stable releases only",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["quay.io/ceph/ceph"],
+      allowedVersions: "/^v\\d+\\.2\\./",
+    },
+    {
       description: "Flux Operator Group",
       groupName: "flux-operator",
       matchDatasources: ["docker"],
