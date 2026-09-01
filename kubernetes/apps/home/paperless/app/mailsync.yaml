@@ -89,6 +89,11 @@ data:
         "is_token": False,
     })
 
+    def optional(name):
+        """Empty env var means "no filter", which the API expects as null."""
+        return os.environ.get(name, "").strip() or None
+
+
     rule_name = os.environ["RULE_NAME"]
     upsert("mail_rules", {
         "name": rule_name,
@@ -98,6 +103,10 @@ data:
         "action": int(os.environ["RULE_ACTION"]),
         "assign_title_from": int(os.environ["RULE_ASSIGN_TITLE_FROM"]),
         "assign_correspondent_from": int(os.environ["RULE_ASSIGN_CORRESPONDENT_FROM"]),
+        "consumption_scope": int(os.environ["RULE_CONSUMPTION_SCOPE"]),
+        "filter_attachment_filename_include": optional("RULE_FILTER_ATTACHMENT_INCLUDE"),
+        "filter_from": optional("RULE_FILTER_FROM"),
+        "filter_subject": optional("RULE_FILTER_SUBJECT"),
         "order": 0,
         "enabled": True,
     })
@@ -145,15 +154,29 @@ spec:
                 - name: IMAP_SECURITY # 1=none, 2=SSL, 3=STARTTLS
                   value: "2"
                 - name: RULE_NAME
-                  value: Gmail Belege
-                # IMAP path of the gmail label to consume from. Top-level
-                # labels are bare names; nested ones are "Parent/Child".
+                  value: Gmail Rechnungen
+                # IMAP path. Top-level gmail labels are bare names, nested
+                # ones are "Parent/Child". The invoices arrive in the inbox,
+                # so that is what we watch.
                 - name: RULE_FOLDER
-                  value: Belege
+                  value: INBOX
                 - name: RULE_MAXIMUM_AGE # days; 0 disables the age filter
-                  value: "30"
-                - name: RULE_ACTION # 3 = mark as read, don't process read mails
-                  value: "3"
+                  value: "90"
+                # 4 = flag the mail, skip flagged ones. Deliberately not 3
+                # ("mark as read, skip read mails"): most invoices have been
+                # read long before anyone thinks about filing them, and 3
+                # would silently skip every one of them.
+                - name: RULE_ACTION
+                  value: "4"
+                - name: RULE_CONSUMPTION_SCOPE # 1 = attachments only
+                  value: "1"
+                # Keeps signature images, calendar invites and the like out
+                - name: RULE_FILTER_ATTACHMENT_INCLUDE
+                  value: "*.pdf"
+                - name: RULE_FILTER_FROM # empty = no filter
+                  value: ""
+                - name: RULE_FILTER_SUBJECT
+                  value: ""
                 - name: RULE_ASSIGN_TITLE_FROM # 1 = use subject
                   value: "1"
                 - name: RULE_ASSIGN_CORRESPONDENT_FROM # 3 = name, else address
