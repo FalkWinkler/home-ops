@@ -129,10 +129,11 @@ spec:
                 - name: IMAP_SECURITY # 1=none, 2=SSL, 3=STARTTLS
                   value: "2"
                 - name: RULE_NAME
-                  value: Gmail Paperless-Label
-                # IMAP path of the gmail label to consume from
+                  value: Gmail Belege
+                # IMAP path of the gmail label to consume from. Top-level
+                # labels are bare names; nested ones are "Parent/Child".
                 - name: RULE_FOLDER
-                  value: Paperless
+                  value: Belege
                 - name: RULE_MAXIMUM_AGE # days; 0 disables the age filter
                   value: "30"
                 - name: RULE_ACTION # 3 = mark as read, don't process read mails
