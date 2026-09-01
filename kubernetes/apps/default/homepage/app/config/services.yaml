@@ -21,12 +21,12 @@
         href: https://github.com/bjw-s/home-ops
         description: https://github.com/bjw-s/home-ops
 - Infrasructure:
-    - FRITZ!Box:
-        icon: avm-fritzbox
-        href: http://192.168.178.1
-        description: FRITZ!Box Router Management
-        # ping: 192.168.178.1
-        siteMonitor: http://192.168.178.1
+    # - FRITZ!Box:
+    #     icon: avm-fritzbox
+    #     href: http://192.168.178.1
+    #     description: FRITZ!Box Router Management
+    #     # ping: 192.168.178.1
+    #     siteMonitor: http://192.168.178.1
         # widget:
         #   type: fritzbox
         #   url: http://192.168.178.1
@@ -35,23 +35,23 @@
         #     - uptime
         #     - received
         #     - sent
-    - UniFi DM SE:
-        icon: unifi
-        href: https://unifi.local
-        description: UniFi Dream Machine Special Edition
-        ping: 192.168.1.1
+    # - UniFi DM SE:
+    #     icon: unifi
+    #     href: https://unifi.local
+    #     description: UniFi Dream Machine Special Edition
+    #     ping: 192.168.1.1
         # siteMonitor: https://opnsense.techtales.io
         # widget:
         #   type: opnsense
         #   url: https://opnsense.techtales.io
         #   username: "{{HOMEPAGE_VAR_OPNSENSE_API_KEY}}"
         #   password: "{{HOMEPAGE_VAR_OPNSENSE_SECRET}}"
-    - OpenBAO:
-        icon: https://raw.githubusercontent.com/openbao/artwork/main/color/openbao-color.svg
-        href: https://secrets.techtales.io
-        description: OpenBao Secrets Management
-        # ping: openbao.techtales.io
-        siteMonitor: https://secrets.techtales.io
+    # - OpenBAO:
+    #     icon: https://raw.githubusercontent.com/openbao/artwork/main/color/openbao-color.svg
+    #     href: https://secrets.techtales.io
+    #     description: OpenBao Secrets Management
+    #     # ping: openbao.techtales.io
+    #     siteMonitor: https://secrets.techtales.io
     # - Cloudflare:
     #     icon: cloudflare
     #     href: https://dash.cloudflare.com
@@ -65,12 +65,12 @@
         ping: 10.20.0.22
         # siteMonitor: https://192.168.1.8/
 - Storage:
-    - Synology NAS:
-        icon: synology-dsm
-        href: https://nas.techtales.io
-        description: Synology Disk Station Manager
-        # ping: nas.techtales.io
-        siteMonitor: https://nas.techtales.io
+    # - Synology NAS:
+    #     icon: synology-dsm
+    #     href: https://nas.techtales.io
+    #     description: Synology Disk Station Manager
+    #     # ping: nas.techtales.io
+    #     siteMonitor: https://nas.techtales.io
     - Minio:
         icon: minio-light
         href: https://minio.f-wi.com
