@@ -65,6 +65,19 @@ data:
         return updated
 
 
+    def prune(endpoint, keep_names, belongs):
+        """Delete objects we manage that are no longer in the desired state.
+
+        Without this a renamed rule would leave the old one behind, still
+        running against a folder that no longer exists. Scoped to rules of
+        the account we manage, so anything else stays untouched.
+        """
+        for obj in api(f"/api/{endpoint}/?page_size=500")["results"]:
+            if belongs(obj) and obj.get("name") not in keep_names:
+                api(f"/api/{endpoint}/{obj['id']}/", "DELETE")
+                print(f"{endpoint}: '{obj['name']}' entfernt (nicht mehr im Soll)")
+
+
     account = upsert("mail_accounts", {
         "name": os.environ["ACCOUNT_NAME"],
         "imap_server": os.environ["IMAP_SERVER"],
@@ -76,8 +89,9 @@ data:
         "is_token": False,
     })
 
+    rule_name = os.environ["RULE_NAME"]
     upsert("mail_rules", {
-        "name": os.environ["RULE_NAME"],
+        "name": rule_name,
         "account": account["id"],
         "folder": os.environ["RULE_FOLDER"],
         "maximum_age": int(os.environ["RULE_MAXIMUM_AGE"]),
@@ -87,6 +101,8 @@ data:
         "order": 0,
         "enabled": True,
     })
+
+    prune("mail_rules", {rule_name}, lambda r: r.get("account") == account["id"])
 ---
 apiVersion: batch/v1
 kind: CronJob
