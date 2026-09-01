@@ -33,7 +33,7 @@ spec:
               # Runtime config (set in the UI) takes precedence over these defaults
               AI_PROVIDER: custom
               CUSTOM_BASE_URL: "https://openrouter.ai/api/v1"
-              CUSTOM_MODEL: "anthropic/claude-3-5-haiku"
+              CUSTOM_MODEL: "anthropic/claude-haiku-4.5"
             envFrom:
               - secretRef:
                   name: zettelrobbe-secret
