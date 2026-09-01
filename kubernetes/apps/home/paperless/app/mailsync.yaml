@@ -156,12 +156,18 @@ spec:
                 - name: RULE_NAME
                   value: Gmail Rechnungen
                 # IMAP path. Top-level gmail labels are bare names, nested
-                # ones are "Parent/Child". The invoices arrive in the inbox,
-                # so that is what we watch.
+                # ones are "Parent/Child". "Alle Nachrichten" is gmail's
+                # archive: mail moved out of the inbox still lives there, so
+                # watching INBOX alone would miss anything already filed away.
+                # Note the account is localised -- it is "[Google Mail]/...",
+                # not the "[Gmail]/..." most guides show.
                 - name: RULE_FOLDER
-                  value: INBOX
-                - name: RULE_MAXIMUM_AGE # days; 0 disables the age filter
-                  value: "90"
+                  value: "[Google Mail]/Alle Nachrichten"
+                # 0 = no date filter at all (verified: mail.py only applies
+                # date_gte when maximum_age > 0). Pulls the full archive back
+                # to 2011 -- roughly 331 mails with a pdf attachment.
+                - name: RULE_MAXIMUM_AGE
+                  value: "0"
                 # 4 = flag the mail, skip flagged ones. Deliberately not 3
                 # ("mark as read, skip read mails"): most invoices have been
                 # read long before anyone thinks about filing them, and 3
