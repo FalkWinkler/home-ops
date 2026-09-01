@@ -1,0 +1,165 @@
+---
+# Paperless stores mail accounts and rules in its database, not in env vars,
+# and offers no declarative config for them. This CronJob reconciles the
+# desired state below against paperless' REST API, so the configuration lives
+# in git while the credentials stay in 1Password.
+#
+# It talks to the API rather than the database because paperless-data is
+# ReadWriteOnce and already mounted by the paperless pod.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: paperless-mail-sync-script
+data:
+  sync.py: |
+    """Reconcile paperless mail account + rule against the desired state."""
+    import json
+    import os
+    import sys
+    import urllib.error
+    import urllib.request
+
+    BASE = os.environ["PAPERLESS_URL"].rstrip("/")
+    TOKEN = os.environ["PAPERLESS_API_TOKEN"]
+
+    # The password is write-only in the API, so it never comes back in a GET
+    # and can never be compared. It is sent on every run instead: that way a
+    # rotation in 1Password propagates on its own, which is the whole point.
+    WRITE_ONLY = {"password"}
+
+
+    def api(path, method="GET", body=None):
+        data = json.dumps(body).encode() if body is not None else None
+        headers = {"Authorization": f"Token {TOKEN}", "Accept": "application/json"}
+        if data:
+            headers["Content-Type"] = "application/json"
+        req = urllib.request.Request(BASE + path, data=data, method=method, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                raw = resp.read()
+                return json.loads(raw) if raw else None
+        except urllib.error.HTTPError as exc:
+            sys.exit(f"FEHLER {method} {path} -> HTTP {exc.code}: {exc.read().decode()[:300]}")
+
+
+    def upsert(endpoint, desired):
+        results = api(f"/api/{endpoint}/?page_size=500")["results"]
+        current = next((o for o in results if o.get("name") == desired["name"]), None)
+
+        if current is None:
+            created = api(f"/api/{endpoint}/", "POST", desired)
+            print(f"{endpoint}: '{desired['name']}' angelegt (id={created['id']})")
+            return created
+
+        changed = sorted(
+            k for k, v in desired.items()
+            if k not in WRITE_ONLY and current.get(k) != v
+        )
+        payload = {k: desired[k] for k in changed}
+        payload.update({k: desired[k] for k in WRITE_ONLY if k in desired})
+        updated = api(f"/api/{endpoint}/{current['id']}/", "PATCH", payload)
+        if changed:
+            print(f"{endpoint}: '{desired['name']}' aktualisiert ({', '.join(changed)})")
+        else:
+            print(f"{endpoint}: '{desired['name']}' unveraendert")
+        return updated
+
+
+    account = upsert("mail_accounts", {
+        "name": os.environ["ACCOUNT_NAME"],
+        "imap_server": os.environ["IMAP_SERVER"],
+        "imap_port": int(os.environ["IMAP_PORT"]),
+        "imap_security": int(os.environ["IMAP_SECURITY"]),
+        "username": os.environ["MAIL_USERNAME"],
+        "password": os.environ["MAIL_PASSWORD"],
+        "character_set": "UTF-8",
+        "is_token": False,
+    })
+
+    upsert("mail_rules", {
+        "name": os.environ["RULE_NAME"],
+        "account": account["id"],
+        "folder": os.environ["RULE_FOLDER"],
+        "maximum_age": int(os.environ["RULE_MAXIMUM_AGE"]),
+        "action": int(os.environ["RULE_ACTION"]),
+        "assign_title_from": int(os.environ["RULE_ASSIGN_TITLE_FROM"]),
+        "assign_correspondent_from": int(os.environ["RULE_ASSIGN_CORRESPONDENT_FROM"]),
+        "order": 0,
+        "enabled": True,
+    })
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: paperless-mail-sync
+spec:
+  # Hourly is enough: this only has to converge, and a paperless restart or a
+  # rotated password should not need a manual trigger.
+  schedule: "17 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+          containers:
+            - name: sync
+              image: docker.io/library/python:3.13-alpine
+              command: ["python3", "/script/sync.py"]
+              env:
+                # readOnlyRootFilesystem: keep python from trying to cache bytecode
+                - name: PYTHONDONTWRITEBYTECODE
+                  value: "1"
+                - name: PAPERLESS_URL
+                  value: http://paperless-app.home.svc.cluster.local:8000
+                # --- desired state, versioned here ---
+                - name: ACCOUNT_NAME
+                  value: Gmail
+                - name: IMAP_SERVER
+                  value: imap.gmail.com
+                - name: IMAP_PORT
+                  value: "993"
+                - name: IMAP_SECURITY # 1=none, 2=SSL, 3=STARTTLS
+                  value: "2"
+                - name: RULE_NAME
+                  value: Gmail Paperless-Label
+                # IMAP path of the gmail label to consume from
+                - name: RULE_FOLDER
+                  value: Paperless
+                - name: RULE_MAXIMUM_AGE # days; 0 disables the age filter
+                  value: "30"
+                - name: RULE_ACTION # 3 = mark as read, don't process read mails
+                  value: "3"
+                - name: RULE_ASSIGN_TITLE_FROM # 1 = use subject
+                  value: "1"
+                - name: RULE_ASSIGN_CORRESPONDENT_FROM # 3 = name, else address
+                  value: "3"
+              envFrom:
+                - secretRef:
+                    name: paperless-mail-sync-secret
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
+              volumeMounts:
+                - name: script
+                  mountPath: /script
+                  readOnly: true
+          volumes:
+            - name: script
+              configMap:
+                name: paperless-mail-sync-script
