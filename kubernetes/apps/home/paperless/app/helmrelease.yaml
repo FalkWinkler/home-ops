@@ -66,10 +66,12 @@ spec:
               # Configure redis integration
               PAPERLESS_REDIS: redis://paperless-redis.home.svc.cluster.local:6379
 
-              # tika   
-             # PAPERLESS_TIKA_ENABLED: "true"
-             # PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
-             # PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+              # Tika + Gotenberg run as sidecars in this pod, hence localhost.
+              # Required to consume Office documents and e-mails (.eml) --
+              # without them only natively supported attachments are handled.
+              PAPERLESS_TIKA_ENABLED: "true"
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
+              PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
 
               # Configure user permissions
               # USERMAP_UID: "1003" # truenas user group id
@@ -93,24 +95,32 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 6Gi
-          # gotenburg: 
-          #   image:
-          #     repository: ghcr.io/mchestr/gotenberg
-          #     tag: 8.17.3
-          #   env:
-          #     - name: DISABLE_GOOGLE_CHROME
-          #       value: "1"
+          gotenberg:
+            image:
+              repository: docker.io/gotenberg/gotenberg
+              tag: "8.34"
+            # Matches the flags from the upstream paperless-ngx compose file
+            args:
+              - gotenberg
+              - --chromium-disable-javascript=true
+              - --chromium-allow-list=file:///tmp/.*
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
 
-          # tika:            
-          #   image:
-          #     repository: ghcr.io/paperless-ngx/tika
-          #     tag: 2.9.1-full
-          #   resources:
-          #     requests:
-          #       cpu: 11m
-          #       memory: 1812M
-          #     limits:
-          #       memory: 1812M
+          tika:
+            image:
+              repository: docker.io/apache/tika
+              tag: 3.3.1.0
+            resources:
+              requests:
+                cpu: 10m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
       redis:
         containers:
           redis:
