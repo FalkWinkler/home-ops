@@ -136,7 +136,7 @@ spec:
             runAsGroup: 65534
           containers:
             - name: sync
-              image: docker.io/library/python:3.13-alpine
+              image: docker.io/library/python:3.14-alpine
               command: ["python3", "/script/sync.py"]
               env:
                 # readOnlyRootFilesystem: keep python from trying to cache bytecode
