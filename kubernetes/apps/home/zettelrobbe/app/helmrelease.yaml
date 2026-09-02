@@ -41,6 +41,7 @@ spec:
               # 10 per run every 15 minutes would take ~16h for the current
               # backlog of ~660 documents.
               OCR_AUTO_PROCESS_BATCH_SIZE: "50"
+            envFrom:
               - secretRef:
                   name: zettelrobbe-secret
             # Deliberately TCP, not HTTP /health: with HEALTHCHECK_STRICT
