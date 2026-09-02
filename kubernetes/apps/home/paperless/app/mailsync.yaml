@@ -163,11 +163,13 @@ spec:
                 # not the "[Gmail]/..." most guides show.
                 - name: RULE_FOLDER
                   value: "[Google Mail]/Alle Nachrichten"
-                # 0 = no date filter at all (verified: mail.py only applies
-                # date_gte when maximum_age > 0). Pulls the full archive back
-                # to 2011 -- roughly 331 mails with a pdf attachment.
+                # Days. The full archive back to 2011 was imported once by
+                # temporarily setting this to 0, which disables the filter
+                # entirely (mail.py only applies date_gte when it is > 0).
+                # Back to a rolling window now -- 90 days rather than 30 so a
+                # couple of missed runs cannot let an invoice slip past.
                 - name: RULE_MAXIMUM_AGE
-                  value: "0"
+                  value: "90"
                 # 4 = flag the mail, skip flagged ones. Deliberately not 3
                 # ("mark as read, skip read mails"): most invoices have been
                 # read long before anyone thinks about filing them, and 3
