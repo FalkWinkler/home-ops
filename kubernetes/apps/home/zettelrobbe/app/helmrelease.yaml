@@ -34,7 +34,13 @@ spec:
               AI_PROVIDER: custom
               CUSTOM_BASE_URL: "https://openrouter.ai/api/v1"
               CUSTOM_MODEL: "anthropic/claude-haiku-4.5"
-            envFrom:
+              # OCR rescue queue: re-runs documents whose text layer is poor
+              # through a vision model. Off by default; enabled so the queue
+              # drains on its own instead of needing a click per batch.
+              OCR_AUTO_PROCESS_ENABLED: "yes"
+              # 10 per run every 15 minutes would take ~16h for the current
+              # backlog of ~660 documents.
+              OCR_AUTO_PROCESS_BATCH_SIZE: "50"
               - secretRef:
                   name: zettelrobbe-secret
             # Deliberately TCP, not HTTP /health: with HEALTHCHECK_STRICT
