@@ -63,7 +63,34 @@ spec:
           - name: pg_autoscaler
             enabled: true
           - name: rook
-            enabled: true
+            enabled: false # https://github.com/rook/rook/issues/18124 - der
+            # node_proxy_fullreport()-Call des prometheus-Moduls crasht das rook-
+            # Orchestrator-Modul alle ~15s und flutet `ceph crash ls`.
+            # Wieder aktivieren, sobald ceph/ceph#70967 ausgeliefert ist.
+
+      healthCheck:
+        muteHealthWarning:
+          # Ceph 20 (tentacle) stuft die unter 19.2.2 erzeugten cephx-Keys
+          # (cipher aes) als unsicher ein -> HEALTH_ERR. Die Client-Keys koennen
+          # erst mit Kernel 7.0+ auf aes256k wechseln, bis dahin gemutet.
+          AUTH_INSECURE_SERVICE_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_CLIENT_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_KEYS_ALLOWED:
+            policy: mute
+          AUTH_INSECURE_KEYS_CREATABLE:
+            policy: mute
+
+      security:
+        cephx:
+          daemon:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+          csi:
+            keyType: aes # aes256k benoetigt Kernel 7.0+, hier 6.18.44-talos
 
       # network:
       #   provider: host
