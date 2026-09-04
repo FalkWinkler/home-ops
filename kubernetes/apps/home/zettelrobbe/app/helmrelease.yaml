@@ -30,17 +30,40 @@ spec:
               PAPERLESS_API_URL: "http://paperless-app.home.svc.cluster.local:8000"
               # Exactly one proxy hop (envoy-internal) in front of the app
               TRUST_PROXY: "1"
-              # Runtime config (set in the UI) takes precedence over these defaults
+              # Anything set here wins over data/runtime-overrides.json: the app
+              # snapshots the injected env at startup and skips those keys when
+              # applying the UI config (config.js isProtectedRuntimeEnvKey).
               AI_PROVIDER: custom
               CUSTOM_BASE_URL: "https://openrouter.ai/api/v1"
-              CUSTOM_MODEL: "anthropic/claude-haiku-4.5"
+              # The OpenRouter balance is used up ($10 bought, $10.09 spent), so
+              # anthropic/claude-haiku-4.5 only ever returns 402 here. Free tier
+              # it is; swap this line back once credits are topped up again.
+              CUSTOM_MODEL: "minimax/minimax-m3:free"
               # OCR rescue queue: re-runs documents whose text layer is poor
               # through a vision model. Off by default; enabled so the queue
               # drains on its own instead of needing a click per batch.
               OCR_AUTO_PROCESS_ENABLED: "yes"
-              # 10 per run every 15 minutes would take ~16h for the current
-              # backlog of ~660 documents.
-              OCR_AUTO_PROCESS_BATCH_SIZE: "50"
+              MISTRAL_OCR_ENABLED: "yes"
+              # "custom" is treated exactly like "ollama": an OpenAI-compatible
+              # /chat/completions endpoint, which OpenRouter provides.
+              OCR_PROVIDER: custom
+              OCR_API_URL: "https://openrouter.ai/api/v1"
+              # Vision model for the OCR pass. Of the free vision models on
+              # OpenRouter this is the only reliable one: 6/6 runs transcribed a
+              # German invoice render (table columns, IBAN, amounts) correctly
+              # in ~12s/page. dots-3-note only managed 1/6, the gemma-4 ones are
+              # permanently 429 upstream, nemotron-omni needs ~34s/page, and
+              # thinkingmachines/inkling is gated to agentic harnesses (403).
+              # Paid alternative if quality ever matters more than cost:
+              # google/gemini-3.1-flash-lite, ~1.9s/page at ~$0.0007/page.
+              MISTRAL_OCR_MODEL: "minimax/minimax-m3:free"
+              # Free tier allows 20 requests/min and 1000 requests/day across
+              # all :free models. One request per rendered page plus one per
+              # analysis, so 3 documents every 30 minutes stays near ~600/day
+              # and leaves headroom for the regular scan. The ~660 document
+              # backlog drains in roughly five days at that rate.
+              OCR_AUTO_PROCESS_BATCH_SIZE: "3"
+              OCR_AUTO_PROCESS_INTERVAL: "*/30 * * * *"
             envFrom:
               - secretRef:
                   name: zettelrobbe-secret
