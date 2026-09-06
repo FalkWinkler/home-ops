@@ -84,8 +84,9 @@ spec:
 
 
     kubeEtcd:
-      enabled: false
+      enabled: true
       endpoints: *cp
+      serviceMonitor: *sm
 
     kubelet:
       enabled: true
