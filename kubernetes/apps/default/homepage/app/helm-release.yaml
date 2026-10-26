@@ -19,6 +19,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    # app-template v5 setzt automountServiceAccountToken auf false; homepage braucht
+    # den Token fuer die Kubernetes-Widgets (ClusterRoleBinding siehe rbac.yaml)
+    defaultPodOptions:
+      automountServiceAccountToken: true
     # https://github.com/bjw-s-labs/helm-charts/blob/main/charts/library/common/values.yaml
     controllers:
       homepage:

@@ -17,6 +17,10 @@ spec:
     remediation:
       retries: 3
   values:
+    # app-template v5 setzt automountServiceAccountToken auf false; der
+    # gatus-sidecar braucht den Token fuer --auto-httproute (in-cluster config)
+    defaultPodOptions:
+      automountServiceAccountToken: true
     controllers:
       gatus:
         annotations:
